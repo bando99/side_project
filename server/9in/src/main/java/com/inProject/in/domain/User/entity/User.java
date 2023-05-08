@@ -2,9 +2,14 @@ package com.inProject.in.domain.User.entity;
 
 import com.inProject.in.Global.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Table(name = "user") //테이블과 매핑
 public class User extends BaseEntity {
 
@@ -16,18 +21,18 @@ public class User extends BaseEntity {
     private String user_id;
 
     @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
     private String mail;
 
-    public int getPost_cnt() {
-        return post_cnt;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPost_cnt(int post_cnt) {
-        this.post_cnt = post_cnt;
+    public void setPassword(String password) {
+        this.password = password;
     }
-
-    private int post_cnt;
-
     public Long getId() {
         return id;
     }
