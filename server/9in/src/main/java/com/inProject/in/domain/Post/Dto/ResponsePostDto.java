@@ -10,6 +10,7 @@ import lombok.*;
 public class ResponsePostDto {
     private Long id;
     private String user_id;
+    private String type;
     private String title;
     private String text;
 }
