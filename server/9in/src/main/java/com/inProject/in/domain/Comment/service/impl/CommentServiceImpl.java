@@ -21,8 +21,6 @@ public class CommentServiceImpl implements CommentService {
 
         ResponseCommentDto responseCommentDto = ResponseCommentDto.builder()
                 .id(comment.getId())
-                .user_id(comment.getUser_id())
-                .post_id(comment.getPost_id())
                 .text(comment.getText())
                 .build();
 
@@ -32,8 +30,6 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public ResponseCommentDto createComment(CommentDto commentDto) {
         Comment comment = Comment.builder()
-                .user_id(commentDto.getUser_id())
-                .post_id(commentDto.getPost_id())
                 .text(commentDto.getText())
                 .build();
 
@@ -41,8 +37,6 @@ public class CommentServiceImpl implements CommentService {
 
         ResponseCommentDto responseCommentDto = ResponseCommentDto.builder()
                 .id(savedComment.getId())
-                .user_id(savedComment.getUser_id())
-                .post_id(savedComment.getPost_id())
                 .text(savedComment.getText())
                 .build();
 
@@ -59,8 +53,6 @@ public class CommentServiceImpl implements CommentService {
 
         ResponseCommentDto responseCommentDto = ResponseCommentDto.builder()
                 .id(updatedComment.getId())
-                .user_id(updatedComment.getUser_id())
-                .post_id(updatedComment.getPost_id())
                 .text(updatedComment.getText())
                 .build();
 

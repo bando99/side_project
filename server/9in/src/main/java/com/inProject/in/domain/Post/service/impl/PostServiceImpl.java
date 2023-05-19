@@ -8,6 +8,8 @@ import com.inProject.in.domain.Post.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostServiceImpl implements PostService {
     private PostRepository postRepository;
@@ -22,7 +24,6 @@ public class PostServiceImpl implements PostService {
 
         ResponsePostDto responsePostDto = ResponsePostDto.builder()
                 .id(post.getId())
-                .user_id(post.getUser_id())
                 .type(post.getType())
                 .title(post.getTitle())
                 .text(post.getText())
@@ -34,7 +35,6 @@ public class PostServiceImpl implements PostService {
     @Override
     public ResponsePostDto createPost(PostDto postDto) {
         Post post = Post.builder()
-                .user_id(postDto.getUser_id())
                 .type(postDto.getType())
                 .title(postDto.getTitle())
                 .text(postDto.getText())
@@ -43,7 +43,6 @@ public class PostServiceImpl implements PostService {
 
         ResponsePostDto responsePostDto = ResponsePostDto.builder()
                 .id(createPost.getId())
-                .user_id(createPost.getUser_id())
                 .type(createPost.getType())
                 .title(createPost.getTitle())
                 .text(createPost.getText())
@@ -55,8 +54,6 @@ public class PostServiceImpl implements PostService {
     @Override
     public ResponsePostDto updatePost(Long id, PostDto postDto) {
         Post post = postRepository.findById(id).get();
-
-        post.setUser_id(postDto.getUser_id());
         post.setType(postDto.getType());
         post.setTitle(postDto.getTitle());
         post.setText(postDto.getText());
@@ -65,7 +62,6 @@ public class PostServiceImpl implements PostService {
 
         ResponsePostDto responsePostDto = ResponsePostDto.builder()
                 .id(updatedPost.getId())
-                .user_id(updatedPost.getUser_id())
                 .type(updatedPost.getType())
                 .title(updatedPost.getTitle())
                 .text(updatedPost.getText())

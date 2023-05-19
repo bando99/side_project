@@ -5,6 +5,7 @@ import com.inProject.in.domain.User.Dto.UserDto;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
 import com.inProject.in.domain.User.service.UserService;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
     @Autowired
     UserServiceImpl(UserRepository userRepository){
         this.userRepository = userRepository;
@@ -68,4 +70,6 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+
 }
