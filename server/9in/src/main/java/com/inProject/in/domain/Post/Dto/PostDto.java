@@ -11,6 +11,7 @@ import lombok.*;
 public class PostDto {
     private Long id;
     private String user_id;
+    private String type;
     private String title;
     private String text;
 }

@@ -1,6 +1,7 @@
 package com.inProject.in.domain.Post.entity;
 
 import com.inProject.in.Global.BaseEntity;
+import com.inProject.in.domain.User.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,9 +19,6 @@ public class Post extends BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String user_id;
-
-    @Column(nullable = false)
     private String type;
 
     @Column(nullable = false)
@@ -29,6 +27,9 @@ public class Post extends BaseEntity {
     @Column(nullable = false)
     private String text;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;                 //N : 1
 
     public Long getId() {
         return id;
@@ -36,14 +37,6 @@ public class Post extends BaseEntity {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
     }
 
     public String getType() {
