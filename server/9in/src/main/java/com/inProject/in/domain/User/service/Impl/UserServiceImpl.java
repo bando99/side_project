@@ -36,9 +36,7 @@ public class UserServiceImpl implements UserService {
                 .user_id(userdto.getUser_id())
                 .password(userdto.getPassword())
                 .mail(userdto.getMail())
-                .build();               //builder pattern
-
-        //createAt, updateAt 추가 필요.
+                .build();                      //builder pattern
 
         User savedUser = userRepository.save(user);
         ResponseUserDto responseUserDto = new ResponseUserDto();
@@ -55,7 +53,6 @@ public class UserServiceImpl implements UserService {
         user.setUser_id(userdto.getUser_id());
         user.setPassword(userdto.getPassword());
         user.setMail(userdto.getMail());
-        //updateAt 갱신 필요
 
         User updatedUser = userRepository.save(user);
         ResponseUserDto responseUserDto = new ResponseUserDto();
@@ -70,6 +67,5 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
-
 
 }

@@ -11,9 +11,9 @@ import java.util.List;
 
 public class CustomUserRepositoryImpl {
     private final JPAQueryFactory jpaQueryFactory;
-    QUser qUser = QUser.user;
     @Autowired
     public CustomUserRepositoryImpl(JPAQueryFactory jpaQueryFactory){
         this.jpaQueryFactory = jpaQueryFactory;
     }
+
 }
