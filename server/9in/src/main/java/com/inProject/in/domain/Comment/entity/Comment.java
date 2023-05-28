@@ -19,10 +19,10 @@ public class Comment extends BaseEntity {
     private Long id;
     @Column(nullable = false)
     private String text;
+
     @ManyToOne
     @JoinColumn(name = "user_id")       //N : 1
     private User user;
-
     @ManyToOne
     @JoinColumn(name = "post_id")       //N : 1
     private Post post;

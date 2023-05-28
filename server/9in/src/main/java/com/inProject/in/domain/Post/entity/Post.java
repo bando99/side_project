@@ -1,9 +1,13 @@
 package com.inProject.in.domain.Post.entity;
 
 import com.inProject.in.Global.BaseEntity;
+import com.inProject.in.domain.Comment.entity.Comment;
 import com.inProject.in.domain.User.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -27,39 +31,14 @@ public class Post extends BaseEntity {
     @Column(nullable = false)
     private String text;
 
+    @Column
+    private int comment_cnt;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;                 //N : 1
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+    @ToString.Exclude                                         //이게 없으면 Tostring 순환참조 발생.
+    private List<Comment> commentList = new ArrayList<>();    //다대일 양방향 매핑을 위한 부분.
 }

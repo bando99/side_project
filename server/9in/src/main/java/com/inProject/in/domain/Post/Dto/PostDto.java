@@ -14,6 +14,7 @@ public class PostDto {
     private String type;
     private String title;
     private String text;
+    private int comment_cnt;
 }
 
 
