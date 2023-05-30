@@ -4,6 +4,8 @@ import com.inProject.in.domain.Post.entity.Post;
 import com.inProject.in.domain.Post.entity.QPost;
 import com.inProject.in.domain.Post.repository.CustomPostRepository;
 import com.inProject.in.domain.User.repository.Impl.CustomUserRepositoryImpl;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class CustomPostRepositoryImpl implements CustomPostRepository {
@@ -33,26 +36,12 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     }
 
     @Override
-    public Page<Post> findAllPost(Pageable pageable) {
+    public Page<Post> findPosts(Pageable pageable, String user_id, String title, String type) {
 
         List<Post> content = jpaQueryFactory
                 .selectFrom(qPost)
-                .orderBy(qPost.createAt.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        JPAQuery<Long> count = getCount();
-
-        return PageableExecutionUtils.getPage(content, pageable, () -> count.fetchOne());  //count쿼리가 필요없을 때 사용하지 않는 최적화 적용.
-        //return new PageImpl(content, pageable, count);
-    }
-    @Override
-    public Page<Post> findUserPost(String userId, Pageable pageable) {
-        List<Post> content = jpaQueryFactory
-                .selectFrom(qPost)
-                .where(qPost.user.user_id.eq(userId))
-                .orderBy(qPost.createAt.desc())
+                .where(UserIdEq(user_id), TitleEq(title), TypeEq(type))
+                .orderBy(qPost.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -61,15 +50,15 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
         return PageableExecutionUtils.getPage(content, pageable, () -> count.fetchOne());
     }
 
-    @Override
-    public Page<Post> findByPostTitle(String input_title, Pageable pageable) {
-        return null;
+    private BooleanExpression UserIdEq(String user_id){
+        return user_id.isBlank() != true ? qPost.user.user_id.eq(user_id) : null;
     }
 
-    @Override
-    public Page<Post> findByType(String input_type, Pageable pageable) {
-        return null;
+    private BooleanExpression TitleEq(String title){
+        return title.isBlank() != true ? qPost.title.eq(title) : null;
     }
 
-
+    private BooleanExpression TypeEq(String type){
+        return type.isBlank() != true ? qPost.type.eq(type) : null;
+    }
 }
