@@ -7,7 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Project from './pages/Project';
 import Study from './pages/Study';
 import AddPost from './pages/AddPost';
-import Login from './pages/User/Login';
+import Login from './pages/User/Login/Login';
 import IDfound from './pages/User/IDfound';
 import IDChange from './pages/User/IDChange';
 import PWfound from './pages/User/PWfound';
