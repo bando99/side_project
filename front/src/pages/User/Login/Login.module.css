@@ -28,6 +28,10 @@ input {
   width: 100%;
 }
 
+.input__code {
+  background-color: #f4f8fa;
+}
+
 .loginBtn {
   margin: auto;
   background-color: #1f7ceb;

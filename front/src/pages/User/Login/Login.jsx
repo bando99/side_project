@@ -5,7 +5,7 @@ export default function Login() {
   return (
     <section className={styles.container}>
       <p>로그인</p>
-      <div className={styles.container__box}>
+      <form className={styles.container__box}>
         <div className={styles.input__container}>
           <p>아이디</p>
           <input type="text" placeholder="내용을 입력해 주세요." />
@@ -20,7 +20,7 @@ export default function Login() {
             <p>비밀번호 변경</p>
           </div>
         </div>
-      </div>
+      </form>
       <p className={styles.loginSNS}>SNS로 로그인 하기</p>
       <div className={styles.sns__container}>
         <div className={styles.snsIcon__container}>
