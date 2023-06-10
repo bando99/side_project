@@ -1,7 +1,18 @@
 import React from 'react';
 import styles from './IDfound.module.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function IDfound() {
+  const navigate = useNavigate();
+
+  const handlePW = () => {
+    navigate('/user/pwFound');
+  };
+
+  const handleLogin = () => {
+    navigate('/user/login');
+  };
+
   return (
     <section className={styles.container}>
       <p className={styles.title}>아이디 찾기</p>
@@ -25,8 +36,12 @@ export default function IDfound() {
           <p className={styles.ID__commnet}>입니다</p>
         </div>
         <div className={styles.btn__container}>
-          <button className={styles.btn__login}>로그인</button>
-          <button className={styles.btn__pw}>비밀번호 찾기</button>
+          <button onClick={handleLogin} className={styles.btn__login}>
+            로그인
+          </button>
+          <button onClick={handlePW} className={styles.btn__pw}>
+            비밀번호 찾기
+          </button>
         </div>
       </div>
     </section>

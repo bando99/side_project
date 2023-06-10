@@ -8,7 +8,7 @@ import Project from './pages/Project';
 import Study from './pages/Study';
 import AddPost from './pages/AddPost';
 import Login from './pages/User/Login/Login';
-import IDfound from './pages/User/IDfound';
+import IDfound from './pages/User/IDFound/IDfound';
 import PWfound from './pages/User/PWfound';
 import PWChange from './pages/User/PWChange';
 import MyPage from './pages/User/MyPage';

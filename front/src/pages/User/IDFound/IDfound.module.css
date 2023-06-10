@@ -44,6 +44,10 @@ input {
   width: 45%;
 }
 
+.check__btn:hover {
+  cursor: pointer;
+}
+
 .ID__box {
   display: flex;
   flex-direction: column;
@@ -82,4 +86,9 @@ input {
   border-radius: 25px;
   padding: 0.3rem 0.6rem;
   border: none;
+}
+
+.btn__login,
+.btn__pw:hover {
+  cursor: pointer;
 }
