@@ -8,8 +8,7 @@ import Project from './pages/Project';
 import Study from './pages/Study';
 import AddPost from './pages/AddPost';
 import Login from './pages/User/Login/Login';
-import IDfound from './pages/User/IDfound';
-import IDChange from './pages/User/IDChange';
+import IDfound from './pages/User/IDFound/IDfound';
 import PWfound from './pages/User/PWfound';
 import PWChange from './pages/User/PWChange';
 import MyPage from './pages/User/MyPage';
@@ -36,7 +35,6 @@ const router = createBrowserRouter([
       { path: '/mypage/addPost', element: <AddPost /> },
       { path: '/user/login', element: <Login /> },
       { path: '/user/idFound', element: <IDfound /> },
-      { path: '/user/idChange/:id', element: <IDChange /> },
       { path: '/user/pwFound', element: <PWfound /> },
       { path: '/user/pwChange', element: <PWChange /> },
     ],
