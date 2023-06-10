@@ -1,7 +1,14 @@
 import React, { Fragment } from 'react';
 import classes from './Header.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const Header = (props) => {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate('/user/login');
+  };
+
   return (
     <Fragment>
       <header className={classes.header}>
@@ -11,7 +18,7 @@ const Header = (props) => {
         <input type="text" placeholder="검색하기" />
         <div className={classes.log}>
           <button>회원가입</button>
-          <button>로그인</button>
+          <button onClick={handleLogin}>로그인</button>
         </div>
       </header>
       <div className={classes.pic}>

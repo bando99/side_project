@@ -7,7 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Project from './pages/Project';
 import Study from './pages/Study';
 import AddPost from './pages/AddPost';
-import Login from './pages/User/Login';
+import Login from './pages/User/Login/Login';
 import IDfound from './pages/User/IDfound';
 import IDChange from './pages/User/IDChange';
 import PWfound from './pages/User/PWfound';
@@ -35,10 +35,10 @@ const router = createBrowserRouter([
       { path: '/mypage/recruit/:post', element: <RecruitStatus /> },
       { path: '/mypage/addPost', element: <AddPost /> },
       { path: '/user/login', element: <Login /> },
-      { path: '/user/idFound/:id', element: <IDfound /> },
+      { path: '/user/idFound', element: <IDfound /> },
       { path: '/user/idChange/:id', element: <IDChange /> },
-      { path: '/user/pwFound/:id', element: <PWfound /> },
-      { path: '/user/pwChange/:id', element: <PWChange /> },
+      { path: '/user/pwFound', element: <PWfound /> },
+      { path: '/user/pwChange', element: <PWChange /> },
     ],
   },
 ]);

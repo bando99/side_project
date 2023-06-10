@@ -1,0 +1,62 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  margin-top: 5rem;
+  font-weight: 900;
+}
+
+.email {
+  font-weight: 800;
+}
+
+.container__box {
+  border: 2px solid #d2e2ec;
+  border-radius: 20px;
+  padding: 3rem 8rem;
+}
+
+.input__box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+input {
+  width: 70%;
+  padding: 0.5rem 1rem;
+  margin-right: 1.5rem;
+  border: 1px solid #d2e2ec;
+}
+
+.input__code {
+  background-color: #f4f8fa;
+}
+
+.btn__container {
+  display: flex;
+  justify-content: center;
+}
+
+.btn__login {
+  width: 30%;
+  background-color: #dae9fc;
+  margin-right: 1rem;
+  border-radius: 25px;
+  border: none;
+  padding: 0.3rem 0.6rem;
+}
+
+.btn__pw {
+  width: 30%;
+  background-color: #1f7ceb;
+  color: white;
+  margin-left: 1rem;
+  border-radius: 25px;
+  padding: 0.3rem 0.6rem;
+  border: none;
+}

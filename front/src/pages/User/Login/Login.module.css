@@ -1,0 +1,88 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  width: 100%;
+}
+
+.container__box {
+  border: 2px solid #d2e2ec;
+  border-radius: 20px;
+  padding: 3rem 8rem;
+}
+
+.button__container {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.modify__container {
+  display: flex;
+  margin: auto;
+  width: 90%;
+}
+
+.menu__text {
+  font-size: 0.5rem;
+  margin: 0.2rem;
+}
+
+.menu__text:hover {
+  cursor: pointer;
+}
+
+.loginBtn {
+  margin: auto;
+  background-color: #1f7ceb;
+  width: 70%;
+  border-radius: 25px;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+}
+
+.loginSNS {
+  font-weight: 800;
+}
+
+.sns__container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.snsIcon__container {
+  margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.kakao {
+  background-image: url('../../../../public/sns/kakaoImage.png');
+  background-size: cover;
+  width: 3rem;
+  height: 3rem;
+  margin: 1rem 0;
+}
+
+.naver {
+  background-image: url('../../../../public/sns/naverImage.png');
+  background-size: cover;
+  width: 3rem;
+  height: 3rem;
+  margin: 1rem 0;
+}
+
+.github {
+  background-image: url('../../../../public/sns/githubImage.png');
+  background-size: cover;
+  width: 3rem;
+  height: 3rem;
+  margin: 1rem 0;
+}
+
+.SNStext {
+  font-size: 0.8rem;
+}
