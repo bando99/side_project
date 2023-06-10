@@ -1,7 +1,27 @@
 import React from 'react';
 import styles from './Login.module.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+  const navigate = useNavigate();
+
+  const handleIdFound = () => {
+    navigate('/user/idFound');
+  };
+
+  const handlePwFound = () => {
+    navigate('/user/pwFound');
+  };
+
+  const handlePwChange = () => {
+    navigate('/user/pwChange');
+  };
+
+  // { path: '/user/idFound/:id', element: <IDfound /> },
+  //     { path: '/user/idChange/:id', element: <IDChange /> },
+  //     { path: '/user/pwFound/:id', element: <PWfound /> },
+  //     { path: '/user/pwChange/:id', element: <PWChange /> },
+
   return (
     <section className={styles.container}>
       <p>로그인</p>
@@ -15,9 +35,9 @@ export default function Login() {
         <div className={styles.button__container}>
           <p className={styles.loginBtn}>로그인</p>
           <div className={styles.modify__container}>
-            <p>아이디 찾기</p>
-            <p>비밀번호 찾기</p>
-            <p>비밀번호 변경</p>
+            <p onClick={handleIdFound}>아이디 찾기</p>
+            <p onClick={handlePwFound}>비밀번호 찾기</p>
+            <p onClick={handlePwChange}>비밀번호 변경</p>
           </div>
         </div>
       </form>
