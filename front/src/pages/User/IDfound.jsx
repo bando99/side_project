@@ -9,7 +9,7 @@ export default function IDfound() {
         <p className={styles.email}>이메일 주소</p>
         <div className={styles.input__box}>
           <input type="text" placeholder="내용을 입력해 주세요." />
-          <button>인증 요청</button>
+          <button className={styles.check__btn}>인증 요청</button>
         </div>
         <div className={styles.input__box}>
           <input
@@ -17,7 +17,12 @@ export default function IDfound() {
             type="text"
             placeholder="내용을 입력해 주세요."
           />
-          <button>인증 확인</button>
+          <button className={styles.check__btn}>인증 확인</button>
+        </div>
+        <div className={styles.ID__box}>
+          <p className={styles.ID__commnet}>회원님의 아이디는</p>
+          <p className={styles.ID__content}>abc1234</p>
+          <p className={styles.ID__commnet}>입니다</p>
         </div>
         <div className={styles.btn__container}>
           <button className={styles.btn__login}>로그인</button>
