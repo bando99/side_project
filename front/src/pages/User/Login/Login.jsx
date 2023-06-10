@@ -35,9 +35,15 @@ export default function Login() {
         <div className={styles.button__container}>
           <p className={styles.loginBtn}>로그인</p>
           <div className={styles.modify__container}>
-            <p onClick={handleIdFound}>아이디 찾기</p>
-            <p onClick={handlePwFound}>비밀번호 찾기</p>
-            <p onClick={handlePwChange}>비밀번호 변경</p>
+            <p className={styles.menu__text} onClick={handleIdFound}>
+              아이디 찾기
+            </p>
+            <p className={styles.menu__text} onClick={handlePwFound}>
+              비밀번호 찾기
+            </p>
+            <p className={styles.menu__text} onClick={handlePwChange}>
+              비밀번호 변경
+            </p>
           </div>
         </div>
       </form>

@@ -35,10 +35,10 @@ const router = createBrowserRouter([
       { path: '/mypage/recruit/:post', element: <RecruitStatus /> },
       { path: '/mypage/addPost', element: <AddPost /> },
       { path: '/user/login', element: <Login /> },
-      { path: '/user/idFound/:id', element: <IDfound /> },
+      { path: '/user/idFound', element: <IDfound /> },
       { path: '/user/idChange/:id', element: <IDChange /> },
-      { path: '/user/pwFound/:id', element: <PWfound /> },
-      { path: '/user/pwChange/:id', element: <PWChange /> },
+      { path: '/user/pwFound', element: <PWfound /> },
+      { path: '/user/pwChange', element: <PWChange /> },
     ],
   },
 ]);
