@@ -1,5 +1,11 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .title {
-  text-align: center;
   margin-top: 5rem;
   font-weight: 900;
 }
@@ -51,6 +57,6 @@ input {
   color: white;
   margin-left: 1rem;
   border-radius: 25px;
-  border: none;
   padding: 0.3rem 0.6rem;
+  border: none;
 }

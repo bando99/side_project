@@ -3,7 +3,7 @@ import styles from './IDfound.module.css';
 
 export default function IDfound() {
   return (
-    <section>
+    <section className={styles.container}>
       <p className={styles.title}>아이디 찾기</p>
       <div className={styles.container__box}>
         <p className={styles.email}>이메일 주소</p>
