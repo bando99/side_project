@@ -10,7 +10,7 @@ import AddPost from './pages/AddPost';
 import Login from './pages/User/Login/Login';
 import IDfound from './pages/User/IDFound/IDfound';
 import PWfound from './pages/User/PWfound/PWfound';
-import PWChange from './pages/User/PWChange';
+import PWChange from './pages/User/PWChange/PWChange';
 import MyPage from './pages/User/MyPage';
 import PostDetail from './pages/PostDetail';
 import Assign from './pages/Assign';
