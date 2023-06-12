@@ -24,7 +24,7 @@ export default function Login() {
 
   return (
     <section className={styles.container}>
-      <p>로그인</p>
+      <p className={styles.title}>로그인</p>
       <form className={styles.container__box}>
         <div className={styles.input__container}>
           <p>아이디</p>
