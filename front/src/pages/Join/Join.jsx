@@ -35,6 +35,7 @@ const Header = styled.div`
     margin: 0 auto;
     margin-top: 5rem;
     margin-bottom: 5rem;
+    padding: 3rem;
 `
 
 const Div = styled.div`

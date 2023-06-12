@@ -27,14 +27,14 @@
 }
 
 .pic {
-    margin-top: 10vh;
+    margin-top: 15vh;
     display: flex;
     justify-content: center;
 }
 
 .pic img {
     display: block;
-    width: 60%;
+    width: 80%;
     height: 25rem;
 
 }

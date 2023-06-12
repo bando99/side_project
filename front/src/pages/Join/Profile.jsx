@@ -61,25 +61,19 @@ const Header = styled.div`
     border-radius: 2rem;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     margin: 0 auto;
     margin-top: 5rem;
     margin-bottom: 5rem;
     background-color: #DAE9FC;
-    padding-top: 3rem;
     font-size: 2rem;
-`
-
-const Pro = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 3rem;
 `
 
 const Bind = styled.div`
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    flex-wrap: wrap; /* 요소들이 한 줄에 다 들어가지 않을 경우 여러 줄에 걸쳐 표시 */
 `
 
 const FieldWrapper = styled.div`
@@ -88,6 +82,15 @@ const FieldWrapper = styled.div`
     align-items: flex-start;
     margin-left: 2rem;
     margin-right: 2rem;
+    flex-grow: 1; /* 공간을 균등하게 차지 */
+`
+
+
+const Pro = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
 `
 
 const InputLabel = styled.div`
@@ -105,6 +108,7 @@ const InputField = styled.input`
 const Button = styled.div`
     display: flex;
     justify-content: center;
+    margin-bottom: 3rem;
 `
 
 const BackButton = styled.button`

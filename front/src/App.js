@@ -1,14 +1,15 @@
 import Header from './ components/header/Header';
 import './App.css';
-import Join from './pages/Join/Join';
+import { Outlet } from 'react-router-dom';
 import Profile from './pages/Join/Profile';
+import Footer from './ components/header/Footer';
 
 function App() {
   return (
     <>
       <Header />
-      {/* <Join /> */}
-      <Profile />
+      <Outlet />
+      <Footer />
     </>
   );
 }
