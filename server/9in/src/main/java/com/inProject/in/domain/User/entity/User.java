@@ -20,10 +20,6 @@ import java.util.List;
 @Table(name = "user") //테이블과 매핑
 public class User extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(nullable = false)
     private String user_id;
 

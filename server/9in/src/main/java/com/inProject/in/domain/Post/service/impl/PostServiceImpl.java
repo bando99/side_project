@@ -8,8 +8,10 @@ import com.inProject.in.domain.Post.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -79,11 +81,28 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public Page<ResponsePostDto> getUserPostList(Long id, Pageable pageable) {
+    public List<ResponsePostDto> getPostList(String user_id, String title, String type, List<String> tags, Pageable pageable) {
 
+        Page<Post> postPage = postRepository.findPosts(pageable, user_id, title, type, tags);
+        List<Post> postList = postPage.getContent();
+        List<ResponsePostDto> responsePostDtoList = new ArrayList<>();
 
-        return null;
+        for (Post post : postList) {
+            ResponsePostDto responsePostDto = ResponsePostDto.builder()
+                    .id(post.getId())
+                    .user_id(post.getUser().getUser_id())
+                    .title(post.getTitle())
+                    .text(post.getText())
+                    .type(post.getType())
+                    .comment_cnt(0)
+                    .build();
+
+            responsePostDtoList.add(responsePostDto);
+        }
+
+        return responsePostDtoList;
     }
+
 
 
 }
