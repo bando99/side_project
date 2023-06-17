@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 public interface PostService {
     ResponsePostDto getPost(Long id);
@@ -17,6 +19,6 @@ public interface PostService {
 
     void deletePost(Long id);
 
-    Page<ResponsePostDto> getUserPostList(Long id, Pageable pageable);
+    List<ResponsePostDto> getPostList(String user_id, String title, String type, List<String> tags, Pageable pageable);
 
 }

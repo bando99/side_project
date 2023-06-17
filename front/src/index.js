@@ -17,6 +17,8 @@ import Assign from './pages/Assign';
 import RecruitStatus from './pages/RecruitStatus';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
+import Join from './pages/Join/Join';
+import Profile from './pages/Join/Profile';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,8 @@ const router = createBrowserRouter([
       { path: '/user/idFound', element: <IDfound /> },
       { path: '/user/pwFound', element: <PWfound /> },
       { path: '/user/pwChange', element: <PWChange /> },
+      { path: '/join', element: <Join /> },
+      { path: '/profile', element: <Profile /> }, 
     ],
   },
 ]);
