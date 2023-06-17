@@ -9,12 +9,16 @@ const Header = (props) => {
     navigate('/user/login');
   };
 
+  const handleProject = () => {
+    navigate('/project');
+  };
+
   return (
     <Fragment>
       <header className={classes.header}>
         <img src='/logo/logoHead.png' alt='로고' />
         <h1>스터디</h1>
-        <h1>프로젝트</h1>
+        <h1 onClick={handleProject}>프로젝트</h1>
         <input type="text" placeholder="검색하기" />
         <div className={classes.log}>
           <button>회원가입</button>
