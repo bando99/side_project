@@ -1,8 +1,8 @@
-package com.inProject.in.domain.Skill.TagRelation.entity;
+package com.inProject.in.domain.MToNRelation.TagPostRelation.entity;
 
 import com.inProject.in.Global.BaseEntity;
 import com.inProject.in.domain.Post.entity.Post;
-import com.inProject.in.domain.Skill.SkillTag.entity.SkillTag;
+import com.inProject.in.domain.SkillTag.entity.SkillTag;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

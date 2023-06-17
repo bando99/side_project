@@ -2,6 +2,7 @@ package com.inProject.in.domain.User.entity;
 
 import com.inProject.in.Global.BaseEntity;
 import com.inProject.in.domain.Comment.entity.Comment;
+import com.inProject.in.domain.MToNRelation.ApplicantPostRelation.entity.ApplicantPostRelation;
 import com.inProject.in.domain.Post.entity.Post;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,9 +30,14 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String mail;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     @ToString.Exclude
-    private List<Post> postList = new ArrayList<>();
+    private List<Post> authoredPostList = new ArrayList<>();   //작성한 글들
+
+    @OneToMany(mappedBy = "applicant", fetch = FetchType.EAGER)
+    @ToString.Exclude
+    private List<ApplicantPostRelation> applicantPostRelationList = new ArrayList<>(); //지원한 게시글들
+
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Comment> commentList = new ArrayList<>();

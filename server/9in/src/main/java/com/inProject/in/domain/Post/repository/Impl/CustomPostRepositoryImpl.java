@@ -3,28 +3,21 @@ package com.inProject.in.domain.Post.repository.Impl;
 import com.inProject.in.domain.Post.entity.Post;
 import com.inProject.in.domain.Post.entity.QPost;
 import com.inProject.in.domain.Post.repository.CustomPostRepository;
-import com.inProject.in.domain.Skill.SkillTag.entity.QSkillTag;
+import com.inProject.in.domain.SkillTag.entity.QSkillTag;
 import com.inProject.in.domain.Skill.TagRelation.entity.QTagPostRelation;
-import com.inProject.in.domain.User.repository.Impl.CustomUserRepositoryImpl;
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 
 import java.util.List;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 
 public class CustomPostRepositoryImpl implements CustomPostRepository {

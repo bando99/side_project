@@ -1,7 +1,7 @@
-package com.inProject.in.domain.Skill.SkillTag.entity;
+package com.inProject.in.domain.SkillTag.entity;
 
 import com.inProject.in.Global.BaseEntity;
-import com.inProject.in.domain.Skill.TagRelation.entity.TagPostRelation;
+import com.inProject.in.domain.MToNRelation.TagPostRelation.entity.TagPostRelation;
 import jakarta.persistence.*;
 import lombok.*;
 
