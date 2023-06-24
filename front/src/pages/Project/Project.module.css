@@ -1,0 +1,65 @@
+.header {
+  margin: 1rem 1.5rem;
+
+  border: 2px solid #dae9fc;
+  border-radius: 15px;
+}
+
+.inputContainer {
+  display: flex;
+  padding: 0.5rem;
+}
+
+.icon {
+  background: url('../../../public/icons/search.png');
+  background-size: cover;
+  width: 1rem;
+  height: 1rem;
+  margin: 0.5rem;
+}
+
+.search {
+  border: none;
+}
+
+.tag__container {
+  display: flex;
+  padding: 0.5rem;
+}
+
+.tag__box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tagIcon {
+  background: url('../../../public/icons/tag.png');
+  background-size: cover;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin: 0.5rem;
+  margin-right: 0.8rem;
+}
+
+.part {
+  display: flex;
+}
+
+.partIcon {
+  background: url('../../../public/icons/part.png');
+  background-size: cover;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin: 0.5rem;
+  margin-right: 0.8rem;
+}
+
+.partList {
+  display: flex;
+}
+
+.part__content {
+  margin: 0.3rem 0.5rem;
+  font-size: 0.3rem;
+}

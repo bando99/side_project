@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Project from './pages/Project';
+import Project from './pages/Project/Project';
 import Study from './pages/Study';
 import AddPost from './pages/AddPost';
 import Login from './pages/User/Login/Login';
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, path: '/', element: <Home /> },
       { path: '/project', element: <Project /> },
-      { path: '/study/:id', element: <Study /> },
+      { path: '/study', element: <Study /> },
       { path: '/Addpost', element: <AddPost /> },
       { path: '/postDetail/:post', element: <PostDetail /> },
       { path: '/postDetail/assign/:post', element: <Assign /> },
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
       { path: '/user/pwFound', element: <PWfound /> },
       { path: '/user/pwChange', element: <PWChange /> },
       { path: '/join', element: <Join /> },
-      { path: '/profile', element: <Profile /> }, 
+      { path: '/profile', element: <Profile /> },
     ],
   },
 ]);
