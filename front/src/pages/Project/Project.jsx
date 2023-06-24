@@ -45,6 +45,20 @@ export default function Project() {
           </div>
         </div>
       </div>
+      <div className={styles.sort__container}>
+        <div className={styles.sort__box}>
+          <div className={styles.sortIcon}></div>
+          <p className={styles.sort__text}>정렬</p>
+          <select name="order">
+            <option>업데이트 순</option>
+            <option>인기 순</option>
+          </select>
+        </div>
+        <label className={styles.toggle__box}>
+          <span className={styles.toggle__text}>모집 중</span>
+          <input className={styles.toggleBtn} role="switch" type="checkbox" />
+        </label>
+      </div>
     </section>
   );
 }
