@@ -17,50 +17,18 @@ export default function Project() {
         <div className={styles.tag__container}>
           <div className={styles.tagIcon}></div>
           <Tag skill="JavaScript" />
-          <div className={styles.tag__box}>
-            <div className={styles.IJavaScript}></div>
-            <div className={styles.tag__name}>JavaScript</div>
-          </div>
-          <div className={styles.tag__box}>
-            <div className={styles.IJavaScript}></div>
-            <div className={styles.tag__name}>JavaScript</div>
-          </div>
-          <div className={styles.tag__box}>
-            <div className={styles.IJavaScript}></div>
-            <div className={styles.tag__name}>JavaScript</div>
-          </div>
-          <div className={styles.tag__box}>
-            <div className={styles.IJavaScript}></div>
-            <div className={styles.tag__name}>JavaScript</div>
-          </div>
-          <div className={styles.tag__box}>
-            <div className={styles.IJavaScript}></div>
-            <div className={styles.tag__name}>JavaScript</div>
-          </div>
-          <div className={styles.tag__box}>
-            <div className={styles.IJavaScript}></div>
-            <div className={styles.tag__name}>JavaScript</div>
-          </div>
-          <div className={styles.tag__box}>
-            <div className={styles.IJavaScript}></div>
-            <div className={styles.tag__name}>JavaScript</div>
-          </div>
-          <div className={styles.tag__box}>
-            <div className={styles.IJavaScript}></div>
-            <div className={styles.tag__name}>JavaScript</div>
-          </div>
-          <div className={styles.tag__box}>
-            <div className={styles.IJavaScript}></div>
-            <div className={styles.tag__name}>JavaScript</div>
-          </div>
-          <div className={styles.tag__box}>
-            <div className={styles.IJavaScript}></div>
-            <div className={styles.tag__name}>JavaScript</div>
-          </div>
-          <div className={styles.tag__box}>
-            <div className={styles.IJavaScript}></div>
-            <div className={styles.tag__name}>JavaScript</div>
-          </div>
+          <Tag skill="TypeScript" />
+          <Tag skill="React" />
+          <Tag skill="Vue" />
+          <Tag skill="Svelte" />
+          <Tag skill="Next.js" />
+          <Tag skill="Node.js" />
+          <Tag skill="Java" />
+          <Tag skill="Go" />
+          <Tag skill="Spring" />
+          <Tag skill="Nest.js" />
+          <Tag skill="Pigma" />
+          <Tag skill="XD" />
         </div>
       </div>
     </section>

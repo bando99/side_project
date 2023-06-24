@@ -26,11 +26,14 @@ const TagName = styled.div`
 
 export default function Tag({ skill }) {
   const imageName = `${skill}.png`; // skill 값을 사용하여 이미지 파일 이름 생성
-
+  console.log(imageName);
+  console.log('../../assets/tag/${imageName}');
   return (
     <TagBox>
       <TagIcon
-        style={{ backgroundImage: `url('../../assets/tag/${imageName}')` }}
+        style={{
+          backgroundImage: `url('/tag/${skill}.png')`,
+        }}
       />
       <TagName>{skill}</TagName>
     </TagBox>
