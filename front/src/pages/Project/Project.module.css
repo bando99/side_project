@@ -27,35 +27,39 @@
   padding: 0.5rem;
 }
 
+.tag__box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 .tagIcon {
   background: url('../../../public/icons/tag.png');
   background-size: cover;
   width: 0.8rem;
   height: 0.8rem;
   margin: 0.5rem;
+  margin-right: 0.8rem;
 }
 
-.tag__box {
-  padding: 0.3rem;
+.part {
   display: flex;
-  border: 1px solid #7cb2f3;
-  border-radius: 2rem;
-  margin: 0.2rem;
 }
 
-.tag__name {
-  font-size: 0.5rem;
-  font-weight: 600;
-  color: #1f7ceb;
-  padding: 0.2rem;
-}
-
-.IJavaScript {
-  background: url('../../../public/tag/JavaScript.png');
+.partIcon {
+  background: url('../../../public/icons/part.png');
   background-size: cover;
   width: 0.8rem;
   height: 0.8rem;
-  margin: 0.2rem;
+  margin: 0.5rem;
+  margin-right: 0.8rem;
+}
 
-  border-radius: 100%;
+.partList {
+  display: flex;
+}
+
+.part__content {
+  margin: 0.3rem 0.5rem;
+  font-size: 0.3rem;
 }
