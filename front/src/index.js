@@ -10,7 +10,6 @@ import Login from './pages/User/Login/Login';
 import IDfound from './pages/User/IDFound/IDfound';
 import PWfound from './pages/User/PWfound/PWfound';
 import PWChange from './pages/User/PWChange/PWChange';
-import MyPage from './pages/User/MyPage';
 import PostDetail from './pages/PostDetail';
 import Assign from './pages/Assign';
 import RecruitStatus from './pages/RecruitStatus';
@@ -19,6 +18,7 @@ import NotFound from './pages/NotFound';
 import Join from './pages/Join/Join';
 import Profile from './pages/Join/Profile';
 import Study from './pages/Study/Study';
+import MyPage from './pages/User/MyPage/MyPage';
 
 const router = createBrowserRouter([
   {
