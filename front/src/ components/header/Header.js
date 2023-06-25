@@ -13,11 +13,15 @@ const Header = (props) => {
     navigate('/project');
   };
 
+  const handleStudy = () => {
+    navigate('/study');
+  };
+
   return (
     <Fragment>
       <header className={classes.header}>
-        <img src='/logo/logoHead.png' alt='로고' />
-        <h1>스터디</h1>
+        <img src="/logo/logoHead.png" alt="로고" />
+        <h1 onClick={handleStudy}>스터디</h1>
         <h1 onClick={handleProject}>프로젝트</h1>
         <input type="text" placeholder="검색하기" />
         <div className={classes.log}>
@@ -33,7 +37,7 @@ const Header = (props) => {
 
 const ImageCarousel = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const images = ["/logo/Logo1.png", "/logo/Logo2.png"];
+  const images = ['/logo/Logo1.png', '/logo/Logo2.png'];
 
   useEffect(() => {
     const interval = setInterval(() => {
