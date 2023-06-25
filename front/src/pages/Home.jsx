@@ -10,154 +10,161 @@ const Home = () => {
       </Title>
 
       <Boards>
-        <Project>
-          <TopTopic>프로젝트 6개월이상</TopTopic>
-          <Stack>
-            <img src='/stack/JS.png' alt='dd'></img>
-            <img src='/stack/React.png' alt='dd'></img>
-            <img src='/stack/Spring.png' alt='dd'></img>
-          </Stack>
-          <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
-          <Board>
-            <Member>현재인원</Member>
-            <Member>PM</Member>
-            <Member>디자이너</Member>
-            <Member>프론트엔드</Member>
-            <Member>백엔드</Member>
-          </Board>
-          <Writer>홍길동</Writer>
-        </Project>
+        <Bind>
+          <Project>
+            <TopTopic>프로젝트 6개월이상</TopTopic>
+            <Stack>
+              <img src='/stack/JS.png' alt='dd'></img>
+              <img src='/stack/React.png' alt='dd'></img>
+              <img src='/stack/Spring.png' alt='dd'></img>
+            </Stack>
+            <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
+            <Board>
+              <Member>현재인원</Member>
+              <Member>PM</Member>
+              <Member>디자이너</Member>
+              <Member>프론트엔드</Member>
+              <Member>백엔드</Member>
+            </Board>
+            <Writer>홍길동</Writer>
+          </Project>
 
-        <Project>
-          <TopTopic>프로젝트 3개월이상</TopTopic>
-          <Stack>
-            <img src='/stack/JS.png' alt='dd'></img>
-            <img src='/stack/React.png' alt='dd'></img>
-            <img src='/stack/Spring.png' alt='dd'></img>
-          </Stack>
-          <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
-          <Board>
-            <Member>현재인원</Member>
-            <Member>PM</Member>
-            <Member>디자이너</Member>
-            <Member>프론트엔드</Member>
-            <Member>백엔드</Member>
-          </Board>
-          <Writer>홍길동</Writer>
-        </Project>
+          <Project>
+            <TopTopic>프로젝트 3개월이상</TopTopic>
+            <Stack>
+              <img src='/stack/JS.png' alt='dd'></img>
+              <img src='/stack/React.png' alt='dd'></img>
+              <img src='/stack/Spring.png' alt='dd'></img>
+            </Stack>
+            <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
+            <Board>
+              <Member>현재인원</Member>
+              <Member>PM</Member>
+              <Member>디자이너</Member>
+              <Member>프론트엔드</Member>
+              <Member>백엔드</Member>
+            </Board>
+            <Writer>홍길동</Writer>
+          </Project>
+        </Bind>
 
-        <Study>
-          <TopTopic>프로젝트 6개월이상</TopTopic>
-          <Stack>
-            <img src='/stack/JS.png' alt='dd'></img>
-            <img src='/stack/React.png' alt='dd'></img>
-            <img src='/stack/Spring.png' alt='dd'></img>
-          </Stack>
-          <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
-          <Board>
-            <Member>현재인원</Member>
-            <Member>PM</Member>
-            <Member>디자이너</Member>
-            <Member>프론트엔드</Member>
-            <Member>백엔드</Member>
-          </Board>
-          <Writer>홍길동</Writer>
+        <Bind>
+          <Study>
+            <TopTopic>프로젝트 6개월이상</TopTopic>
+            <Stack>
+              <img src='/stack/JS.png' alt='dd'></img>
+              <img src='/stack/React.png' alt='dd'></img>
+              <img src='/stack/Spring.png' alt='dd'></img>
+            </Stack>
+            <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
+            <Board>
+              <Member>현재인원</Member>
+              <Member>PM</Member>
+              <Member>디자이너</Member>
+              <Member>프론트엔드</Member>
+              <Member>백엔드</Member>
+            </Board>
+            <Writer>홍길동</Writer>
+          </Study>
 
-        </Study>
-
-        <Study>
-          <TopTopic>프로젝트 6개월이상</TopTopic>
-          <Stack>
-            <img src='/stack/JS.png' alt='dd'></img>
-            <img src='/stack/React.png' alt='dd'></img>
-            <img src='/stack/Spring.png' alt='dd'></img>
-          </Stack>
-          <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
-          <Board>
-            <Member>현재인원</Member>
-            <Member>PM</Member>
-            <Member>디자이너</Member>
-            <Member>프론트엔드</Member>
-            <Member>백엔드</Member>
-          </Board>
-          <Writer>홍길동</Writer>
-        </Study>
+          <Study>
+            <TopTopic>프로젝트 6개월이상</TopTopic>
+            <Stack>
+              <img src='/stack/JS.png' alt='dd'></img>
+              <img src='/stack/React.png' alt='dd'></img>
+              <img src='/stack/Spring.png' alt='dd'></img>
+            </Stack>
+            <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
+            <Board>
+              <Member>현재인원</Member>
+              <Member>PM</Member>
+              <Member>디자이너</Member>
+              <Member>프론트엔드</Member>
+              <Member>백엔드</Member>
+            </Board>
+            <Writer>홍길동</Writer>
+          </Study>
+        </Bind>
       </Boards>
 
       <Boards>
-        <Project>
-          <TopTopic>프로젝트 6개월이상</TopTopic>
-          <Stack>
-            <img src='/stack/JS.png' alt='dd'></img>
-            <img src='/stack/React.png' alt='dd'></img>
-            <img src='/stack/Spring.png' alt='dd'></img>
-          </Stack>
-          <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
-          <Board>
-            <Member>현재인원</Member>
-            <Member>PM</Member>
-            <Member>디자이너</Member>
-            <Member>프론트엔드</Member>
-            <Member>백엔드</Member>
-          </Board>
-          <Writer>홍길동</Writer>
-        </Project>
+        <Bind>
+          <Project>
+            <TopTopic>프로젝트 6개월이상</TopTopic>
+            <Stack>
+              <img src='/stack/JS.png' alt='dd'></img>
+              <img src='/stack/React.png' alt='dd'></img>
+              <img src='/stack/Spring.png' alt='dd'></img>
+            </Stack>
+            <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
+            <Board>
+              <Member>현재인원</Member>
+              <Member>PM</Member>
+              <Member>디자이너</Member>
+              <Member>프론트엔드</Member>
+              <Member>백엔드</Member>
+            </Board>
+            <Writer>홍길동</Writer>
+          </Project>
 
-        <Project>
-          <TopTopic>프로젝트 3개월이상</TopTopic>
-          <Stack>
-            <img src='/stack/JS.png' alt='dd'></img>
-            <img src='/stack/React.png' alt='dd'></img>
-            <img src='/stack/Spring.png' alt='dd'></img>
-          </Stack>
-          <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
-          <Board>
-            <Member>현재인원</Member>
-            <Member>PM</Member>
-            <Member>디자이너</Member>
-            <Member>프론트엔드</Member>
-            <Member>백엔드</Member>
-          </Board>
-          <Writer>홍길동</Writer>
-        </Project>
+          <Project>
+            <TopTopic>프로젝트 3개월이상</TopTopic>
+            <Stack>
+              <img src='/stack/JS.png' alt='dd'></img>
+              <img src='/stack/React.png' alt='dd'></img>
+              <img src='/stack/Spring.png' alt='dd'></img>
+            </Stack>
+            <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
+            <Board>
+              <Member>현재인원</Member>
+              <Member>PM</Member>
+              <Member>디자이너</Member>
+              <Member>프론트엔드</Member>
+              <Member>백엔드</Member>
+            </Board>
+            <Writer>홍길동</Writer>
+          </Project>
+        </Bind>
 
-        <Study>
-          <TopTopic>프로젝트 6개월이상</TopTopic>
-          <Stack>
-            <img src='/stack/JS.png' alt='dd'></img>
-            <img src='/stack/React.png' alt='dd'></img>
-            <img src='/stack/Spring.png' alt='dd'></img>
-          </Stack>
-          <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
-          <Board>
-            <Member>현재인원</Member>
-            <Member>PM</Member>
-            <Member>디자이너</Member>
-            <Member>프론트엔드</Member>
-            <Member>백엔드</Member>
-          </Board>
-          <Writer>홍길동</Writer>
+        <Bind>
+          <Study>
+            <TopTopic>프로젝트 6개월이상</TopTopic>
+            <Stack>
+              <img src='/stack/JS.png' alt='dd'></img>
+              <img src='/stack/React.png' alt='dd'></img>
+              <img src='/stack/Spring.png' alt='dd'></img>
+            </Stack>
+            <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
+            <Board>
+              <Member>현재인원</Member>
+              <Member>PM</Member>
+              <Member>디자이너</Member>
+              <Member>프론트엔드</Member>
+              <Member>백엔드</Member>
+            </Board>
+            <Writer>홍길동</Writer>
+          </Study>
 
-        </Study>
-
-        <Study>
-          <TopTopic>프로젝트 6개월이상</TopTopic>
-          <Stack>
-            <img src='/stack/JS.png' alt='dd'></img>
-            <img src='/stack/React.png' alt='dd'></img>
-            <img src='/stack/Spring.png' alt='dd'></img>
-          </Stack>
-          <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
-          <Board>
-            <Member>현재인원</Member>
-            <Member>PM</Member>
-            <Member>디자이너</Member>
-            <Member>프론트엔드</Member>
-            <Member>백엔드</Member>
-          </Board>
-          <Writer>홍길동</Writer>
-        </Study>
+          <Study>
+            <TopTopic>프로젝트 6개월이상</TopTopic>
+            <Stack>
+              <img src='/stack/JS.png' alt='dd'></img>
+              <img src='/stack/React.png' alt='dd'></img>
+              <img src='/stack/Spring.png' alt='dd'></img>
+            </Stack>
+            <Topic>해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)</Topic>
+            <Board>
+              <Member>현재인원</Member>
+              <Member>PM</Member>
+              <Member>디자이너</Member>
+              <Member>프론트엔드</Member>
+              <Member>백엔드</Member>
+            </Board>
+            <Writer>홍길동</Writer>
+          </Study>
+        </Bind>
       </Boards>
+
     </>
   );
 }
@@ -172,7 +179,7 @@ const Title = styled.div`
 `
 
 const Top = styled.div`
-  width: 40%;
+  width: 35%;
   height: 5rem;
   border: 2px solid black;
   background-color: #7CB2F3;
@@ -185,28 +192,31 @@ const Boards = styled.div`
   display: flex;  
   flex-direction: row;
   margin-top: 3rem;
-  justify-content: space-around;
 `
 
 const Bind = styled.div`
-  flex: display;
-  justify-content: right;
+  display: flex;
+  justify-content: center;
 `
 
 const Project = styled.div`
-  width: 15%;
+  width: 30%;
   height: 30rem;
   border: 2px solid skyblue;
   border-radius: 30px;
   margin-bottom: 5rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
 `
 
 const Study = styled.div`
-  width: 15%;
+  width: 30%;
   height: 30rem;
   border: 2px solid skyblue;
   border-radius: 30px;
   margin-bottom: 5rem;
+  margin-right: 2rem; 
+  margin-left: 2rem;
 `
 
 const TopTopic = styled.div`

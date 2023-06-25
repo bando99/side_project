@@ -19,6 +19,8 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Join from './pages/Join/Join';
 import Profile from './pages/Join/Profile';
+import Wiriting from './pages/Join/Writing';
+import Board from './pages/Join/Board';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +43,8 @@ const router = createBrowserRouter([
       { path: '/user/pwChange', element: <PWChange /> },
       { path: '/join', element: <Join /> },
       { path: '/profile', element: <Profile /> },
+      { path: '/writing', element: <Wiriting /> },
+      { path: '/board', element: <Board /> },
     ],
   },
 ]);
