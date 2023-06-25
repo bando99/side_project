@@ -3,6 +3,8 @@ package com.inProject.in.domain.User.entity;
 import com.inProject.in.Global.BaseEntity;
 import com.inProject.in.domain.Comment.entity.Comment;
 import com.inProject.in.domain.MToNRelation.ApplicantPostRelation.entity.ApplicantPostRelation;
+import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.entity.ApplicantRoleRelation;
+import com.inProject.in.domain.MToNRelation.ClipPostRelation.entity.ClipPostRelation;
 import com.inProject.in.domain.Post.entity.Post;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,9 +36,17 @@ public class User extends BaseEntity {
     @ToString.Exclude
     private List<Post> authoredPostList = new ArrayList<>();   //작성한 글들
 
-    @OneToMany(mappedBy = "applicant", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "post_applicant", fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<ApplicantPostRelation> applicantPostRelationList = new ArrayList<>(); //지원한 게시글들
+
+    @OneToMany(mappedBy = "role_applicant", fetch = FetchType.EAGER)
+    @ToString.Exclude
+    private List<ApplicantRoleRelation> applicantRoleRelationList = new ArrayList<>();  //지원한 역할
+
+    @OneToMany(mappedBy = "clipUser")
+    @ToString.Exclude
+    private List<ClipPostRelation> clipPostRelationList = new ArrayList<>(); //관심 클립으로 지정한 게시글들
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @ToString.Exclude

@@ -3,10 +3,7 @@ package com.inProject.in.domain.MToNRelation.TagPostRelation.entity;
 import com.inProject.in.Global.BaseEntity;
 import com.inProject.in.domain.Post.entity.Post;
 import com.inProject.in.domain.SkillTag.entity.SkillTag;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -18,10 +15,10 @@ import lombok.*;
 @Table(name = "tagPostRelation")
 public class TagPostRelation extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id")
     private Post post;
-    @ManyToOne
-    @JoinColumn(name = "skilltag_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "skillTag_id")
     private SkillTag skillTag;
 }

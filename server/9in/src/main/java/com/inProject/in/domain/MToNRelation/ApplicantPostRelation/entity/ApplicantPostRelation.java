@@ -20,9 +20,10 @@ public class ApplicantPostRelation extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User applicant;
+    private User post_applicant;
+    @Column
+    private String name;
 
 }

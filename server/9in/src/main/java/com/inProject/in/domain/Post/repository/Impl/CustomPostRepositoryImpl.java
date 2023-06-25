@@ -1,10 +1,14 @@
 package com.inProject.in.domain.Post.repository.Impl;
 
+import com.inProject.in.domain.MToNRelation.ClipPostRelation.entity.ClipPostRelation;
+import com.inProject.in.domain.MToNRelation.ClipPostRelation.entity.QClipPostRelation;
+import com.inProject.in.domain.MToNRelation.TagPostRelation.entity.QTagPostRelation;
 import com.inProject.in.domain.Post.entity.Post;
 import com.inProject.in.domain.Post.entity.QPost;
 import com.inProject.in.domain.Post.repository.CustomPostRepository;
 import com.inProject.in.domain.SkillTag.entity.QSkillTag;
-import com.inProject.in.domain.Skill.TagRelation.entity.QTagPostRelation;
+import com.inProject.in.domain.User.entity.QUser;
+import com.inProject.in.domain.User.entity.User;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
@@ -26,6 +30,8 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     QPost qPost = QPost.post;
     QSkillTag qSkillTag = QSkillTag.skillTag;
     QTagPostRelation qTagPostRelation = QTagPostRelation.tagPostRelation;
+    QClipPostRelation qClipPostRelation = QClipPostRelation.clipPostRelation;
+    QUser qUser = QUser.user;
 
     @Autowired
     public CustomPostRepositoryImpl(JPAQueryFactory jpaQueryFactory){
@@ -54,7 +60,32 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
         return PageableExecutionUtils.getPage(content, pageable, () -> count.fetchOne());
     }
 
-    private BooleanExpression UserIdEq(String user_id){ return user_id.isBlank() != true ? qPost.user.user_id.eq(user_id) : null; }
+    @Override
+    public Page<Post> searchPostsByCliped(Pageable pageable, User user) {
+//        List<Post> content = jpaQueryFactory
+//                .selectFrom(qPost)
+//                .where(ClipedEq(user))
+//                .orderBy(qPost.id.desc())
+//                .offset(pageable.getOffset())
+//                .limit(pageable.getPageSize())
+//                .fetch();
+
+        List<Post> content = jpaQueryFactory
+                .selectFrom(qPost)
+                .join(qPost.clipPostRelationList, qClipPostRelation)
+                .where(qClipPostRelation.clipUser.id.eq(user.getId()))
+                .orderBy(qPost.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> count = getCount();
+        return PageableExecutionUtils.getPage(content, pageable, () -> count.fetchOne());
+
+    }
+
+
+    private BooleanExpression UserIdEq(String user_id){ return user_id.isBlank() != true ? qPost.author.user_id.eq(user_id) : null; }
 
     private BooleanExpression TitleEq(String title){
         return title.isBlank() != true ? qPost.title.eq(title) : null;
@@ -71,14 +102,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 
 
         for(String tag : tags){
-            QPost subqPost = new QPost("subqPost");
-
-            Predicate tagQuery = qPost.id.in(
-                    jpaQueryFactory.select(qTagPostRelation.post.id)
-                            .from(qTagPostRelation)
-                            .join(qTagPostRelation.skillTag, qSkillTag)
-                            .where(qSkillTag.name.eq(tag))
-            );
+//            QPost subqPost = new QPost("subqPost");
 
 //            Predicate tagQuery = qPost.id.in(jpaQueryFactory
 //                    .select(subqPost.id)
@@ -87,18 +111,29 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 //                    .join(qTagPostRelation.skillTag, qSkillTag)
 //                    .where(qSkillTag.name.eq(tag)));
 
+            Predicate tagQuery = qPost.id.in(
+                    jpaQueryFactory.select(qTagPostRelation.post.id)
+                            .from(qTagPostRelation)
+                            .join(qTagPostRelation.skillTag, qSkillTag)
+                            .where(qSkillTag.name.eq(tag))
+            );
+
             combinedExpression = combinedExpression.and(tagQuery);
         }
 
         return combinedExpression;
-//        List<Predicate> tagPredicate = tags.stream()
-//                .map(tag -> qPost.id.in(jpaQueryFactory.select(qPost.id)
-//                        .from(qPost)
-//                        .join(qPost.tagPostRelationList, qTagPostRelation)
-//                        .join(qTagPostRelation.skillTag, qSkillTag)
-//                        .where(qSkillTag.name.eq(tag))))
-//                .collect(Collectors.toList());
+    }
+
+    private BooleanExpression ClipedEq(User user){
+        if (user == null) return null;
+
+        BooleanExpression clipedquery = qPost.id.in(jpaQueryFactory
+                .select(qClipPostRelation.clipedPost.id)
+                .from(qClipPostRelation)
+                .join(qClipPostRelation.clipUser, qUser)
+                .where(qUser.id.eq(user.getId())));
 
 
+        return clipedquery;
     }
 }

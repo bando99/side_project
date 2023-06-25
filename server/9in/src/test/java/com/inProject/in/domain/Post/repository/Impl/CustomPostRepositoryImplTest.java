@@ -3,7 +3,7 @@ package com.inProject.in.domain.Post.repository.Impl;
 import com.inProject.in.domain.Post.entity.Post;
 import com.inProject.in.domain.Post.repository.PostRepository;
 import com.inProject.in.domain.SkillTag.entity.SkillTag;
-import com.inProject.in.domain.SkillTag.repository.SkilltagRepository;
+import com.inProject.in.domain.SkillTag.repository.SkillTagRepository;
 import com.inProject.in.domain.MToNRelation.TagPostRelation.entity.TagPostRelation;
 import com.inProject.in.domain.MToNRelation.TagPostRelation.repository.TagPostRelationRepository;
 import com.inProject.in.domain.User.entity.User;
@@ -35,10 +35,13 @@ class CustomPostRepositoryImplTest {
     UserRepository userRepository;
 
     @Autowired
-    SkilltagRepository skilltagRepository;
+    SkillTagRepository skilltagRepository;
 
     @Autowired
     TagPostRelationRepository tagPostRelationRepository;
+
+
+
 
     @BeforeEach
     void dataSetting(){
@@ -102,7 +105,7 @@ class CustomPostRepositoryImplTest {
         String type = "";
         String user_id = "";
         List<String> tags = new ArrayList<>();
-
+        User user = null;
 
         //when
         Pageable pageable = PageRequest.of(0, 5);
@@ -130,6 +133,7 @@ class CustomPostRepositoryImplTest {
         String type = "";
         String user_id = "user1";
         List<String> tags = new ArrayList<>();
+        User user = null;
         List<Post> postList = new ArrayList<>();
 
         //when
@@ -163,6 +167,7 @@ class CustomPostRepositoryImplTest {
         String type = "";
         String user_id = "";
         List<String> tags = new ArrayList<>();
+        User user = null;
         List<Post> postList = new ArrayList<>();
 
         tags.add("react");
@@ -193,6 +198,30 @@ class CustomPostRepositoryImplTest {
         }
 
         System.out.println("query time : " + querytime);
+
+    }
+
+    @Test
+    @DisplayName("클립한 게시글만 출력")
+    void ClipedPosts(){
+        //given
+        String title = "";
+        String type = "";
+        String user_id = "";
+        List<String> tags = new ArrayList<>();
+        User user = User.builder()
+                .user_id("user1")
+                .build();
+
+        List<Post> postList = new ArrayList<>();
+
+        //when
+        long startmill = System.currentTimeMillis();
+        Pageable pageable = PageRequest.of(0, 5);
+        Page<Post> postPage = postRepository.findPosts(pageable, user_id, title, type, tags);
+        long endmill = System.currentTimeMillis();
+        long querytime = endmill - startmill;
+
 
     }
 
