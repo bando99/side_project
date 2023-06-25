@@ -5,7 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Project from './pages/Project/Project';
-import Study from './pages/Study';
 import AddPost from './pages/AddPost';
 import Login from './pages/User/Login/Login';
 import IDfound from './pages/User/IDFound/IDfound';
@@ -19,6 +18,7 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Join from './pages/Join/Join';
 import Profile from './pages/Join/Profile';
+import Study from './pages/Study/Study';
 
 const router = createBrowserRouter([
   {
