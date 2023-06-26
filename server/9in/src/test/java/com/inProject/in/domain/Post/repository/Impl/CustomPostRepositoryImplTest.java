@@ -2,29 +2,22 @@ package com.inProject.in.domain.Post.repository.Impl;
 
 import com.inProject.in.domain.Post.entity.Post;
 import com.inProject.in.domain.Post.repository.PostRepository;
-import com.inProject.in.domain.Skill.SkillTag.entity.SkillTag;
-import com.inProject.in.domain.Skill.SkillTag.repository.SkilltagRepository;
-import com.inProject.in.domain.Skill.TagRelation.entity.TagPostRelation;
-import com.inProject.in.domain.Skill.TagRelation.repository.TagPostRelationRepository;
+import com.inProject.in.domain.SkillTag.entity.SkillTag;
+import com.inProject.in.domain.SkillTag.repository.SkillTagRepository;
+import com.inProject.in.domain.MToNRelation.TagPostRelation.entity.TagPostRelation;
+import com.inProject.in.domain.MToNRelation.TagPostRelation.repository.TagPostRelationRepository;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.junit.After;
 import org.junit.jupiter.api.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,10 +35,13 @@ class CustomPostRepositoryImplTest {
     UserRepository userRepository;
 
     @Autowired
-    SkilltagRepository skilltagRepository;
+    SkillTagRepository skilltagRepository;
 
     @Autowired
     TagPostRelationRepository tagPostRelationRepository;
+
+
+
 
     @BeforeEach
     void dataSetting(){
@@ -80,7 +76,7 @@ class CustomPostRepositoryImplTest {
                             .title("title" + i)
                             .text("text" + i)
                             .type((i % 2 == 0) ? "study" : "project")
-                            .user(userList.get(i % 10))
+                            .author(userList.get(i % 10))
                             .build()
             );
         }
@@ -109,7 +105,7 @@ class CustomPostRepositoryImplTest {
         String type = "";
         String user_id = "";
         List<String> tags = new ArrayList<>();
-
+        User user = null;
 
         //when
         Pageable pageable = PageRequest.of(0, 5);
@@ -123,7 +119,7 @@ class CustomPostRepositoryImplTest {
         for(Post post : PostList){
             System.out.println("--------------------------");
             System.out.println("Post content :" + post.getTitle() + ' ' +  post.getCreateAt());
-            System.out.println("User id : " + post.getUser().getUser_id());
+            System.out.println("User id : " + post.getAuthor().getUser_id());
             System.out.println("--------------------------");
         }
     }
@@ -137,6 +133,7 @@ class CustomPostRepositoryImplTest {
         String type = "";
         String user_id = "user1";
         List<String> tags = new ArrayList<>();
+        User user = null;
         List<Post> postList = new ArrayList<>();
 
         //when
@@ -153,7 +150,7 @@ class CustomPostRepositoryImplTest {
 
         for(Post post : retPostList){
             System.out.println("-----------------");
-            System.out.println("Post user id " + post.getUser().getUser_id());
+            System.out.println("Post user id " + post.getAuthor().getUser_id());
             System.out.println("Post title " + post.getTitle());
             System.out.println("-----------------");
         }
@@ -170,6 +167,7 @@ class CustomPostRepositoryImplTest {
         String type = "";
         String user_id = "";
         List<String> tags = new ArrayList<>();
+        User user = null;
         List<Post> postList = new ArrayList<>();
 
         tags.add("react");
@@ -188,7 +186,7 @@ class CustomPostRepositoryImplTest {
 
         for(Post post : retPostList){
             System.out.println("-----------------");
-            System.out.println("Post user id " + post.getUser().getUser_id());
+            System.out.println("Post user id " + post.getAuthor().getUser_id());
             System.out.println("Post title " + post.getTitle());
             System.out.print("Tag : ");
 
@@ -200,6 +198,30 @@ class CustomPostRepositoryImplTest {
         }
 
         System.out.println("query time : " + querytime);
+
+    }
+
+    @Test
+    @DisplayName("클립한 게시글만 출력")
+    void ClipedPosts(){
+        //given
+        String title = "";
+        String type = "";
+        String user_id = "";
+        List<String> tags = new ArrayList<>();
+        User user = User.builder()
+                .user_id("user1")
+                .build();
+
+        List<Post> postList = new ArrayList<>();
+
+        //when
+        long startmill = System.currentTimeMillis();
+        Pageable pageable = PageRequest.of(0, 5);
+        Page<Post> postPage = postRepository.findPosts(pageable, user_id, title, type, tags);
+        long endmill = System.currentTimeMillis();
+        long querytime = endmill - startmill;
+
 
     }
 
