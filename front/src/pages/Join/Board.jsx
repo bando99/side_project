@@ -62,6 +62,56 @@ const Board = () => {
                     </Bind>
                 </Member>
             </Recruit>
+
+            <Middle>
+                <Person>현재 인원</Person>
+                <Number>3/9</Number>
+            </Middle>
+
+            <Profiles>
+                <Profile>
+                    <Img src="/logo/Profile.png" alt="dd"></Img>
+                    <Nick>닉네임</Nick>
+                    <Part>역할</Part>
+                    <Skill>기술 스택</Skill>
+                    <Career>경력</Career>
+                    <Search>프로필 자세히</Search>
+                </Profile>
+
+                <Profile>
+                    <Img src="/logo/Profile.png" alt="dd"></Img>
+                    <Nick>닉네임</Nick>
+                    <Part>역할</Part>
+                    <Skill>기술 스택</Skill>
+                    <Career>경력</Career>
+                    <Search>프로필 자세히</Search>
+                </Profile>
+
+                <Profile>
+                    <Img src="/logo/Profile.png" alt="dd"></Img>
+                    <Nick>닉네임</Nick>
+                    <Part>역할</Part>
+                    <Skill>기술 스택</Skill>
+                    <Career>경력</Career>
+                    <Search>프로필 자세히</Search>
+                </Profile>
+
+                <Profile>
+                    <Img src="/logo/Profile.png" alt="dd"></Img>
+                    <Nick>닉네임</Nick>
+                    <Part>역할</Part>
+                    <Skill>기술 스택</Skill>
+                    <Career>경력</Career>
+                    <Search>프로필 자세히</Search>
+                </Profile>
+            </Profiles>
+
+            <Last>프로젝트 소개</Last>
+            <LastLine />
+            <Comment />
+
+            <Button>등록하기</Button>
+
         </>
     );
 };
@@ -69,19 +119,21 @@ const Board = () => {
 export default Board;
 
 const Totle = styled.div`
-    width: 100%;
+    width: 90%;
     height: 3rem;
     font-size: 2rem;
-    padding-left: 8rem;
+    margin: 0 auto;
     margin-top: 3rem;
+    padding-left: 12rem;
 `
 
 const OneLine = styled.div`
-    width: 100%;
+    width: 90%;
     height: 3rem;
     font-size: 2rem;
     display: flex;
-    margin-top: 3rem;
+    margin: 0 auto;
+    margin-top: 5rem;
     justify-content: space-around;
 `
 
@@ -101,12 +153,14 @@ const During = styled.div`
 `
 
 const Line = styled.div`
+    width: 90%;
+    border: 2px solid grey;
+    margin: 0 auto;
     margin-top: 3rem;
-    border: 1px solid grey;
 `
 
 const Recruit = styled.div`
-    width: 80%;
+    width: 90%;
     height: 30rem;
     border: 2px solid black;
     background-color: #DAE9FC;
@@ -242,4 +296,111 @@ const People = styled.div`
     font-size: 2rem;
     margin-bottom: 3rem;
     margin-left: 7rem;
+    cursor: pointer;
+`
+
+const Middle = styled.div`
+    display: flex;
+    justify-content: row;
+`
+
+const Person = styled.div`
+    width: 10%;
+    height: 3rem;
+    font-size: 2rem;
+    margin-top: 5rem;
+    padding-left: 7rem;
+    color: #1F7CEB;
+`
+
+const Number = styled.div`
+    width: 30%;
+    height: 3rem;
+    font-size: 2rem;
+    margin-top: 5rem;
+    color: black;
+`
+
+const Profiles = styled.div`
+    margin-top: 5rem;
+    display: flex;
+    justify-content: row;
+    justify-content: space-around;
+`
+
+const Profile = styled.div`
+    width: 15%;
+    height: 30rem;
+    border: 3px solid #DAE9FC;
+    border-radius: 2rem;
+    text-align: center;
+`
+
+const Img = styled.img`
+    margin-top: 2rem;
+`
+
+const Nick = styled.div`
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+`
+
+const Part = styled.div`
+    width: 100%;
+    height: 3rem;
+`
+
+const Skill = styled.div`
+    width: 100%;
+    height: 3rem;
+`
+
+const Career = styled.div`
+    width: 100%;
+    height: 3rem;
+`
+
+const Search = styled.div`
+    width: 100%;
+    height: 3rem;
+`
+
+const Last = styled.div`
+    width: 30%;
+    height: 3rem;
+    font-size: 2rem;
+    margin-top: 3rem;
+    padding-left: 7rem;
+`
+
+const LastLine = styled.div`
+    width: 90%;
+    border: 1px solid black;
+    //#D9D9D9
+    margin: 0 auto;
+    margin-top: 3rem;
+`
+
+const Comment = styled.div`
+    width: 90%;
+    height: 10rem;
+    border: 2px solid black;
+    margin: 0 auto;
+    margin-top: 10rem;
+`
+
+const Button = styled.button`
+    width: 10%;
+    height: 3rem;
+    font-size: 2rem;
+    background-color: #1F7CEB;
+    border: 2px solid black;
+    border-radius: 1rem;
+    display: flex;
+    margin: 0 auto;
+    margin-top: 5rem;
+    justify-content: center;
 `

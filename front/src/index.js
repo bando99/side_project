@@ -5,7 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Project from './pages/Project/Project';
-import Study from './pages/Study';
 import AddPost from './pages/AddPost';
 import Login from './pages/User/Login/Login';
 import IDfound from './pages/User/IDFound/IDfound';
@@ -19,8 +18,12 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Join from './pages/Join/Join';
 import Profile from './pages/Join/Profile';
-import Wiriting from './pages/Join/Writing';
+import Writing from './pages/Join/Writing';
 import Board from './pages/Join/Board';
+import Study from './pages/Study/Study';
+import List from './pages/Join/List';
+import Header from './ components/header/Header';
+import Logo from './ components/header/Logo';
 
 const router = createBrowserRouter([
   {
@@ -43,8 +46,11 @@ const router = createBrowserRouter([
       { path: '/user/pwChange', element: <PWChange /> },
       { path: '/join', element: <Join /> },
       { path: '/profile', element: <Profile /> },
-      { path: '/writing', element: <Wiriting /> },
+      { path: '/writing', element: <Writing /> },
       { path: '/board', element: <Board /> },
+      { path: '/list', element: <List /> },
+      { path: '/header', element: <Header /> },
+      { path: '/logo', element: <Logo /> },
     ],
   },
 ]);
