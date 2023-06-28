@@ -1,114 +1,115 @@
 import React from "react";
 import styled from 'styled-components';
 
-const Profile = () => {
+const ProfileForm = () => {
     return (
         <>
-            <Header>
-                <Pro>프로필등록</Pro>
+            <Container>
+                <Header>프로필 등록</Header>
 
-                <Bind>
-                    <FieldWrapper>
-                        <InputLabel>이름</InputLabel>
-                        <InputField type="text" />
-                    </FieldWrapper>
+                <FieldsWrapper>
+                    <FieldRow>
+                        <FieldWrapper>
+                            <InputLabel>이름</InputLabel>
+                            <InputField type="text" />
+                        </FieldWrapper>
 
-                    <FieldWrapper>
-                        <InputLabel>전화번호</InputLabel>
-                        <InputField type="text" />
-                    </FieldWrapper>
-                </Bind>
+                        <FieldWrapper>
+                            <InputLabel>전화번호</InputLabel>
+                            <InputField type="text" />
+                        </FieldWrapper>
+                    </FieldRow>
 
-                <Bind>
-                    <FieldWrapper>
-                        <InputLabel>학교</InputLabel>
-                        <InputField type="text" />
-                    </FieldWrapper>
+                    <FieldRow>
+                        <FieldWrapper>
+                            <InputLabel>학교</InputLabel>
+                            <InputField type="text" />
+                        </FieldWrapper>
 
-                    <FieldWrapper>
-                        <InputLabel>전공</InputLabel>
-                        <InputField type="text" />
-                    </FieldWrapper>
-                </Bind>
+                        <FieldWrapper>
+                            <InputLabel>전공</InputLabel>
+                            <InputField type="text" />
+                        </FieldWrapper>
+                    </FieldRow>
 
-                <Bind>
-                    <FieldWrapper>
-                        <InputLabel>이메일 주소</InputLabel>
-                        <InputField type="email" />
-                    </FieldWrapper>
+                    <FieldRow>
+                        <FieldWrapper>
+                            <InputLabel>이메일 주소</InputLabel>
+                            <InputField type="email" />
+                        </FieldWrapper>
 
-                    <FieldWrapper>
-                        <InputLabel>졸업여부</InputLabel>
-                        <InputField type="text" />
-                    </FieldWrapper>
-                </Bind>
-            </Header>
-
-            <Button>
+                        <FieldWrapper>
+                            <InputLabel>졸업 여부</InputLabel>
+                            <InputField type="text" />
+                        </FieldWrapper>
+                    </FieldRow>
+                </FieldsWrapper>
+            </Container>
+            <ButtonWrapper>
                 <BackButton>이전으로</BackButton>
                 <NextButton>다음</NextButton>
-            </Button>
+            </ButtonWrapper>
         </>
     );
 }
 
-export default Profile;
+export default ProfileForm;
 
-const Header = styled.div`
+const Container = styled.div`
     width: 50%;
     height: 50rem;
     border: 2px solid black;
     border-radius: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0 auto;
-    margin-top: 5rem;
-    margin-bottom: 5rem;
+    margin: 5rem auto;
     background-color: #DAE9FC;
     font-size: 2rem;
+    overflow: hidden;
 `
 
-const Bind = styled.div`
+const Header = styled.div`
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    flex-wrap: wrap; /* 요소들이 한 줄에 다 들어가지 않을 경우 여러 줄에 걸쳐 표시 */
+    justify-content: center;
+    align-items: center;
+    height: 5rem;
+    font-size: 3rem;
+`
+
+const FieldsWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+`
+
+const FieldRow = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5rem;
 `
 
 const FieldWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin-left: 2rem;
-    margin-right: 2rem;
-    flex-grow: 1; /* 공간을 균등하게 차지 */
-`
-
-
-const Pro = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 3rem;
+    flex-basis: calc(50% - 1rem);
+    flex-grow: 1;
 `
 
 const InputLabel = styled.div`
-    margin-top: 5rem;
-    align-self: flex-start;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
 `
 
 const InputField = styled.input`
     height: 3rem;
+    width: 80%;
     border: 2px solid black;
     border-radius: 1rem;
     font-size: 2rem;
 `
 
-const Button = styled.div`
+const ButtonWrapper = styled.div`
     display: flex;
     justify-content: center;
-    margin-bottom: 3rem;
+    margin-top: 2rem;
 `
 
 const BackButton = styled.button`
@@ -131,3 +132,4 @@ const NextButton = styled.button`
     font-size: 2rem;
     margin-left: 2rem;
 `
+
