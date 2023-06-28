@@ -21,9 +21,10 @@ import Profile from './pages/Join/Profile';
 import Writing from './pages/Join/Writing';
 import Board from './pages/Join/Board';
 import Study from './pages/Study/Study';
-import List from './pages/Join/List';
+import Lists from './pages/Join/Lists';
 import Header from './ components/header/Header';
 import Logo from './ components/header/Logo';
+import List from './pages/Join/List';
 
 const router = createBrowserRouter([
   {
@@ -48,9 +49,10 @@ const router = createBrowserRouter([
       { path: '/profile', element: <Profile /> },
       { path: '/writing', element: <Writing /> },
       { path: '/board', element: <Board /> },
-      { path: '/list', element: <List /> },
+      { path: '/lists', element: <Lists /> },
       { path: '/header', element: <Header /> },
       { path: '/logo', element: <Logo /> },
+      { path: '/list', element: <List /> },
     ],
   },
 ]);
