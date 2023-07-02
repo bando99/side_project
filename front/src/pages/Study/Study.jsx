@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Study.module.css';
 import Tag from '../../ components/tag/Tag';
+import Project from '../Join/Project';
 
 export default function Study() {
   return (
@@ -58,6 +59,20 @@ export default function Study() {
           <span className={styles.toggle__text}>모집 중</span>
           <input className={styles.toggleBtn} role="switch" type="checkbox" />
         </label>
+      </div>
+      <div className={styles.projectGrid}>
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
       </div>
     </section>
   );
