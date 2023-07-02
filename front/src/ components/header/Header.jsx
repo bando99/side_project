@@ -17,9 +17,9 @@ const Header = (props) => {
     navigate('/project');
   };
 
-  // const handle회원가입 주소 = () => {
-  //   navigate('/회원가입 이동');
-  // };
+  const handleJoin = () => {
+    navigate('/join');
+  };
 
   const handleLogin = () => {
     navigate('/user/login');
@@ -33,7 +33,7 @@ const Header = (props) => {
         <Title onClick={handleProject}>프로젝트</Title>
         <SearchInput type="text" placeholder="검색하기" />
         <LogButtons>
-          <Button>회원가입</Button>
+          <Button onClick={handleJoin}>회원가입</Button>
           <Button onClick={handleLogin}>로그인</Button>
         </LogButtons>
       </HeaderContainer>
@@ -64,20 +64,19 @@ const Title = styled.h1`
 
 const SearchInput = styled.input`
   width: 30%;
-    height: 40%;
-    border-radius: 1rem;
-    font-size: 1rem;
+  height: 40%;
+  border-radius: 1rem;
+  font-size: 1rem;
 `;
 
-const LogButtons = styled.div`
-`;
+const LogButtons = styled.div``;
 
 const Button = styled.button`
-    margin-left: 1rem;
-    font-size: 1.2rem;
-    background-color: yellowgreen;
-    border: 2px solid black;
-    cursor: pointer;
+  margin-left: 1rem;
+  font-size: 1.2rem;
+  background-color: yellowgreen;
+  border: 2px solid black;
+  cursor: pointer;
 `;
 
 export default Header;

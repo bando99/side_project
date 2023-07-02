@@ -1,8 +1,10 @@
 import React from 'react';
 import styles from './Project.module.css';
 import Tag from '../../ components/tag/Tag';
+import Project from '../Join/Project';
+import Lists from '../Join/Lists';
 
-export default function Project() {
+export default function ProjectPage() {
   return (
     <section>
       <div className={styles.header}>
@@ -58,6 +60,20 @@ export default function Project() {
           <span className={styles.toggle__text}>모집 중</span>
           <input className={styles.toggleBtn} role="switch" type="checkbox" />
         </label>
+      </div>
+      <div className={styles.projectGrid}>
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
+        <Project />
       </div>
     </section>
   );

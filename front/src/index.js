@@ -4,7 +4,6 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Project from './pages/Project/Project';
 import AddPost from './pages/AddPost';
 import Login from './pages/User/Login/Login';
 import IDfound from './pages/User/IDFound/IDfound';
@@ -24,6 +23,7 @@ import MyPage from './pages/User/MyPage/MyPage';
 import Lists from './pages/Join/Lists';
 import Header from './ components/header/Header';
 import Logo from './ components/header/Logo';
+import ProjectPage from './pages/Project/ProjectPage';
 
 const router = createBrowserRouter([
   {
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, path: '/', element: <Home /> },
-      { path: '/project', element: <Project /> },
+      { path: '/project', element: <ProjectPage /> },
       { path: '/study', element: <Study /> },
       { path: '/Addpost', element: <AddPost /> },
       { path: '/postDetail/:post', element: <PostDetail /> },

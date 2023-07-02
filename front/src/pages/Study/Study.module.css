@@ -145,3 +145,11 @@ select {
   outline-offset: max(2px, 0.1em);
   outline: max(2px, 0.1em) solid tomato;
 }
+
+.projectGrid {
+  margin-top: 1rem;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1rem;
+}
