@@ -1,6 +1,8 @@
 import './App.css';
 import { Outlet } from 'react-router-dom';
 import Home from './pages/Home';
+import Header from './ components/header/Header';
+import Footer from './ components/header/Footer';
 
 function App() {
   return (

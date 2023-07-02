@@ -56,3 +56,73 @@
   content: ' | '; /* 수정: 구분선으로 사용할 문자 또는 기호를 넣어주세요 */
   margin-left: 0.5rem; /* 수정: 수정과 삭제 사이의 간격 조정 */
 }
+
+.newBox {
+  border: 2px solid #d2e2ec;
+  display: flex;
+  justify-content: space-between;
+  width: 93%;
+  margin: auto;
+}
+
+.leftBox {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  background: url('../../public/icons/click.png');
+  background-size: cover;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0.5rem;
+}
+
+.textContainer {
+  padding: 0.5rem;
+  margin: 1rem;
+}
+
+.line1 {
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.line2 {
+  font-size: 0.7rem;
+}
+
+.rightBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn1 {
+  background: none;
+  padding: 1.5rem 0.7rem;
+  border: 0.1rem solid #1f7ceb;
+  color: #1f7ceb;
+  font-size: 0.7rem;
+  margin: 0.3rem;
+
+  width: 5.5rem;
+
+  border-radius: 0.5rem;
+}
+
+.btn2 {
+  background: none;
+  padding: 1.5rem 0.7rem;
+
+  background-color: #1f7ceb;
+  color: white;
+  font-size: 0.7rem;
+  margin: 0.3rem;
+
+  width: 5.5rem;
+
+  border: none;
+
+  border-radius: 0.5rem;
+}
