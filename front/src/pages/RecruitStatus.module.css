@@ -1,0 +1,58 @@
+.container {
+  padding: 4rem;
+}
+
+.main__title {
+  font-size: 0.8rem;
+  margin-left: 2.5rem;
+}
+
+.myBox {
+  display: flex;
+  justify-content: center;
+}
+
+.myRecruit {
+  background-color: #dae9fc;
+  margin: 1rem;
+  width: 45%;
+  height: 12rem;
+  border-radius: 1rem;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  margin: 1rem;
+  font-size: 1.1rem;
+}
+
+.content__container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.truncate {
+  margin-left: 1rem;
+
+  font-size: 0.8rem;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 70%;
+}
+
+.options {
+  font-size: 0.8rem;
+  margin-right: 1.5rem;
+}
+
+.options span {
+  position: relative;
+}
+
+.options span:not(:last-child)::after {
+  content: ' | '; /* 수정: 구분선으로 사용할 문자 또는 기호를 넣어주세요 */
+  margin-left: 0.5rem; /* 수정: 수정과 삭제 사이의 간격 조정 */
+}

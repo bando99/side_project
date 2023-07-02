@@ -5,8 +5,11 @@ import Home from './pages/Home';
 function App() {
   return (
     <>
-      <Home />
-      <Outlet />
+      <Header />
+      <div className="content">
+        <Outlet />
+      </div>
+      <Footer />
     </>
   );
 }

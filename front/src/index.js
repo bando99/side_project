@@ -10,7 +10,6 @@ import Login from './pages/User/Login/Login';
 import IDfound from './pages/User/IDFound/IDfound';
 import PWfound from './pages/User/PWfound/PWfound';
 import PWChange from './pages/User/PWChange/PWChange';
-import MyPage from './pages/User/MyPage';
 import PostDetail from './pages/PostDetail';
 import Assign from './pages/Assign';
 import RecruitStatus from './pages/RecruitStatus';
@@ -21,6 +20,7 @@ import Profile from './pages/Join/Profile';
 import Writing from './pages/Join/Writing';
 import Board from './pages/Join/Board';
 import Study from './pages/Study/Study';
+import MyPage from './pages/User/MyPage/MyPage';
 import Lists from './pages/Join/Lists';
 import Header from './ components/header/Header';
 import Logo from './ components/header/Logo';
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
       { path: '/postDetail/:post', element: <PostDetail /> },
       { path: '/postDetail/assign/:post', element: <Assign /> },
       { path: '/mypage', element: <MyPage /> },
-      { path: '/mypage/recruit/:post', element: <RecruitStatus /> },
+      { path: '/mypage/recruit', element: <RecruitStatus /> },
       { path: '/mypage/addPost', element: <AddPost /> },
       { path: '/user/login', element: <Login /> },
       { path: '/user/idFound', element: <IDfound /> },
