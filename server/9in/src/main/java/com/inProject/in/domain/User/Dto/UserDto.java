@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 //유효성 검사 수행을 위해서는 controller에서 사용할 때 requestbody에 추가로 @Validated 어노테이션 지정 필요.
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -1,0 +1,66 @@
+package com.inProject.in.domain.RoleNeeded.service.Impl;
+
+import com.inProject.in.domain.Post.entity.Post;
+import com.inProject.in.domain.Post.repository.PostRepository;
+import com.inProject.in.domain.RoleNeeded.Dto.ResponseRoleNeededDto;
+import com.inProject.in.domain.RoleNeeded.Dto.RoleNeededDto;
+import com.inProject.in.domain.RoleNeeded.entity.RoleNeeded;
+import com.inProject.in.domain.RoleNeeded.repository.RoleNeededRepository;
+import com.inProject.in.domain.RoleNeeded.service.RoleNeededService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class RoleNeededServiceImpl implements RoleNeededService {
+
+    private PostRepository postRepository;
+    private RoleNeededRepository roleNeededRepository;
+    @Autowired
+    public RoleNeededServiceImpl(PostRepository postRepository, RoleNeededRepository roleNeededRepository){
+        this.postRepository = postRepository;
+        this.roleNeededRepository = roleNeededRepository;
+    }
+
+    @Override
+    public ResponseRoleNeededDto getRoleNeeded(Long post_id) {
+
+        return null;
+    }
+
+    @Override
+    public List<ResponseRoleNeededDto> createRoleNeededs(List<RoleNeededDto> roleNeededDtoList, Long post_id) {
+        List<ResponseRoleNeededDto> responseRoleNeededDtoList = new ArrayList<>();
+
+        for(RoleNeededDto roleNeededDto : roleNeededDtoList){
+            RoleNeeded roleNeeded = RoleNeeded.builder()
+                    .name(roleNeededDto.getName())
+                    .pre_cnt(0)
+                    .want_cnt(roleNeededDto.getWant_cnt())
+                    .build();
+
+            RoleNeeded savedRoleNeeded = roleNeededRepository.save(roleNeeded);
+
+            ResponseRoleNeededDto responseRoleNeededDto = ResponseRoleNeededDto.builder()
+                    .name(savedRoleNeeded.getName())
+                    .pre_cnt(savedRoleNeeded.getPre_cnt())
+                    .want_cnt(savedRoleNeeded.getWant_cnt())
+                    .build();
+
+            responseRoleNeededDtoList.add(responseRoleNeededDto);
+
+        }
+        return responseRoleNeededDtoList;
+    }
+
+    @Override
+    public ResponseRoleNeededDto updateRoleNeeded(Long post_id, RoleNeededDto roleNeededDto) {
+
+        return null;
+    }
+
+    @Override
+    public void deleteRoleNeeded(Long id) {
+
+    }
+}

@@ -28,7 +28,7 @@ const BottomImg = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 2rem;
+  margin-top: 7rem;
 `;
 
 const BottomWriting = styled.div`
