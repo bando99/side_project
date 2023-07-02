@@ -9,6 +9,10 @@ export default function MyPage() {
     navigate('/mypage/recruit');
   };
 
+  const handleClip = () => {
+    navigate('/mypage/clip');
+  };
+
   return (
     <section>
       <div className={styles.header__container}>
@@ -63,7 +67,7 @@ export default function MyPage() {
           <button className={styles.modifyBtn}>수정하기</button>
         </div>
         <div className={styles.total__blue__container}>
-          <div className={styles.blue__container}>
+          <div className={styles.blue__container} onClick={handleClip}>
             <div className={styles.blue__box}>
               <div className={styles.clipIcon}></div>
               <span>클립 해놓은 게시물</span>
