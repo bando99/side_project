@@ -1,7 +1,14 @@
 import React from 'react';
 import styles from './MyPage.module.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function MyPage() {
+  const navigate = useNavigate();
+
+  const handleRecruit = () => {
+    navigate('/mypage/recruit');
+  };
+
   return (
     <section>
       <div className={styles.header__container}>
@@ -63,7 +70,7 @@ export default function MyPage() {
             </div>
             <p className={styles.count}>3</p>
           </div>
-          <div className={styles.blue__container}>
+          <div className={styles.blue__container} onClick={handleRecruit}>
             <div className={styles.blue__box}>
               <div className={styles.recruitIcon}></div>
               <span>모집 현황</span>

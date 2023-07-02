@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       { path: '/postDetail/:post', element: <PostDetail /> },
       { path: '/postDetail/assign/:post', element: <Assign /> },
       { path: '/mypage', element: <MyPage /> },
-      { path: '/mypage/recruit/:post', element: <RecruitStatus /> },
+      { path: '/mypage/recruit', element: <RecruitStatus /> },
       { path: '/mypage/addPost', element: <AddPost /> },
       { path: '/user/login', element: <Login /> },
       { path: '/user/idFound', element: <IDfound /> },

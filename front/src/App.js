@@ -9,8 +9,11 @@ import Logo from './ components/header/Logo';
 function App() {
   return (
     <>
-      <Home />
-      <Outlet />
+      <Header />
+      <div className="content">
+        <Outlet />
+      </div>
+      <Footer />
     </>
   );
 }
