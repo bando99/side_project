@@ -3,10 +3,7 @@ package com.inProject.in.domain.MToNRelation.RolePostRelation.entity;
 import com.inProject.in.Global.BaseEntity;
 import com.inProject.in.domain.Post.entity.Post;
 import com.inProject.in.domain.RoleNeeded.entity.RoleNeeded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -26,4 +23,10 @@ public class RolePostRelation extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
+    @Column
+    private int pre_cnt;
+
+    @Column
+    private int want_cnt;
+
 }

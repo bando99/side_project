@@ -4,6 +4,7 @@ import com.inProject.in.domain.MToNRelation.TagPostRelation.Dto.TagPostRelationD
 import com.inProject.in.domain.Post.Dto.PostDto;
 import com.inProject.in.domain.Post.Dto.ResponsePostDto;
 import com.inProject.in.domain.Post.entity.Post;
+import com.inProject.in.domain.RoleNeeded.Dto.RoleNeededDto;
 import com.inProject.in.domain.SkillTag.Dto.SkillTagDto;
 import com.inProject.in.domain.User.entity.User;
 import org.springframework.data.domain.Page;
@@ -16,7 +17,7 @@ import java.util.List;
 public interface PostService {
     ResponsePostDto getPost(Long id);
 
-    ResponsePostDto createPost(PostDto postDto, List<SkillTagDto> skillTagDtoList);
+    ResponsePostDto createPost(PostDto postDto, List<SkillTagDto> skillTagDtoList, List<RoleNeededDto> roleNeededDtoList);
 
     ResponsePostDto updatePost(Long id, PostDto postDto);
 

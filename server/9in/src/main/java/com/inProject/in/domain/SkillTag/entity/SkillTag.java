@@ -20,5 +20,5 @@ public class SkillTag extends BaseEntity {
     private String name;
     @OneToMany(mappedBy = "skillTag", fetch = FetchType.EAGER)
     @ToString.Exclude
-    private List<TagPostRelation> tagPostRelationList = new ArrayList<>();
+    private List<TagPostRelation> tagPostRelationList;
 }

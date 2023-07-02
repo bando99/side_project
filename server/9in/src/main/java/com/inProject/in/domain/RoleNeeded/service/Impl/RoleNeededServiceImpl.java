@@ -35,16 +35,12 @@ public class RoleNeededServiceImpl implements RoleNeededService {
         for(RoleNeededDto roleNeededDto : roleNeededDtoList){
             RoleNeeded roleNeeded = RoleNeeded.builder()
                     .name(roleNeededDto.getName())
-                    .pre_cnt(0)
-                    .want_cnt(roleNeededDto.getWant_cnt())
                     .build();
 
             RoleNeeded savedRoleNeeded = roleNeededRepository.save(roleNeeded);
 
             ResponseRoleNeededDto responseRoleNeededDto = ResponseRoleNeededDto.builder()
                     .name(savedRoleNeeded.getName())
-                    .pre_cnt(savedRoleNeeded.getPre_cnt())
-                    .want_cnt(savedRoleNeeded.getWant_cnt())
                     .build();
 
             responseRoleNeededDtoList.add(responseRoleNeededDto);

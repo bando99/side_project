@@ -63,7 +63,7 @@ class CustomPostRepositoryImplTest {
         for(int i = 0 ; i < 10 ; i++){
             userList.add(
                     User.builder()
-                            .user_id("user" + i)
+                            .username("user" + i)
                             .mail("user" + i + "@naver.com")
                             .password(Integer.toString(i))
                             .build()
@@ -119,7 +119,7 @@ class CustomPostRepositoryImplTest {
         for(Post post : PostList){
             System.out.println("--------------------------");
             System.out.println("Post content :" + post.getTitle() + ' ' +  post.getCreateAt());
-            System.out.println("User id : " + post.getAuthor().getUser_id());
+            System.out.println("User id : " + post.getAuthor().getUsername());
             System.out.println("--------------------------");
         }
     }
@@ -150,7 +150,7 @@ class CustomPostRepositoryImplTest {
 
         for(Post post : retPostList){
             System.out.println("-----------------");
-            System.out.println("Post user id " + post.getAuthor().getUser_id());
+            System.out.println("Post user id " + post.getAuthor().getUsername());
             System.out.println("Post title " + post.getTitle());
             System.out.println("-----------------");
         }
@@ -186,7 +186,7 @@ class CustomPostRepositoryImplTest {
 
         for(Post post : retPostList){
             System.out.println("-----------------");
-            System.out.println("Post user id " + post.getAuthor().getUser_id());
+            System.out.println("Post user id " + post.getAuthor().getUsername());
             System.out.println("Post title " + post.getTitle());
             System.out.print("Tag : ");
 
@@ -210,7 +210,7 @@ class CustomPostRepositoryImplTest {
         String user_id = "";
         List<String> tags = new ArrayList<>();
         User user = User.builder()
-                .user_id("user1")
+                .username("user1")
                 .build();
 
         List<Post> postList = new ArrayList<>();

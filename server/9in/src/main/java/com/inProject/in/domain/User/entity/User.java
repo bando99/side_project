@@ -6,6 +6,7 @@ import com.inProject.in.domain.MToNRelation.ApplicantPostRelation.entity.Applica
 import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.entity.ApplicantRoleRelation;
 import com.inProject.in.domain.MToNRelation.ClipPostRelation.entity.ClipPostRelation;
 import com.inProject.in.domain.Post.entity.Post;
+import com.inProject.in.domain.User.Dto.UserDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,7 +25,7 @@ import java.util.List;
 public class User extends BaseEntity {
 
     @Column(nullable = false)
-    private String user_id;
+    private String username;
 
     @Column(nullable = false)
     private String password;
@@ -34,7 +35,7 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     @ToString.Exclude
-    private List<Post> authoredPostList = new ArrayList<>();   //작성한 글들
+    private List<Post> authoredPostList;   //작성한 글들
 
     @OneToMany(mappedBy = "post_applicant", fetch = FetchType.EAGER)
     @ToString.Exclude
@@ -58,6 +59,17 @@ public class User extends BaseEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void updateUser(UserDto userDto){
+        this.username = userDto.getUsername();
+        this.password = userDto.getPassword();
+        this.mail = userDto.getMail();
+        this.authoredPostList = userDto.getAuthoredPostList();
+        this.applicantPostRelationList = userDto.getApplicantPostRelationList();
+        this.applicantRoleRelationList = userDto.getApplicantRoleRelationList();
+        this.clipPostRelationList = userDto.getClipPostRelationList();
+        this.commentList = userDto.getCommentList();
     }
 
 }
