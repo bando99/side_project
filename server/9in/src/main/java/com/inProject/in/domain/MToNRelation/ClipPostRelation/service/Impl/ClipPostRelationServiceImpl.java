@@ -39,10 +39,10 @@ public class ClipPostRelationServiceImpl implements ClipPostRelationService {
 
 
         User user = userRepository.findById(user_id)
-                .orElseThrow(() -> new IllegalArgumentException("clickClip에서 유효하지 않은 user id : " + user_id));
+                .orElseThrow(() -> new IllegalArgumentException("insert Clip에서 유효하지 않은 user id : " + user_id));
 
         Post post = postRepository.findById(post_id)
-                .orElseThrow(() -> new IllegalArgumentException("clickClip에서 유효하지 않은 post id : " + post_id));
+                .orElseThrow(() -> new IllegalArgumentException("insert Clip에서 유효하지 않은 post id : " + post_id));
 
         log.info("Using insertClip in clip Service ==> post_id : " + post_id + " user_id : " + user_id);
 
@@ -69,13 +69,13 @@ public class ClipPostRelationServiceImpl implements ClipPostRelationService {
     public ResponseClipPostRelationDto deleteClip(Long user_id, Long post_id) {
 
         User user = userRepository.findById(user_id)
-                .orElseThrow(() -> new IllegalArgumentException("clickClip에서 유효하지 않은 user id : " + user_id));
+                .orElseThrow(() -> new IllegalArgumentException("delete Clip에서 유효하지 않은 user id : " + user_id));
 
         Post post = postRepository.findById(post_id)
-                .orElseThrow(() -> new IllegalArgumentException("clickClip에서 유효하지 않은 post id : " + post_id));
+                .orElseThrow(() -> new IllegalArgumentException("delete Clip에서 유효하지 않은 post id : " + post_id));
 
         ClipPostRelation clipPostRelation = clipPostRelationRepository.findClipedPost(user, post)
-                .orElseThrow(() -> new IllegalArgumentException("좋아요 등록이 되지 않은 게시글 : " + user_id + " " + post_id));
+                .orElseThrow(() -> new IllegalArgumentException("좋아요 등록이 되지 않은 게시글 ==> user id : " + user_id + " post id : " + post_id));
 
         log.info("Using deleteClip in clip service ==> post_id " + post_id + " user_id " + user_id);
         log.info("delete Clip Post Relation ==> relation_id " + clipPostRelation.getId());
