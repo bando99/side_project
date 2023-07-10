@@ -23,7 +23,5 @@ public class ApplicantPostRelation extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User post_applicant;
-    @Column
-    private String name;
 
 }

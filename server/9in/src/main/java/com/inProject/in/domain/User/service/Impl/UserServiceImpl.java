@@ -20,46 +20,34 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public ResponseUserDto getUser(Long id) {
-        User user = userRepository.findById(id).get();
-        ResponseUserDto responseUserDto = new ResponseUserDto();
-
-        responseUserDto.setId(user.getId());
-        responseUserDto.setUser_id(user.getUser_id());
-        responseUserDto.setMail(user.getMail());
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("getUser에서 유효하지 않은 id " + id));
+        ResponseUserDto responseUserDto = new ResponseUserDto(user);
 
         return responseUserDto;
     }
 
     @Override
     public ResponseUserDto createUser(UserDto userdto) {
-        User user = User.builder()
-                .user_id(userdto.getUser_id())
-                .password(userdto.getPassword())
-                .mail(userdto.getMail())
-                .build();                      //builder pattern
+
+        User user = userdto.toEntity();
 
         User savedUser = userRepository.save(user);
-        ResponseUserDto responseUserDto = new ResponseUserDto();
-        responseUserDto.setId(savedUser.getId());
-        responseUserDto.setUser_id(savedUser.getUser_id());
-        responseUserDto.setMail(savedUser.getMail());
+        ResponseUserDto responseUserDto = new ResponseUserDto(user);
 
         return responseUserDto;
     }
 
     @Override
     public ResponseUserDto updateUser(Long id, UserDto userdto) {
-        User user = userRepository.findById(id).get();   //예외처리 추가 가능.
-        user.setUser_id(userdto.getUser_id());
-        user.setPassword(userdto.getPassword());
-        user.setMail(userdto.getMail());
 
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("updateUser에서 유효하지 않은 id " + id));
+
+        user.updateUser(userdto);
         User updatedUser = userRepository.save(user);
-        ResponseUserDto responseUserDto = new ResponseUserDto();
-        responseUserDto.setId(updatedUser.getId());
-        responseUserDto.setUser_id(updatedUser.getUser_id());
-        responseUserDto.setMail(updatedUser.getMail());
 
+        ResponseUserDto responseUserDto = new ResponseUserDto(updatedUser);
         return responseUserDto;
     }
 

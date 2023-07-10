@@ -15,10 +15,10 @@ import lombok.*;
 @Table(name = "tagPostRelation")
 public class TagPostRelation extends BaseEntity {
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "skillTag_id")
     private SkillTag skillTag;
 }

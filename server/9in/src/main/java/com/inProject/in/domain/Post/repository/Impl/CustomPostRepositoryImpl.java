@@ -46,11 +46,11 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     }
 
     @Override
-    public Page<Post> findPosts(Pageable pageable, String user_id, String title, String type, List<String> tags) {
+    public Page<Post> findPosts(Pageable pageable, String username, String title, String type, List<String> tags) {
 
         List<Post> content = jpaQueryFactory
                 .selectFrom(qPost)
-                .where(UserIdEq(user_id), TitleEq(title), TypeEq(type), TagsEq(tags))
+                .where(UserIdEq(username), TitleEq(title), TypeEq(type), TagsEq(tags))
                 .orderBy(qPost.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -85,7 +85,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     }
 
 
-    private BooleanExpression UserIdEq(String user_id){ return user_id.isBlank() != true ? qPost.author.user_id.eq(user_id) : null; }
+    private BooleanExpression UserIdEq(String username){ return username.isBlank() != true ? qPost.author.username.eq(username) : null; }
 
     private BooleanExpression TitleEq(String title){
         return title.isBlank() != true ? qPost.title.eq(title) : null;

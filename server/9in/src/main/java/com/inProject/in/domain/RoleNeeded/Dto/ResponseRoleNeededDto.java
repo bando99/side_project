@@ -8,6 +8,7 @@ import lombok.*;
 @ToString
 @Builder
 public class ResponseRoleNeededDto {
+    private Long id;
     private String name;
     private int pre_cnt;
     private int want_cnt;

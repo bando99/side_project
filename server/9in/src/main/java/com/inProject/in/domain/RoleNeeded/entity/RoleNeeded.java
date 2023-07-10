@@ -22,13 +22,9 @@ import java.util.List;
 public class RoleNeeded extends BaseEntity {
     @Column
     private String name;
-    @Column
-    private int pre_cnt;
-    @Column
-    private int want_cnt;
     @OneToMany(mappedBy = "roleNeeded", fetch = FetchType.EAGER)
-    private List<RolePostRelation> rolePostRelationList = new ArrayList<>();               //여러 게시글과 연관
+    private List<RolePostRelation> rolePostRelationList;              //여러 게시글과 연관
 
     @OneToMany(mappedBy = "roleNeeded", fetch = FetchType.EAGER)
-    private List<ApplicantRoleRelation> applicantRoleRelationList = new ArrayList<>();   //여러 지원자들과 연관
+    private List<ApplicantRoleRelation> applicantRoleRelationList;   //여러 지원자들과 연관
 }
