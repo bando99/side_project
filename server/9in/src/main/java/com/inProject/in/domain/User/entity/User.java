@@ -1,11 +1,11 @@
 package com.inProject.in.domain.User.entity;
 
 import com.inProject.in.Global.BaseEntity;
+import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.Comment.entity.Comment;
-import com.inProject.in.domain.MToNRelation.ApplicantPostRelation.entity.ApplicantPostRelation;
+import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.entity.ApplicantBoardRelation;
 import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.entity.ApplicantRoleRelation;
-import com.inProject.in.domain.MToNRelation.ClipPostRelation.entity.ClipPostRelation;
-import com.inProject.in.domain.Post.entity.Post;
+import com.inProject.in.domain.MToNRelation.ClipBoardRelation.entity.ClipBoardRelation;
 import com.inProject.in.domain.User.Dto.UserDto;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,19 +35,19 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     @ToString.Exclude
-    private List<Post> authoredPostList;   //작성한 글들
+    private List<Board> authoredBoardList;   //작성한 글들
 
     @OneToMany(mappedBy = "post_applicant", fetch = FetchType.EAGER)
     @ToString.Exclude
-    private List<ApplicantPostRelation> applicantPostRelationList = new ArrayList<>(); //지원한 게시글들
+    private List<ApplicantBoardRelation> applicantBoardRelationList; //지원한 게시글들
 
     @OneToMany(mappedBy = "role_applicant", fetch = FetchType.EAGER)
     @ToString.Exclude
-    private List<ApplicantRoleRelation> applicantRoleRelationList = new ArrayList<>();  //지원한 역할
+    private List<ApplicantRoleRelation> applicantRoleRelationList;  //지원한 역할
 
     @OneToMany(mappedBy = "clipUser")
     @ToString.Exclude
-    private List<ClipPostRelation> clipPostRelationList = new ArrayList<>(); //관심 클립으로 지정한 게시글들
+    private List<ClipBoardRelation> clipBoardRelationList; //관심 클립으로 지정한 게시글들
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @ToString.Exclude
@@ -65,10 +65,10 @@ public class User extends BaseEntity {
         this.username = userDto.getUsername();
         this.password = userDto.getPassword();
         this.mail = userDto.getMail();
-        this.authoredPostList = userDto.getAuthoredPostList();
-        this.applicantPostRelationList = userDto.getApplicantPostRelationList();
+        this.authoredBoardList = userDto.getAuthoredBoardList();
+        this.applicantBoardRelationList = userDto.getApplicantBoardRelationList();
         this.applicantRoleRelationList = userDto.getApplicantRoleRelationList();
-        this.clipPostRelationList = userDto.getClipPostRelationList();
+        this.clipBoardRelationList = userDto.getClipBoardRelationList();
         this.commentList = userDto.getCommentList();
     }
 

@@ -1,11 +1,10 @@
 package com.inProject.in.domain.SkillTag.entity;
 
 import com.inProject.in.Global.BaseEntity;
-import com.inProject.in.domain.MToNRelation.TagPostRelation.entity.TagPostRelation;
+import com.inProject.in.domain.MToNRelation.TagBoardRelation.entity.TagBoardRelation;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,5 +19,5 @@ public class SkillTag extends BaseEntity {
     private String name;
     @OneToMany(mappedBy = "skillTag", fetch = FetchType.EAGER)
     @ToString.Exclude
-    private List<TagPostRelation> tagPostRelationList;
+    private List<TagBoardRelation> tagBoardRelationList;
 }

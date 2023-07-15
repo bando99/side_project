@@ -1,7 +1,6 @@
 package com.inProject.in.domain.RoleNeeded.service.Impl;
 
-import com.inProject.in.domain.Post.entity.Post;
-import com.inProject.in.domain.Post.repository.PostRepository;
+import com.inProject.in.domain.Board.repository.BoardRepository;
 import com.inProject.in.domain.RoleNeeded.Dto.ResponseRoleNeededDto;
 import com.inProject.in.domain.RoleNeeded.Dto.RoleNeededDto;
 import com.inProject.in.domain.RoleNeeded.entity.RoleNeeded;
@@ -14,11 +13,11 @@ import java.util.List;
 
 public class RoleNeededServiceImpl implements RoleNeededService {
 
-    private PostRepository postRepository;
+    private BoardRepository boardRepository;
     private RoleNeededRepository roleNeededRepository;
     @Autowired
-    public RoleNeededServiceImpl(PostRepository postRepository, RoleNeededRepository roleNeededRepository){
-        this.postRepository = postRepository;
+    public RoleNeededServiceImpl(BoardRepository boardRepository, RoleNeededRepository roleNeededRepository){
+        this.boardRepository = boardRepository;
         this.roleNeededRepository = roleNeededRepository;
     }
 

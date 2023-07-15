@@ -1,6 +1,6 @@
 package com.inProject.in.domain.SkillTag.Dto;
 
-import com.inProject.in.domain.MToNRelation.TagPostRelation.entity.TagPostRelation;
+import com.inProject.in.domain.MToNRelation.TagBoardRelation.entity.TagBoardRelation;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -13,5 +13,5 @@ import java.util.List;
 @Builder
 public class ResponseSkillTagDto {
     private String name;
-    private List<TagPostRelation> tagPostRelationList = new ArrayList<>();
+    private List<TagBoardRelation> tagBoardRelationList = new ArrayList<>();
 }

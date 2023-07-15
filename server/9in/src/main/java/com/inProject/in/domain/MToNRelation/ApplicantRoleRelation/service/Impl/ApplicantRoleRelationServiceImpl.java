@@ -1,20 +1,6 @@
 package com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.service.Impl;
 
-import com.inProject.in.domain.MToNRelation.ApplicantPostRelation.Dto.ResponseApplicantPostDto;
-import com.inProject.in.domain.MToNRelation.ApplicantPostRelation.entity.ApplicantPostRelation;
-import com.inProject.in.domain.MToNRelation.ApplicantPostRelation.service.Impl.ApplicantPostRelationServiceImpl;
-import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.Dto.ResponseApplicantRoleDto;
-import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.entity.ApplicantRoleRelation;
-import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.repository.ApplicantRoleRelationRepository;
 import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.service.ApplicantRoleRelationService;
-import com.inProject.in.domain.Post.entity.Post;
-import com.inProject.in.domain.RoleNeeded.entity.RoleNeeded;
-import com.inProject.in.domain.RoleNeeded.repository.RoleNeededRepository;
-import com.inProject.in.domain.User.entity.User;
-import com.inProject.in.domain.User.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class ApplicantRoleRelationServiceImpl implements ApplicantRoleRelationService {
 

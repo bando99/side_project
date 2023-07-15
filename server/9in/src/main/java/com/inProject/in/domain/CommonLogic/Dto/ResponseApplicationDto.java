@@ -8,5 +8,5 @@ import lombok.*;
 @ToString
 @Builder
 public class ResponseApplicationDto {
-
+    private Long id;
 }

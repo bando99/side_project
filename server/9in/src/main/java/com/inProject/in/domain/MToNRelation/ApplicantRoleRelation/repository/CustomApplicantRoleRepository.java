@@ -1,8 +1,6 @@
 package com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.repository;
 
-import com.inProject.in.domain.MToNRelation.ApplicantPostRelation.entity.ApplicantPostRelation;
 import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.entity.ApplicantRoleRelation;
-import com.inProject.in.domain.Post.entity.Post;
 import com.inProject.in.domain.RoleNeeded.entity.RoleNeeded;
 import com.inProject.in.domain.User.entity.User;
 

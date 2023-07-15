@@ -1,7 +1,7 @@
 package com.inProject.in.domain.Comment.entity;
 
 import com.inProject.in.Global.BaseEntity;
-import com.inProject.in.domain.Post.entity.Post;
+import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.User.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,6 +21,6 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "user_id")       //N : 1
     private User user;
     @ManyToOne
-    @JoinColumn(name = "post_id")       //N : 1
-    private Post post;
+    @JoinColumn(name = "board_id")       //N : 1
+    private Board board;
 }

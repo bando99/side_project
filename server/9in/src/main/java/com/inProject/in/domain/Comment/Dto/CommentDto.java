@@ -1,5 +1,7 @@
 package com.inProject.in.domain.Comment.Dto;
 
+import com.inProject.in.domain.Board.entity.Board;
+import com.inProject.in.domain.User.entity.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
@@ -10,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class CommentDto {
-    private String user_id;
-    private String post_id;
+    private User user;
+    private Board board;
     private String text;
 }

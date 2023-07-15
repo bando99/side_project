@@ -7,14 +7,16 @@ import com.inProject.in.domain.Comment.repository.CommentRepository;
 import com.inProject.in.domain.Comment.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class CommentServiceImpl implements CommentService {
+import java.util.List;
 
+public class CommentServiceImpl implements CommentService {
     CommentRepository commentRepository;
 
     @Autowired
-    public CommentServiceImpl(CommentRepository commentRepository){
+    public CommentServiceImpl(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
     }
+
     @Override
     public ResponseCommentDto getComment(Long id) {
         Comment comment = commentRepository.findById(id).get();
@@ -57,6 +59,12 @@ public class CommentServiceImpl implements CommentService {
                 .build();
 
         return responseCommentDto;
+    }
+
+    @Override
+    public List<ResponseCommentDto> findCommentsInBoard() {
+
+        return null;
     }
 
     @Override
