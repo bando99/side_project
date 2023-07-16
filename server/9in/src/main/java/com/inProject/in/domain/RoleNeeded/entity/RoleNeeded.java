@@ -3,12 +3,10 @@ package com.inProject.in.domain.RoleNeeded.entity;
 
 import com.inProject.in.Global.BaseEntity;
 import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.entity.ApplicantRoleRelation;
-import com.inProject.in.domain.MToNRelation.RolePostRelation.entity.RolePostRelation;
-import com.inProject.in.domain.Post.entity.Post;
+import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,13 +20,9 @@ import java.util.List;
 public class RoleNeeded extends BaseEntity {
     @Column
     private String name;
-    @Column
-    private int pre_cnt;
-    @Column
-    private int want_cnt;
     @OneToMany(mappedBy = "roleNeeded", fetch = FetchType.EAGER)
-    private List<RolePostRelation> rolePostRelationList = new ArrayList<>();               //여러 게시글과 연관
+    private List<RoleBoardRelation> roleBoardRelationList;              //여러 게시글과 연관
 
     @OneToMany(mappedBy = "roleNeeded", fetch = FetchType.EAGER)
-    private List<ApplicantRoleRelation> applicantRoleRelationList = new ArrayList<>();   //여러 지원자들과 연관
+    private List<ApplicantRoleRelation> applicantRoleRelationList;   //여러 지원자들과 연관
 }

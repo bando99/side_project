@@ -27,7 +27,7 @@ public class UserRepositoryTest {
 
         //given
         User user = User.builder()
-                .user_id("user1")
+                .username("user1")
                 .password("1234")
                 .mail("abcd@naver.com")
                 .build();                //빌더 패턴을 사용해서 객체 생성.
@@ -37,7 +37,7 @@ public class UserRepositoryTest {
 
         //then
         assertEquals(user.getId(), savedUser.getId());
-        assertEquals(user.getUser_id(), savedUser.getUser_id());
+        assertEquals(user.getUsername(), savedUser.getUsername());
         assertEquals(user.getPassword(), savedUser.getPassword());
         assertEquals(user.getMail(), savedUser.getMail());
 
@@ -46,18 +46,18 @@ public class UserRepositoryTest {
 
         //then
         assertEquals(user.getId(), getUser.getId());
-        assertEquals(user.getUser_id(), getUser.getUser_id());
+        assertEquals(user.getUsername(), getUser.getUsername());
         assertEquals(user.getPassword(), getUser.getPassword());
         assertEquals(user.getMail(), getUser.getMail());
 
 
         //when(update)
         User updateUser = userRepository.findById(user.getId()).get();
-        updateUser.setUser_id("user100");
+        updateUser.setUsername("user100");
         User updatedUser = userRepository.save(updateUser);
 
         //then
-        assertEquals(updatedUser.getUser_id(), "user100");
+        assertEquals(updatedUser.getUsername(), "user100");
 
 
         //when(delete)
