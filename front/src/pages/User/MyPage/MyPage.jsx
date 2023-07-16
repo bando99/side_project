@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './MyPage.module.css';
 import { useNavigate } from 'react-router-dom';
 
 export default function MyPage() {
   const navigate = useNavigate();
+  const [modalState, setModalState] = useState(false);
 
   const handleRecruit = () => {
     navigate('/mypage/recruit');
@@ -11,6 +12,16 @@ export default function MyPage() {
 
   const handleClip = () => {
     navigate('/mypage/clip');
+  };
+
+  const handleAddModal = () => {
+    const modal = document.getElementById('modal');
+    setModalState(!modalState);
+
+    if (modalState) modal.style.display = 'flex';
+    else {
+      modal.style.display = 'none';
+    }
   };
 
   return (
@@ -89,6 +100,65 @@ export default function MyPage() {
                 <p className={styles.count}>0</p>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p>직무 경험2</p>
+        <div>
+          <div>
+            <div>
+              <span>회사이름</span>
+              <span>모나미</span>
+            </div>
+            <div>
+              <span>제작기간</span>
+              <span>2015.06 ~ 2018.03</span>
+            </div>
+            <div>
+              <span>사용한 기술 스택</span>
+              <span>리액트</span>
+            </div>
+            <div>
+              <span>직무 설명</span>
+              <span>~~~~~~</span>
+            </div>
+            <div>
+              <button>수정하기</button>
+              <button onClick={handleAddModal}>추가하기</button>
+            </div>
+          </div>
+          <div className="next__icon"></div>
+        </div>
+      </div>
+      <div className={styles.modal__rapper}>
+        <div id="modal" className={styles.modal}>
+          <span>직무경험 등록</span>
+          <div>
+            <div>
+              <span>회사이름</span>
+              <input type="text" placeholder="내용을 입력해주세요." />
+            </div>
+            <div>
+              <span>재직기간</span>
+              <input type="text" />
+            </div>
+          </div>
+          <div>
+            <span>사용한 기술 스택</span>
+            <select name="skill" id="skill">
+              <option value="react">React</option>
+              <option value="vue">Vue</option>
+            </select>
+          </div>
+          <div>
+            <span>직무설명</span>
+            <textarea
+              name="description"
+              id="description"
+              cols="30"
+              rows="10"
+            ></textarea>
           </div>
         </div>
       </div>
