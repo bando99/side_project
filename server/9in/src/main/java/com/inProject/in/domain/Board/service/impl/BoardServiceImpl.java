@@ -1,5 +1,6 @@
 package com.inProject.in.domain.Board.service.impl;
 
+import com.inProject.in.domain.Board.Dto.RequestParamDto;
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.repository.RoleBoardRelationRepository;
@@ -97,7 +98,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public ResponseBoardDto getBoard(Long id) {
         Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("getpost에서 유효하지 않은 게시글 id " + id));
+                .orElseThrow(() -> new IllegalArgumentException("getBoard에서 유효하지 않은 게시글 id " + id));
 
         ResponseBoardDto responseBoardDto = new ResponseBoardDto(board);
 
@@ -140,9 +141,9 @@ public class BoardServiceImpl implements BoardService {
     public ResponseBoardDto updateBoard(Long id, BoardDto boardDto) {
 
         Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("updatePost에서 유효하지 않은 게시글 id" + id));
+                .orElseThrow(() -> new IllegalArgumentException("updateBoard에서 유효하지 않은 게시글 id" + id));
 
-        board.updatePost(boardDto);
+        board.updateBoard(boardDto);
         Board updatedBoard = boardRepository.save(board);
         ResponseBoardDto responseBoardDto = new ResponseBoardDto(updatedBoard);
 
@@ -156,10 +157,10 @@ public class BoardServiceImpl implements BoardService {
 
 
     @Override
-    public List<ResponseBoardDto> getBoardList(Pageable pageable, String user_id, String title, String type, List<String> tags) {
+    public List<ResponseBoardDto> getBoardList(Pageable pageable, RequestParamDto requestParamDto)  {  //Pageable pageable, String user_id, String title, String type, List<String> tags
 
-        Page<Board> postPage = boardRepository.findBoards(pageable, user_id, title, type, tags);
-        List<Board> boardList = postPage.getContent();
+        Page<Board> boardPage = boardRepository.findBoards(pageable, requestParamDto.getUser_id(), requestParamDto.getTitle(), requestParamDto.getType(), requestParamDto.getTags());
+        List<Board> boardList = boardPage.getContent();
         List<ResponseBoardDto> responseBoardDtoList = new ArrayList<>();
 
         for (Board board : boardList) {

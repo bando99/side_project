@@ -8,5 +8,8 @@ import lombok.*;
 @ToString
 @Builder
 public class ResponseApplicationDto {
-    private Long id;
+    private Long applicant_id;
+    private Long author_id;
+    private Long board_id;
+    private Long role_id;
 }

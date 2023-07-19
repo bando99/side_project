@@ -1,5 +1,6 @@
 package com.inProject.in.domain.Board.service.impl;
 
+import com.inProject.in.domain.Board.Dto.RequestParamDto;
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.repository.RoleBoardRelationRepository;
@@ -208,14 +209,20 @@ class BoardServiceImplTest {
         String type = "";
         List<String> tags = new ArrayList<>();
 
+        RequestParamDto requestParamDto = RequestParamDto.builder()
+                .user_id(user_id)
+                .title(title)
+                .type(type)
+                .tags(tags)
+                .build();
+
         List<Board> boardList = List.of(board1, board2, board3);
         Page<Board> page = new PageImpl<>(boardList, pageable, boardList.size()); //이렇게 해도 가능!
 
         given(boardRepository.findBoards(pageable, user_id, title, type, tags)).willReturn(page);
-
-
+        
         //when
-        List<ResponseBoardDto> responseBoardDtoList = boardService.getBoardList(pageable, user_id, title, type, tags);
+        List<ResponseBoardDto> responseBoardDtoList = boardService.getBoardList(pageable, requestParamDto);
 
         //then
         int i = 1;

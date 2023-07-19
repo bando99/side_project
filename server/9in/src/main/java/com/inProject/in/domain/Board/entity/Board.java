@@ -62,7 +62,7 @@ public class Board extends BaseEntity {
     @ToString.Exclude
     private List<RoleBoardRelation> roleBoardRelationList;   //직군 관련 태그
 
-    public void updatePost(BoardDto boardDto){
+    public void updateBoard(BoardDto boardDto){
         this.type = boardDto.getType();
         this.title = boardDto.getTitle();
         this.text = boardDto.getText();

@@ -5,6 +5,7 @@ import com.inProject.in.domain.CommonLogic.Dto.ResponseApplicationDto;
 import com.inProject.in.domain.CommonLogic.service.ApplicationService;
 import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.entity.ApplicantBoardRelation;
 import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.repository.ApplicantBoardRelationRepository;
+import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.Dto.ResponseApplicantRoleDto;
 import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.entity.ApplicantRoleRelation;
 import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.repository.ApplicantRoleRelationRepository;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;
@@ -42,16 +43,16 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 
     @Override
-    public ResponseApplicationDto applyToBoard(Long user_id, Long post_id, Long role_id) {  //사용자가 지원 버튼 눌렀을 때 로직
+    public ResponseApplicationDto applyToBoard(Long user_id, Long board_id, Long role_id) {  //사용자가 지원 버튼 눌렀을 때 로직
 
         User user = userRepository.findById(user_id)
-                .orElseThrow(() -> new IllegalArgumentException("insert applicant 에서 유효하지 않은 user id : " + user_id));
+                .orElseThrow(() -> new IllegalArgumentException("applyToBoard 에서 유효하지 않은 user id : " + user_id));
 
-        Board board = boardRepository.findById(post_id)
-                .orElseThrow(() -> new IllegalArgumentException("insert applicant 에서 유효하지 않은 post id : " + post_id));
+        Board board = boardRepository.findById(board_id)
+                .orElseThrow(() -> new IllegalArgumentException("applyToBoard 에서 유효하지 않은 post id : " + board_id));
 
         RoleNeeded roleNeeded = roleNeededRepository.findById(role_id)
-                .orElseThrow(() -> new IllegalArgumentException("insert applicant 에서 유효하지 않은 role id : " + role_id));
+                .orElseThrow(() -> new IllegalArgumentException("applyToBoard 에서 유효하지 않은 role id : " + role_id));
 
         if(applicantPostRelationRepository.isExistApplicantBoard(user, board) == false) {  //이미 지원한 게시글에는 지원 불가
 
@@ -65,16 +66,16 @@ public class ApplicationServiceImpl implements ApplicationService {
                     .roleNeeded(roleNeeded)
                     .build();
 
-            RoleBoardRelation roleBoardRelation = roleBoardRelationRepository.findRelationById(post_id, role_id).get();   //Optional 처리 생각
+            RoleBoardRelation roleBoardRelation = roleBoardRelationRepository.findRelationById(board_id, role_id).get();   //Optional 처리 생각
 
             int pre_cnt = roleBoardRelation.getPre_cnt();
             int want_cnt = roleBoardRelation.getWant_cnt();
 
             if(pre_cnt < want_cnt){
                 roleBoardRelation.setPre_cnt(pre_cnt + 1);
-                RoleBoardRelation updateRolePost = roleBoardRelationRepository.save(roleBoardRelation);
-                log.info("Update role - post relation ==> role - post relation_id : " + updateRolePost.getId() +
-                        " relation pre_cnt : " + updateRolePost.getPre_cnt() + " relation want_cnt : " + updateRolePost.getWant_cnt());
+                RoleBoardRelation updateRoleBoard = roleBoardRelationRepository.save(roleBoardRelation);
+                log.info("Update role - post relation ==> role - post relation_id : " + updateRoleBoard.getId() +
+                        " relation pre_cnt : " + updateRoleBoard.getPre_cnt() + " relation want_cnt : " + updateRoleBoard.getWant_cnt());
             }
             else{
                 //초과 시 로직.
@@ -86,7 +87,14 @@ public class ApplicationServiceImpl implements ApplicationService {
             log.info("Insert application ==> user - post relation_id : " + createApplicantBoardRelation.getId() +
                     " user - role relation_id : " + createApplicantRoleRelation.getId());
 
-            return null;      //필요한 정보 추후에 반환할 것 정하고 dto로 작성할 것.
+            ResponseApplicationDto responseApplicationDto = ResponseApplicationDto.builder()
+                    .applicant_id(user_id)
+                    .author_id(board.getAuthor().getId())
+                    .board_id(board_id)
+                    .role_id(role_id)
+                    .build();
+
+            return responseApplicationDto;      //필요한 정보 추후에 반환할 것 정하고 dto로 작성할 것.
         }
         return null;
     }
