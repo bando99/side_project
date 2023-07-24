@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface RoleNeededRepository extends JpaRepository<RoleNeeded, Long>, CustomRoleNeededRepository {
-    @Query("SELECT r FROM roleNeeded as r WHERE r.name = :name")
+    @Query("SELECT r FROM RoleNeeded as r WHERE r.name = :name")
     Optional<RoleNeeded> findRoleByName(@Param("name") String name);
 }

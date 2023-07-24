@@ -14,14 +14,14 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString
-@Table(name = "rolePostRelation")
+@Table(name = "roleBoardRelation")
 public class RoleBoardRelation extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "role_id")
     private RoleNeeded roleNeeded;
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "board_id")
     private Board board;
     @Column
     private int pre_cnt;

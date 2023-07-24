@@ -46,7 +46,7 @@ public class Board extends BaseEntity {
     @ToString.Exclude
     private List<ApplicantBoardRelation> applicantBoardRelationList;     //게시글에 지원서를 제출한 유저에 대한 정보
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Comment> commentList;    //게시글에 작성된 댓글들
 
@@ -58,7 +58,7 @@ public class Board extends BaseEntity {
     @ToString.Exclude
     private List<ClipBoardRelation> clipBoardRelationList; //관심 클립으로 지정한 유저들
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<RoleBoardRelation> roleBoardRelationList;   //직군 관련 태그
 

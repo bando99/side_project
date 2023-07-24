@@ -3,6 +3,7 @@ package com.inProject.in.domain.CommonLogic.service.Impl;
 import com.inProject.in.domain.Board.Dto.BoardDto;
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.Board.repository.BoardRepository;
+import com.inProject.in.domain.CommonLogic.Dto.ApplicationDto;
 import com.inProject.in.domain.CommonLogic.Dto.ResponseApplicationDto;
 import com.inProject.in.domain.CommonLogic.service.ApplicationService;
 import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.entity.ApplicantBoardRelation;
@@ -111,6 +112,12 @@ class ApplicationServiceImplTest {
                 .board(board)
                 .build();
 
+        ApplicationDto applicationDto = ApplicationDto.builder()
+                .board_id(id)
+                .user_id(id)
+                .role_id(id)
+                .build();
+
         given(userRepository.findById(id)).willReturn(Optional.ofNullable(applicant));
         given(boardRepository.findById(id)).willReturn(Optional.ofNullable(board));
         given(roleNeededRepository.findById(id)).willReturn(Optional.ofNullable(roleNeeded));
@@ -120,7 +127,7 @@ class ApplicationServiceImplTest {
         given(applicantRoleRelationRepository.save(any(ApplicantRoleRelation.class))).willReturn(applicantRoleRelation);
 
         //when
-        ResponseApplicationDto responseApplicationDto =  applicationService.applyToBoard(id, id, id);
+        ResponseApplicationDto responseApplicationDto =  applicationService.applyToBoard(applicationDto);
 
 
         //then

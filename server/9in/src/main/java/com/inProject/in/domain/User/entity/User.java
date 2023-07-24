@@ -37,7 +37,7 @@ public class User extends BaseEntity {
     @ToString.Exclude
     private List<Board> authoredBoardList;   //작성한 글들
 
-    @OneToMany(mappedBy = "post_applicant", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "board_applicant", fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<ApplicantBoardRelation> applicantBoardRelationList; //지원한 게시글들
 
