@@ -13,15 +13,11 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class CommentDto {
-//    private Long user_id;
-//    private Long board_id;   추후에 순환참조 문제 발생 시 이것으로 교체.
-    private User user;
-    private Board board;
+    private Long user_id;
+    private Long board_id;   //추후에 순환참조 문제 발생 시 이것으로 교체.
     private String text;
 
-    public Comment toEntity(){
-//        User user = User.builder().id(user_id).build();
-//        Board board = Board.builder().id(board_id).build();
+    public Comment toEntity(User user, Board board){
 
         return Comment.builder()
                 .user(user)
@@ -31,8 +27,8 @@ public class CommentDto {
     }
 
     public CommentDto(Comment comment){
-        this.user = comment.getUser();
-        this.board = comment.getBoard();
+        this.user_id = comment.getUser().getId();
+        this.board_id = comment.getBoard().getId();
         this.text = comment.getText();
     }
 }

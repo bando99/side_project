@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/application")
@@ -24,11 +21,16 @@ public class ApplicationController {
 
     @PostMapping()
     public ResponseEntity<ResponseApplicationDto> createApplication(@RequestBody ApplicationDto applicationDto){
-        ResponseApplicationDto responseApplicationDto = applicationService.applyToBoard(applicationDto);
+        ResponseApplicationDto responseApplicationDto = applicationService.createApplication(applicationDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseApplicationDto);
     }
 
+    @DeleteMapping()
+    public ResponseEntity<String> deleteApplication(ApplicationDto applicationDto){
+        applicationService.deleteApplication(applicationDto);
 
-    //지원한 거 취소하기.
+        return ResponseEntity.status(HttpStatus.OK).body("삭제 완료");
+    }
+    
 }

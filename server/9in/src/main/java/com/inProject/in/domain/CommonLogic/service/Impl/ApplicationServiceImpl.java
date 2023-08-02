@@ -151,8 +151,5 @@ public class ApplicationServiceImpl implements ApplicationService {
         else{
             throw new IllegalArgumentException("cannot delete");
         }
-
-
-
     }
 }

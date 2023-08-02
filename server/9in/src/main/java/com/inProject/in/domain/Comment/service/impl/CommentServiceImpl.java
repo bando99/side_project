@@ -4,6 +4,7 @@ import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.Board.repository.BoardRepository;
 import com.inProject.in.domain.Comment.Dto.CommentDto;
 import com.inProject.in.domain.Comment.Dto.ResponseCommentDto;
+import com.inProject.in.domain.Comment.Dto.UpdateCommentDto;
 import com.inProject.in.domain.Comment.entity.Comment;
 import com.inProject.in.domain.Comment.repository.CommentRepository;
 import com.inProject.in.domain.Comment.service.CommentService;
@@ -12,11 +13,13 @@ import com.inProject.in.domain.User.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class CommentServiceImpl implements CommentService {
 
     UserRepository userRepository;
@@ -45,7 +48,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public ResponseCommentDto createComment(CommentDto commentDto, Long user_id, Long board_id) {
+    public ResponseCommentDto createComment(CommentDto commentDto) {
+
+        Long user_id = commentDto.getUser_id();
+        Long board_id = commentDto.getBoard_id();
 
         User user = userRepository.findById(user_id)
                 .orElseThrow(() -> new IllegalArgumentException("createComment에서 유효하지 않은 user id : " + user_id));
@@ -67,12 +73,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public ResponseCommentDto updateComment(Long id, CommentDto commentDto) {
+    public ResponseCommentDto updateComment(Long id, UpdateCommentDto updateCommentDto) {
 
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("updqteComment에서 유효하지 않은 comment id : " + id));
 
-        comment.updateComment(commentDto);
+        comment.updateComment(updateCommentDto);
         Comment updatedComment = commentRepository.save(comment);
 
         ResponseCommentDto responseCommentDto = new ResponseCommentDto(updatedComment);
