@@ -127,7 +127,7 @@ class ApplicationServiceImplTest {
         given(applicantRoleRelationRepository.save(any(ApplicantRoleRelation.class))).willReturn(applicantRoleRelation);
 
         //when
-        ResponseApplicationDto responseApplicationDto =  applicationService.applyToBoard(applicationDto);
+        ResponseApplicationDto responseApplicationDto =  applicationService.createApplication(applicationDto);
 
 
         //then

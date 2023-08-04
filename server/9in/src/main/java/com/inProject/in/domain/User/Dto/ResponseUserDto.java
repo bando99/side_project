@@ -18,6 +18,7 @@ import java.util.List;
 public class ResponseUserDto {
 
     private Long id;
+    private String user_id;
     private String username;
     private String mail;
     private List<Board> authoredBoardList;

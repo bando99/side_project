@@ -20,6 +20,8 @@ import java.util.List;
 @ToString
 @Builder
 public class UserDto {
+
+    private String user_id;
     @NotBlank(message = "아이디를 입력해주세요")
     private String username;
 
@@ -31,11 +33,11 @@ public class UserDto {
     @Email(message = "이메일을 입력해주세요")
     private String mail;     //@문자 있는지 확인. 추가로 도메인 검사 또는 비정상적 메일인 지 확인하는 과정 필요.
 
-    private List<Board> authoredBoardList;
-    private List<ApplicantBoardRelation> applicantBoardRelationList;
-    private List<ApplicantRoleRelation> applicantRoleRelationList;
-    private List<ClipBoardRelation> clipBoardRelationList;
-    private List<Comment> commentList;
+//    private List<Board> authoredBoardList;
+//    private List<ApplicantBoardRelation> applicantBoardRelationList;
+//    private List<ApplicantRoleRelation> applicantRoleRelationList;
+//    private List<ClipBoardRelation> clipBoardRelationList;
+//    private List<Comment> commentList;
 
     public String getPassword() { //암호화 필요
         return password;
@@ -44,26 +46,28 @@ public class UserDto {
         this.password = password;
     }
     public UserDto(User user){
+
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.mail = user.getMail();
-        this.authoredBoardList = user.getAuthoredBoardList();
-        this.applicantBoardRelationList = user.getApplicantBoardRelationList();
-        this.applicantRoleRelationList = user.getApplicantRoleRelationList();
-        this.clipBoardRelationList = user.getClipBoardRelationList();
-        this.commentList = user.getCommentList();
+//        this.authoredBoardList = user.getAuthoredBoardList();
+//        this.applicantBoardRelationList = user.getApplicantBoardRelationList();
+//        this.applicantRoleRelationList = user.getApplicantRoleRelationList();
+//        this.clipBoardRelationList = user.getClipBoardRelationList();
+//        this.commentList = user.getCommentList();
     }
 
     public User toEntity(){
         return User.builder()
+                .user_id(user_id)
                 .username(username)
                 .password(password)
                 .mail(mail)
-                .authoredBoardList(authoredBoardList)
-                .commentList(commentList)
-                .clipBoardRelationList(clipBoardRelationList)
-                .applicantRoleRelationList(applicantRoleRelationList)
-                .applicantBoardRelationList(applicantBoardRelationList)
+//                .authoredBoardList(authoredBoardList)
+//                .commentList(commentList)
+//                .clipBoardRelationList(clipBoardRelationList)
+//                .applicantRoleRelationList(applicantRoleRelationList)
+//                .applicantBoardRelationList(applicantBoardRelationList)
                 .build();
     }
 }
