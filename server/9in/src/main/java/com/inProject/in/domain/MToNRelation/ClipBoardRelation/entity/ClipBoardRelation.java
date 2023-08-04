@@ -16,7 +16,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @Builder
-@Table(name = "clipPostRelation")
+@Table(name = "clipBoardRelation")
 public class ClipBoardRelation extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")

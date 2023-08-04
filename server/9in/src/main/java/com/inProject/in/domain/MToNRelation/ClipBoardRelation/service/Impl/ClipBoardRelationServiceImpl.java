@@ -32,19 +32,19 @@ public class ClipBoardRelationServiceImpl implements ClipBoardRelationService {
 
 
     @Override
-    public ResponseClipBoardRelationDto insertClip(Long user_id, Long post_id){
+    public ResponseClipBoardRelationDto insertClip(Long user_id, Long board_id){
 
 
         User user = userRepository.findById(user_id)
                 .orElseThrow(() -> new IllegalArgumentException("insert Clip에서 유효하지 않은 user id : " + user_id));
 
-        Board board = boardRepository.findById(post_id)
-                .orElseThrow(() -> new IllegalArgumentException("insert Clip에서 유효하지 않은 post id : " + post_id));
+        Board board = boardRepository.findById(board_id)
+                .orElseThrow(() -> new IllegalArgumentException("insert Clip에서 유효하지 않은 post id : " + board_id));
 
-        log.info("Using insertClip in clip Service ==> post_id : " + post_id + " user_id : " + user_id);
+        log.info("Using insertClip in clip Service ==> board_id : " + board_id + " user_id : " + user_id);
 
         //유저가 누른 적 없는 게시물인지 확인.
-        if(clipBoardRelationRepository.isExistClipedPost(user, board) == false) {
+        if(clipBoardRelationRepository.isExistClipedBoard(user, board) == false) {
 
             ClipBoardRelation clipBoardRelation = ClipBoardRelation.builder()
                     .clipUser(user)
@@ -63,18 +63,18 @@ public class ClipBoardRelationServiceImpl implements ClipBoardRelationService {
     }
 
     @Override
-    public ResponseClipBoardRelationDto deleteClip(Long user_id, Long post_id) {
+    public ResponseClipBoardRelationDto deleteClip(Long user_id, Long board_id) {
 
         User user = userRepository.findById(user_id)
                 .orElseThrow(() -> new IllegalArgumentException("delete Clip에서 유효하지 않은 user id : " + user_id));
 
-        Board board = boardRepository.findById(post_id)
-                .orElseThrow(() -> new IllegalArgumentException("delete Clip에서 유효하지 않은 post id : " + post_id));
+        Board board = boardRepository.findById(board_id)
+                .orElseThrow(() -> new IllegalArgumentException("delete Clip에서 유효하지 않은 post id : " + board_id));
 
-        ClipBoardRelation clipBoardRelation = clipBoardRelationRepository.findClipedPost(user, board)
-                .orElseThrow(() -> new IllegalArgumentException("좋아요 등록이 되지 않은 게시글 ==> user id : " + user_id + " post id : " + post_id));
+        ClipBoardRelation clipBoardRelation = clipBoardRelationRepository.getClipedBoard(user, board)
+                .orElseThrow(() -> new IllegalArgumentException("좋아요 등록이 되지 않은 게시글 ==> user id : " + user_id + " post id : " + board_id));
 
-        log.info("Using deleteClip in clip service ==> post_id " + post_id + " user_id " + user_id);
+        log.info("Using deleteClip in clip service ==> board_id " + board_id + " user_id " + user_id);
         log.info("delete Clip Post Relation ==> relation_id " + clipBoardRelation.getId());
 
         clipBoardRelationRepository.delete(clipBoardRelation);

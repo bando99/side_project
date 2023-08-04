@@ -6,7 +6,8 @@ import com.inProject.in.domain.User.entity.User;
 
 import java.util.Optional;
 
-public interface CustomClipRepositroy {
-    Boolean isExistClipedPost(User user, Board board);
-    Optional<ClipBoardRelation> findClipedPost(User user, Board board);
+public interface CustomClipRepository {
+    Boolean isExistClipedBoard(User user, Board board);
+    Optional<ClipBoardRelation> getClipedBoard(User user, Board board);
 }
+

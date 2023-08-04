@@ -6,6 +6,7 @@ import com.inProject.in.domain.Comment.entity.Comment;
 import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.entity.ApplicantBoardRelation;
 import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.entity.ApplicantRoleRelation;
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.entity.ClipBoardRelation;
+import com.inProject.in.domain.User.Dto.UpdateUserDto;
 import com.inProject.in.domain.User.Dto.UserDto;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,13 +24,12 @@ import java.util.List;
 @ToString(callSuper = true)
 @Table(name = "user") //테이블과 매핑
 public class User extends BaseEntity {
-
+    @Column(nullable = false)
+    private String user_id;
     @Column(nullable = false)
     private String username;
-
     @Column(nullable = false)
     private String password;
-
     @Column(nullable = false)
     private String mail;
 
@@ -37,7 +37,7 @@ public class User extends BaseEntity {
     @ToString.Exclude
     private List<Board> authoredBoardList;   //작성한 글들
 
-    @OneToMany(mappedBy = "post_applicant", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "board_applicant", fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<ApplicantBoardRelation> applicantBoardRelationList; //지원한 게시글들
 
@@ -61,15 +61,16 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    public void updateUser(UserDto userDto){
-        this.username = userDto.getUsername();
-        this.password = userDto.getPassword();
-        this.mail = userDto.getMail();
-        this.authoredBoardList = userDto.getAuthoredBoardList();
-        this.applicantBoardRelationList = userDto.getApplicantBoardRelationList();
-        this.applicantRoleRelationList = userDto.getApplicantRoleRelationList();
-        this.clipBoardRelationList = userDto.getClipBoardRelationList();
-        this.commentList = userDto.getCommentList();
+    public void updateUser(UpdateUserDto updateUserDto){
+        this.user_id = updateUserDto.getUser_id();
+        this.username = updateUserDto.getUsername();
+        this.password = updateUserDto.getPassword();
+        this.mail = updateUserDto.getMail();
+//        this.authoredBoardList = userDto.getAuthoredBoardList();
+//        this.applicantBoardRelationList = userDto.getApplicantBoardRelationList();
+//        this.applicantRoleRelationList = userDto.getApplicantRoleRelationList();
+//        this.clipBoardRelationList = userDto.getClipBoardRelationList();
+//        this.commentList = userDto.getCommentList();
     }
 
 }

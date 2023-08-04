@@ -9,7 +9,8 @@ import java.util.Optional;
 
 public interface RoleBoardRelationRepository extends JpaRepository<RoleBoardRelation, Long> {
 
-    @Query("SELECT r FROM rolePostRelation as r WHERE r.post_id == :post_id AND r.role_id == :role_id")
-    Optional<RoleBoardRelation> findRelationById(@Param("post_id") Long post_id,
-                                                     @Param("role_id") Long role_id);
+
+    @Query("SELECT r FROM RoleBoardRelation as r WHERE r.board.id = :board_id AND r.roleNeeded.id = :role_id")
+    Optional<RoleBoardRelation> findRelationById(@Param("board_id") Long board_id,
+                                                 @Param("role_id") Long role_id);
 }

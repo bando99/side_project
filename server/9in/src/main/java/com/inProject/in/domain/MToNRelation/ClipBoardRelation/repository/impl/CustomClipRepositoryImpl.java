@@ -3,14 +3,15 @@ package com.inProject.in.domain.MToNRelation.ClipBoardRelation.repository.impl;
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.entity.ClipBoardRelation;
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.entity.QClipBoardRelation;
-import com.inProject.in.domain.MToNRelation.ClipBoardRelation.repository.CustomClipRepositroy;
+import com.inProject.in.domain.MToNRelation.ClipBoardRelation.repository.CustomClipRepository;
+import com.inProject.in.domain.MToNRelation.ClipBoardRelation.repository.CustomClipRepository;
 import com.inProject.in.domain.User.entity.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
-public class CustomClipRepositoryImpl implements CustomClipRepositroy {
+public class CustomClipRepositoryImpl implements CustomClipRepository {
     private final JPAQueryFactory jpaQueryFactory;
     QClipBoardRelation qClipBoardRelation = QClipBoardRelation.clipBoardRelation;
     @Autowired
@@ -19,7 +20,7 @@ public class CustomClipRepositoryImpl implements CustomClipRepositroy {
     }
 
     @Override
-    public Boolean isExistClipedPost(User user, Board board) {
+    public Boolean isExistClipedBoard(User user, Board board) {
 
       ClipBoardRelation query = jpaQueryFactory.selectFrom(qClipBoardRelation)
                 .where(qClipBoardRelation.clipUser.eq(user),
@@ -33,7 +34,7 @@ public class CustomClipRepositoryImpl implements CustomClipRepositroy {
     }
 
     @Override
-    public Optional<ClipBoardRelation> findClipedPost(User user, Board board) {
+    public Optional<ClipBoardRelation> getClipedBoard(User user, Board board) {
 
         ClipBoardRelation query = jpaQueryFactory.selectFrom(qClipBoardRelation)
                 .where(qClipBoardRelation.clipedBoard.eq(board),

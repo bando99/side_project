@@ -1,6 +1,7 @@
 package com.inProject.in.domain.User.service.Impl;
 
 import com.inProject.in.domain.User.Dto.ResponseUserDto;
+import com.inProject.in.domain.User.Dto.UpdateUserDto;
 import com.inProject.in.domain.User.Dto.UserDto;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
@@ -39,12 +40,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseUserDto updateUser(Long id, UserDto userdto) {
+    public ResponseUserDto updateUser(Long id, UpdateUserDto updateUserdto) {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("updateUser에서 유효하지 않은 id " + id));
 
-        user.updateUser(userdto);
+        user.updateUser(updateUserdto);
         User updatedUser = userRepository.save(user);
 
         ResponseUserDto responseUserDto = new ResponseUserDto(updatedUser);

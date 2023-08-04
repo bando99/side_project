@@ -1,15 +1,15 @@
 package com.inProject.in.domain.CommonLogic.Dto;
 
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
 @Builder
-public class ResponseApplicationDto {
-    private Long applicant_id;
-    private Long author_id;
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class ApplicationDto {
     private Long board_id;
+    private Long user_id;
     private Long role_id;
 }

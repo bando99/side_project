@@ -14,7 +14,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString
-@Table(name = "applicantPostRelation")
+@Table(name = "applicantBoardRelation")
 public class ApplicantBoardRelation extends BaseEntity {
 
     @ManyToOne
