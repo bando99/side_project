@@ -25,6 +25,10 @@ const Header = (props) => {
     navigate('/user/login');
   };
 
+  const handleAddPost = () => {
+    navigate('/AddPost');
+  };
+
   return (
     <>
       <HeaderContainer>
@@ -33,6 +37,7 @@ const Header = (props) => {
         <Title onClick={handleProject}>프로젝트</Title>
         <SearchInput type="text" placeholder="검색하기" />
         <LogButtons>
+          <button onClick={handleAddPost}>글 작성하기</button>
           <Button onClick={handleJoin}>회원가입</Button>
           <Button onClick={handleLogin}>로그인</Button>
         </LogButtons>
