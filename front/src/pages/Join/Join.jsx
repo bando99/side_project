@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import styles from './Join.module.css';
+import axios from 'axios';
 
 export default function Join() {
-  const [email, setEmail] = useState('');
+  const [mail, setMail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  const handleMailChange = (e) => {
+    setMail(e.target.value);
   };
 
   const handleUsernameChange = (e) => {
@@ -18,24 +19,40 @@ export default function Join() {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('회원가입 정보:', { email, username, password });
+    console.log('회원가입 정보:', {
+      user_id: '테스트',
+      username,
+      password,
+      mail,
+    });
+    const userData = { user_id: '테스트', username, password, mail };
+
+    try {
+      const response = await axios.post(
+        'http://1.246.104.170:8080/users',
+        userData
+      );
+      console.log('회원가입 성공');
+    } catch (error) {
+      console.error('회원가입 실패', error);
+    }
   };
 
   return (
     <section className={styles.container}>
       <p className={styles.title}>회원가입</p>
-      <form className={styles.container__box} action="" onSubmit={handleSubmit}>
+      <form className={styles.container__box} onSubmit={handleSubmit}>
         <div>
           <p className={styles.title__sub}>이메일 주소</p>
           <div className={styles.input__box}>
             <input
-              type="email"
+              type="mail"
               placeholder="내용을 입력해 주세요."
               name=""
-              id="email"
-              onChange={handleEmailChange}
+              id="mail"
+              onChange={handleMailChange}
             />
             <button className={styles.check__btn}>인증하기</button>
           </div>
