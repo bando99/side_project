@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import styles from './Join.module.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Join() {
   const [mail, setMail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigate = useNavigate();
 
   const handleMailChange = (e) => {
     setMail(e.target.value);
@@ -35,6 +38,7 @@ export default function Join() {
         userData
       );
       console.log('회원가입 성공');
+      navigate('/joinSuccess');
     } catch (error) {
       console.error('회원가입 실패', error);
     }
@@ -48,7 +52,7 @@ export default function Join() {
           <p className={styles.title__sub}>이메일 주소</p>
           <div className={styles.input__box}>
             <input
-              type="mail"
+              type="email"
               placeholder="내용을 입력해 주세요."
               name=""
               id="mail"
