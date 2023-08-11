@@ -16,7 +16,6 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Join from './pages/Join/Join';
 import Profile from './pages/Join/Profile';
-import Writing from './pages/Join/Writing';
 import Board from './pages/Join/Board';
 import Study from './pages/Study/Study';
 import MyPage from './pages/User/MyPage/MyPage';
@@ -50,11 +49,8 @@ const router = createBrowserRouter([
       { path: '/joinSuccess', element: <JoinSuccess /> },
       { path: '/mypage/clip', element: <ClipPage /> },
       { path: '/profile', element: <Profile /> },
-      { path: '/writing', element: <Writing /> },
       { path: '/board', element: <Board /> },
       { path: '/lists', element: <Lists /> },
-      { path: '/header', element: <Header /> },
-      { path: '/logo', element: <Logo /> },
     ],
   },
 ]);
