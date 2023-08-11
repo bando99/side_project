@@ -8,6 +8,7 @@ export default function AddPost() {
   const [type, setType] = useState('');
   const [text, setText] = useState('');
   const [proceed_method, setProceed_method] = useState('');
+  const [tagNames, setTagNames] = useState([]);
 
   const [pmCnt, setPmCnt] = useState(0);
   const [mobileCnt, setMobileCnt] = useState(0);
@@ -47,6 +48,13 @@ export default function AddPost() {
     setType('스터디');
     setProjectBtn(false);
     setStudyBtn(true);
+  };
+
+  const handleAddTags = (e) => {
+    if (skill) {
+      setTagNames([...tagNames, skill]);
+      setSkill('');
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -91,23 +99,13 @@ export default function AddPost() {
       });
     }
 
-    console.log(
-      type,
-      title,
-      text,
-      proceed_method,
-      new Date(),
-      skill,
-      roleNeededDtoList
-    );
-
     const postData = {
       type,
       title,
       text,
       proceed_method,
       period: new Date(),
-      tagNames: skill,
+      tagNames,
       roleNeededDtoList,
     };
 
@@ -157,15 +155,17 @@ export default function AddPost() {
           <span>마감 날짜</span>
         </div>
         <div>
-          <span>
-            사용 기술
-            <select name="stack" id="" value={skill} onChange={handleSkill}>
-              <option value="">선택</option>
-              <option value="React">React</option>
-              <option value="Spring">Spring</option>
-              <option value="Vue">Vue</option>
-            </select>
-          </span>
+          <span>사용 기술</span>
+          {tagNames.map((tagName, index) => (
+            <div key={index}>{tagName}</div>
+          ))}
+          <select name="stack" id="" value={skill} onChange={handleSkill}>
+            <option value="">선택</option>
+            <option value="React">React</option>
+            <option value="Spring">Spring</option>
+            <option value="Vue">Vue</option>
+          </select>
+          <div onClick={handleAddTags} className={styles.plusBtn}></div>
         </div>
         <div>
           <span>진행 방식</span>
