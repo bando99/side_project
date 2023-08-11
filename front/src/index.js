@@ -25,6 +25,7 @@ import Header from './ components/header/Header';
 import Logo from './ components/header/Logo';
 import ProjectPage from './pages/Project/ProjectPage';
 import ClipPage from './pages/User/ClipPage';
+import JoinSuccess from './pages/Join/JoinSuccess';
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
       { path: '/user/pwFound', element: <PWfound /> },
       { path: '/user/pwChange', element: <PWChange /> },
       { path: '/join', element: <Join /> },
+      { path: '/joinSuccess', element: <JoinSuccess /> },
       { path: '/mypage/clip', element: <ClipPage /> },
       { path: '/profile', element: <Profile /> },
       { path: '/writing', element: <Writing /> },
