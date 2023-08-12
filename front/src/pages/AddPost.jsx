@@ -69,7 +69,7 @@ export default function AddPost() {
 
     if (mobileCnt > 0) {
       roleNeededDtoList.push({
-        name: 'Mobile',
+        name: '모바일',
         pre_cnt: 0,
         want_cnt: mobileCnt,
       });
@@ -77,7 +77,7 @@ export default function AddPost() {
 
     if (designerCnt > 0) {
       roleNeededDtoList.push({
-        name: 'Designer',
+        name: 'designer',
         pre_cnt: 0,
         want_cnt: designerCnt,
       });
@@ -85,7 +85,7 @@ export default function AddPost() {
 
     if (frontEndCnt > 0) {
       roleNeededDtoList.push({
-        name: 'FrontEnd',
+        name: 'frontend',
         pre_cnt: 0,
         want_cnt: frontEndCnt,
       });
@@ -93,9 +93,17 @@ export default function AddPost() {
 
     if (backEndCnt > 0) {
       roleNeededDtoList.push({
-        name: 'BackEnd',
+        name: 'backend',
         pre_cnt: 0,
         want_cnt: backEndCnt,
+      });
+    }
+
+    if (etcCnt > 0) {
+      roleNeededDtoList.push({
+        name: '기타',
+        pre_cnt: 0,
+        want_cnt: etcCnt,
       });
     }
 
@@ -113,7 +121,7 @@ export default function AddPost() {
 
     try {
       const response = await axios.post(
-        'http://1.246.104.170:8080/users',
+        'http://1.246.104.170:8080/boards',
         postData
       );
       console.log('글 작성 성공');
@@ -161,9 +169,10 @@ export default function AddPost() {
           ))}
           <select name="stack" id="" value={skill} onChange={handleSkill}>
             <option value="">선택</option>
-            <option value="React">React</option>
-            <option value="Spring">Spring</option>
-            <option value="Vue">Vue</option>
+            <option value="react">react</option>
+            <option value="Spring">spring</option>
+            <option value="javascript">javascript</option>
+            <option value="flutter">flutter</option>
           </select>
           <div onClick={handleAddTags} className={styles.plusBtn}></div>
         </div>
