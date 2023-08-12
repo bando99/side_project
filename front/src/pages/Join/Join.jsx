@@ -25,12 +25,11 @@ export default function Join() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('회원가입 정보:', {
-      user_id: '테스트',
       username,
       password,
       mail,
     });
-    const userData = { user_id: '테스트', username, password, mail };
+    const userData = { username, password, mail };
 
     try {
       const response = await axios.post(
