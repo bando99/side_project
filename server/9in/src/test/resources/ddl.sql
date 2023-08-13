@@ -25,7 +25,7 @@ create table comment(
     user_id   bigint         not null,
     post_id   bigint         not null,
     foreign key(user_id) references user(id) on delete cascade,
-    foreign key(post_id) references post(id) on delete cascade,
+    foreign key(board_id) references board(id) on delete cascade,
     createAt  datetime,
     updateAt  datetime
 )
@@ -40,17 +40,17 @@ create table roleNeeded(
     name     varchar(255)    not null
 )
 
-create table tagPostRelation(
+create table tagBoardRelation(
     post_id      bigint          not null,
     skilltag_id  bigint          not null,
-    foreign key(post_id) references post(id) on delete cascade,
+    foreign key(board_id) references board(id) on delete cascade,
     foreign key(skilltag_id) references skilltag(id) on delete cascade
 )
 
-create table applicantPostRelation(
+create table applicantBoardRelation(
     post_id      bigint      not null,
     user_id      bigint      not null,
-    foreign key(post_id) references post(id) on delete cascade,
+    foreign key(post_id) references board(id) on delete cascade,
     foreign key(user_id) references user(id) on delete cascade
 )
 
@@ -61,17 +61,17 @@ create table applicantRoleRelation(
     foreign key(role_id) references roleNeeded(id) on delete cascade
 )
 
-create table clipPostRelation(
+create table clipBoardRelation(
     user_id      bigint      not null,
     post_id      bigint      not null,
     foreign key(user_id) references user(id) on delete cascade,
-    foreign key(post_id) references post(id) on delete cascade
+    foreign key(board_id) references board(id) on delete cascade
 )
 
-create table rolePostRelation(
+create table roleBoardRelation(
     post_id      bigint      not null,
     role_id      bigint      not null,
-    foreign key(post_id) references post(id) on delete cascade,
+    foreign key(board_id) references board(id) on delete cascade,
     foreign key(role_id) references roleNeeded(id) on delete cascade
 )
 

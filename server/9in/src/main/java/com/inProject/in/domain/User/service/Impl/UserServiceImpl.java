@@ -2,11 +2,10 @@ package com.inProject.in.domain.User.service.Impl;
 
 import com.inProject.in.domain.User.Dto.ResponseUserDto;
 import com.inProject.in.domain.User.Dto.UpdateUserDto;
-import com.inProject.in.domain.User.Dto.UserDto;
+import com.inProject.in.domain.User.Dto.RequestUserDto;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
 import com.inProject.in.domain.User.service.UserService;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseUserDto createUser(UserDto userdto) {
+    public ResponseUserDto createUser(RequestUserDto userdto) {
 
         User user = userdto.toEntity();
 

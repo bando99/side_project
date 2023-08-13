@@ -1,27 +1,18 @@
 package com.inProject.in.domain.Board.Dto;
 
-import com.inProject.in.domain.Comment.entity.Comment;
-import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.entity.ApplicantBoardRelation;
-import com.inProject.in.domain.MToNRelation.ClipBoardRelation.entity.ClipBoardRelation;
-import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;
-import com.inProject.in.domain.MToNRelation.TagBoardRelation.entity.TagBoardRelation;
 import com.inProject.in.domain.Board.entity.Board;
-import com.inProject.in.domain.User.entity.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 @Data
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Builder
-public class ResponseBoardDto {
-    private Long id;
-    private String username;
+public class RequestBoardDto {
+
     private String type;
     private String title;
     private String text;
@@ -35,9 +26,24 @@ public class ResponseBoardDto {
 //    private List<ClipBoardRelation> clipBoardRelationList;
 //    private List<RoleBoardRelation> roleBoardRelationList;
 
-    public ResponseBoardDto(Board board){
-        this.id = board.getId();
-        this.username = board.getUsername();
+    public Board toEntity(){
+        return Board.builder()
+                .type(type)
+                .title(title)
+                .text(text)
+                .proceed_method(proceed_method)
+                .period(period)
+                .comment_cnt(comment_cnt)
+//                .author(author)
+//                .applicantBoardRelationList(applicantBoardRelationList)
+//                .commentList(commentList)
+//                .tagBoardRelationList(tagBoardRelationList)
+//                .clipBoardRelationList(clipBoardRelationList)
+//                .roleBoardRelationList(roleBoardRelationList)
+                .build();
+    }
+
+    public RequestBoardDto(Board board){
         this.type = board.getType();
         this.text = board.getText();
         this.title = board.getTitle();
@@ -51,4 +57,8 @@ public class ResponseBoardDto {
 //        this.clipBoardRelationList = board.getClipBoardRelationList();
 //        this.roleBoardRelationList = board.getRoleBoardRelationList();
     }
+
+
 }
+
+

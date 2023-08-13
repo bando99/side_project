@@ -2,7 +2,7 @@ package com.inProject.in.domain.Comment.service.impl;
 
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.Board.repository.BoardRepository;
-import com.inProject.in.domain.Comment.Dto.CommentDto;
+import com.inProject.in.domain.Comment.Dto.RequestCommentDto;
 import com.inProject.in.domain.Comment.Dto.ResponseCommentDto;
 import com.inProject.in.domain.Comment.Dto.UpdateCommentDto;
 import com.inProject.in.domain.Comment.entity.Comment;
@@ -10,22 +10,23 @@ import com.inProject.in.domain.Comment.repository.CommentRepository;
 import com.inProject.in.domain.Comment.service.CommentService;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
 
-    UserRepository userRepository;
-    BoardRepository boardRepository;
-    CommentRepository commentRepository;
-
+    private UserRepository userRepository;
+    private BoardRepository boardRepository;
+    private CommentRepository commentRepository;
+    private final Logger log = LoggerFactory.getLogger(CommentServiceImpl.class);
     @Autowired
     public CommentServiceImpl(CommentRepository commentRepository,
                               UserRepository userRepository,
@@ -48,10 +49,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public ResponseCommentDto createComment(CommentDto commentDto) {
+    public ResponseCommentDto createComment(RequestCommentDto requestCommentDto) {
 
-        Long user_id = commentDto.getUser_id();
-        Long board_id = commentDto.getBoard_id();
+        Long user_id = requestCommentDto.getUser_id();
+        Long board_id = requestCommentDto.getBoard_id();
 
         User user = userRepository.findById(user_id)
                 .orElseThrow(() -> new IllegalArgumentException("createComment에서 유효하지 않은 user id : " + user_id));
@@ -59,13 +60,17 @@ public class CommentServiceImpl implements CommentService {
         Board board = boardRepository.findById(board_id)
                 .orElseThrow(() -> new IllegalArgumentException("createComment에서 유효하지 않은 board id : " + board_id));
 
+        board.setComment_cnt(board.getComment_cnt() + 1);
+
         Comment comment = Comment.builder()
                 .user(user)
                 .board(board)
-                .text(commentDto.getText())
+                .text(requestCommentDto.getText())
                 .build();
 
         Comment savedComment = commentRepository.save(comment);
+        Long savedId = savedComment.getId();
+        log.info("CreateComment in commentService ==> comment id : " + savedId);
 
         ResponseCommentDto responseCommentDto = new ResponseCommentDto(savedComment);
 
