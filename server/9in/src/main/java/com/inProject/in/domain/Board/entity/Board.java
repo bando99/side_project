@@ -1,11 +1,12 @@
 package com.inProject.in.domain.Board.entity;
 
 import com.inProject.in.Global.BaseEntity;
+import com.inProject.in.domain.Board.Dto.RequestUpdateBoardDto;
 import com.inProject.in.domain.Comment.entity.Comment;
 import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.entity.ApplicantBoardRelation;
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.entity.ClipBoardRelation;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;
-import com.inProject.in.domain.Board.Dto.BoardDto;
+import com.inProject.in.domain.Board.Dto.RequestBoardDto;
 import com.inProject.in.domain.MToNRelation.TagBoardRelation.entity.TagBoardRelation;
 import com.inProject.in.domain.User.entity.User;
 import jakarta.persistence.*;
@@ -25,6 +26,8 @@ import java.util.List;
 @Table(name = "board") //테이블과 매핑
 public class Board extends BaseEntity {
 
+    @Column(nullable = false)
+    private String username;
     @Column(nullable = false)
     private String type;
     @Column(nullable = false)
@@ -60,15 +63,15 @@ public class Board extends BaseEntity {
 
     @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<RoleBoardRelation> roleBoardRelationList;   //직군 관련 태그
+    private List<RoleBoardRelation> roleBoardRelationList;   //직군
 
-    public void updateBoard(BoardDto boardDto){
-        this.type = boardDto.getType();
-        this.title = boardDto.getTitle();
-        this.text = boardDto.getText();
-        this.proceed_method = boardDto.getProceed_method();
-        this.period = boardDto.getPeriod();
-        this.tagBoardRelationList = boardDto.getTagBoardRelationList();
-        this.roleBoardRelationList = boardDto.getRoleBoardRelationList();
+    public void updateBoard(RequestUpdateBoardDto requestUpdateBoardDto){
+        this.type = requestUpdateBoardDto.getType();
+        this.title = requestUpdateBoardDto.getTitle();
+        this.text = requestUpdateBoardDto.getText();
+        this.proceed_method = requestUpdateBoardDto.getProceed_method();
+        this.period = requestUpdateBoardDto.getPeriod();
+//        this.tagBoardRelationList = requestBoardDto.getTagBoardRelationList();
+//        this.roleBoardRelationList = requestBoardDto.getRoleBoardRelationList();
     }
 }

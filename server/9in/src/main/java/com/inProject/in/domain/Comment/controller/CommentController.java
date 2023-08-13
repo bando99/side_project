@@ -1,15 +1,12 @@
 package com.inProject.in.domain.Comment.controller;
 
-import com.inProject.in.domain.Comment.Dto.CommentDto;
+import com.inProject.in.domain.Comment.Dto.RequestCommentDto;
 import com.inProject.in.domain.Comment.Dto.ResponseCommentDto;
 import com.inProject.in.domain.Comment.Dto.UpdateCommentDto;
-import com.inProject.in.domain.Comment.entity.Comment;
 import com.inProject.in.domain.Comment.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,9 +34,9 @@ public class CommentController {
     }
 
     @PostMapping()
-    public ResponseEntity<ResponseCommentDto> createComment(@RequestBody CommentDto commentDto){
+    public ResponseEntity<ResponseCommentDto> createComment(@RequestBody RequestCommentDto requestCommentDto){
 
-        ResponseCommentDto responseCommentDto = commentService.createComment(commentDto);
+        ResponseCommentDto responseCommentDto = commentService.createComment(requestCommentDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseCommentDto);
     }

@@ -1,19 +1,21 @@
 package com.inProject.in.domain.Board.service.impl;
 
-import com.inProject.in.domain.Board.Dto.RequestParamDto;
+import com.inProject.in.domain.Board.Dto.RequestSearchBoardDto;
+import com.inProject.in.domain.Board.Dto.RequestUpdateBoardDto;
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.repository.RoleBoardRelationRepository;
 import com.inProject.in.domain.MToNRelation.TagBoardRelation.entity.TagBoardRelation;
 import com.inProject.in.domain.MToNRelation.TagBoardRelation.repository.TagBoardRelationRepository;
-import com.inProject.in.domain.Board.Dto.BoardDto;
+import com.inProject.in.domain.Board.Dto.RequestBoardDto;
 import com.inProject.in.domain.Board.Dto.ResponseBoardDto;
 import com.inProject.in.domain.Board.repository.BoardRepository;
 import com.inProject.in.domain.Board.service.BoardService;
-import com.inProject.in.domain.RoleNeeded.Dto.RoleNeededDto;
+import com.inProject.in.domain.RoleNeeded.Dto.RequestRoleNeededDto;
+import com.inProject.in.domain.RoleNeeded.Dto.RequestUsingInBoardDto;
 import com.inProject.in.domain.RoleNeeded.entity.RoleNeeded;
 import com.inProject.in.domain.RoleNeeded.repository.RoleNeededRepository;
-import com.inProject.in.domain.SkillTag.Dto.SkillTagDto;
+import com.inProject.in.domain.SkillTag.Dto.RequestSkillTagDto;
 import com.inProject.in.domain.SkillTag.entity.SkillTag;
 import com.inProject.in.domain.SkillTag.repository.SkillTagRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +31,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,24 +91,31 @@ class BoardServiceImplTest {
         //given
         Long testId = 1l;
 
-        BoardDto boardDto = BoardDto.builder()
+        RequestBoardDto requestBoardDto = RequestBoardDto.builder()
                 .title("title1")
                 .text("text1")
                 .build();
 
-        SkillTagDto skillTagDto = SkillTagDto.builder()
+        RequestSkillTagDto requestSkillTagDto = RequestSkillTagDto.builder()
                 .name("react")
                 .build();
 
-        RoleNeededDto roleNeededDto = RoleNeededDto.builder()
+//        RequestRoleNeededDto requestRoleNeededDto = RequestRoleNeededDto.builder()
+//                .name(List.of("backend"))
+//                .build();
+
+        RequestUsingInBoardDto requestUsingInBoardDto = RequestUsingInBoardDto.builder()
+                .name("backend")
                 .pre_cnt(0)
                 .want_cnt(4)
-                .name("백엔드")
                 .build();
 
-        Board board = boardDto.toEntity();
-        SkillTag skillTag = skillTagDto.toEntity();
-        RoleNeeded roleNeeded = roleNeededDto.toEntity();
+        Board board = requestBoardDto.toEntity();
+        SkillTag skillTag = requestSkillTagDto.toEntity();
+//        RoleNeeded roleNeeded = requestRoleNeededDto.toEntity();
+        RoleNeeded roleNeeded = RoleNeeded.builder()
+                .name("backend")
+                .build();
 
         board.setId(testId);
         skillTag.setId(testId);
@@ -123,11 +131,11 @@ class BoardServiceImplTest {
                 .board(board)
                 .build();
 
-        List<SkillTagDto> skillTagDtoList = new ArrayList<>();
-        List<RoleNeededDto> roleNeededDtoList = new ArrayList<>();
+        List<RequestSkillTagDto> requestSkillTagDtoList = new ArrayList<>();
+        List<RequestUsingInBoardDto> requestRoleNeededDtoList = new ArrayList<>();
 
-        skillTagDtoList.add(skillTagDto);
-        roleNeededDtoList.add(roleNeededDto);
+        requestSkillTagDtoList.add(requestSkillTagDto);
+        requestRoleNeededDtoList.add(requestUsingInBoardDto);
 
         given(boardRepository.save(any(Board.class))).willReturn(board);
         given(skillTagRepository.findTagByName(any(String.class))).willReturn(Optional.of(skillTag));
@@ -137,7 +145,7 @@ class BoardServiceImplTest {
 
 
         //when
-        ResponseBoardDto responseBoardDto = boardService.createBoard(boardDto, skillTagDtoList, roleNeededDtoList);
+        ResponseBoardDto responseBoardDto = boardService.createBoard(requestBoardDto, requestSkillTagDtoList, requestRoleNeededDtoList);
 
         //then
         assertEquals(responseBoardDto.getId(), board.getId());
@@ -150,18 +158,21 @@ class BoardServiceImplTest {
         //given
         Long id = 1L;
 
-        BoardDto boardDto = BoardDto.builder()
+        RequestBoardDto requestBoardDto = RequestBoardDto.builder()
                 .title("title1")
                 .text("text1")
                 .build();
 
-        BoardDto boardDto2 = BoardDto.builder()
+        RequestUpdateBoardDto requestBoardDto2 = RequestUpdateBoardDto.builder()
                 .title("title2")
                 .text("text2")
                 .build();
 
-        Board board = boardDto.toEntity();
-        Board board2 = boardDto2.toEntity();
+        Board board = requestBoardDto.toEntity();
+        Board board2 = Board.builder()
+                .title("title2")
+                .text("text2")
+                .build();
 
         board2.setId(id);
 
@@ -169,12 +180,17 @@ class BoardServiceImplTest {
         given(boardRepository.save(eq(board))).willReturn(board2);
 
         //when
-        ResponseBoardDto responseBoardDto = boardService.updateBoard(1L, boardDto2);
+        ResponseBoardDto responseBoardDto = boardService.updateBoard(1L, requestBoardDto2);
 
 
         //then
 
         assertEquals(responseBoardDto.getId(), board2.getId());
+        assertEquals(responseBoardDto.getTitle(), board.getTitle());
+        assertEquals(responseBoardDto.getText(), board.getText());
+        assertEquals(responseBoardDto.getPeriod(), board.getPeriod());
+        assertEquals(responseBoardDto.getProceed_method(), board.getProceed_method());
+
     }
 
 
@@ -184,45 +200,48 @@ class BoardServiceImplTest {
     void getBoardList() {
 
         //given
-        BoardDto boardDto1 = BoardDto.builder()
+        RequestBoardDto requestBoardDto1 = RequestBoardDto.builder()
                 .title("title1")
                 .text("text1")
                 .build();
 
-        BoardDto boardDto2 = BoardDto.builder()
+        RequestBoardDto requestBoardDto2 = RequestBoardDto.builder()
                 .title("title2")
                 .text("text2")
                 .build();
 
-        BoardDto boardDto3 = BoardDto.builder()
+        RequestBoardDto requestBoardDto3 = RequestBoardDto.builder()
                 .title("title3")
                 .text("text3")
                 .build();
 
-        Board board1 = boardDto1.toEntity();
-        Board board2 = boardDto2.toEntity();
-        Board board3 = boardDto3.toEntity();
+        Board board1 = requestBoardDto1.toEntity();
+        Board board2 = requestBoardDto2.toEntity();
+        Board board3 = requestBoardDto3.toEntity();
 
         Pageable pageable = PageRequest.of(0 , 3);
-        String user_id = "";
-        String title = "";
-        String type = "";
-        List<String> tags = new ArrayList<>();
+        String username = null;
+        String title = null;
+        String type = null;
+        List<String> tags = null;
 
-        RequestParamDto requestParamDto = RequestParamDto.builder()
-                .user_id(user_id)
-                .title(title)
-                .type(type)
-                .tags(tags)
+//        RequestSearchBoardDto requestSearchBoardDto = RequestSearchBoardDto.builder()
+//                .username(username)
+//                .title(title)
+//                .type(type)
+//                .tags(tags)
+//                .build();
+
+        RequestSearchBoardDto requestSearchBoardDto = RequestSearchBoardDto.builder()
                 .build();
 
         List<Board> boardList = List.of(board1, board2, board3);
         Page<Board> page = new PageImpl<>(boardList, pageable, boardList.size()); //이렇게 해도 가능!
 
-        given(boardRepository.findBoards(pageable, user_id, title, type, tags)).willReturn(page);
+        given(boardRepository.findBoards(pageable, username, title, type, tags)).willReturn(page);
         
         //when
-        List<ResponseBoardDto> responseBoardDtoList = boardService.getBoardList(pageable, requestParamDto);
+        List<ResponseBoardDto> responseBoardDtoList = boardService.getBoardList(pageable, requestSearchBoardDto);
 
         //then
         int i = 1;

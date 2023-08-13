@@ -1,6 +1,6 @@
 package com.inProject.in.domain.CommonLogic.service.Impl;
 
-import com.inProject.in.domain.Board.Dto.BoardDto;
+import com.inProject.in.domain.Board.Dto.RequestBoardDto;
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.Board.repository.BoardRepository;
 import com.inProject.in.domain.CommonLogic.Dto.ApplicationDto;
@@ -12,10 +12,10 @@ import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.entity.Applica
 import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.repository.ApplicantRoleRelationRepository;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.repository.RoleBoardRelationRepository;
-import com.inProject.in.domain.RoleNeeded.Dto.RoleNeededDto;
+import com.inProject.in.domain.RoleNeeded.Dto.RequestRoleNeededDto;
 import com.inProject.in.domain.RoleNeeded.entity.RoleNeeded;
 import com.inProject.in.domain.RoleNeeded.repository.RoleNeededRepository;
-import com.inProject.in.domain.User.Dto.UserDto;
+import com.inProject.in.domain.User.Dto.RequestUserDto;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -25,6 +25,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -69,24 +70,25 @@ class ApplicationServiceImplTest {
                 .username("author")
                 .build();
 
-        UserDto userDto = UserDto.builder()
+        RequestUserDto requestUserDto = RequestUserDto.builder()
                 .username("applicant")
                 .build();
 
-        BoardDto boardDto = BoardDto.builder()
+        RequestBoardDto requestBoardDto = RequestBoardDto.builder()
                 .text("text1")
                 .title("title1")
-                .author(author)
                 .build();
 
-        RoleNeededDto roleNeededDto = RoleNeededDto.builder()
+//        RequestRoleNeededDto requestRoleNeededDto = RequestRoleNeededDto.builder()
+//                .name(List.of("backend"))
+//                .build();
+
+        User applicant = requestUserDto.toEntity();
+        Board board = requestBoardDto.toEntity();
+
+        RoleNeeded roleNeeded = RoleNeeded.builder()
                 .name("backend")
                 .build();
-
-
-        User applicant = userDto.toEntity();
-        Board board = boardDto.toEntity();
-        RoleNeeded roleNeeded = roleNeededDto.toEntity();
 
         RoleBoardRelation roleBoardRelation = RoleBoardRelation.builder()
                 .roleNeeded(roleNeeded)

@@ -7,9 +7,10 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @Builder
-public class ResponseRoleNeededDto {
-    private Long id;
+public class RequestUsingInBoardDto {
     private String name;
     private int pre_cnt;
     private int want_cnt;
+
+
 }

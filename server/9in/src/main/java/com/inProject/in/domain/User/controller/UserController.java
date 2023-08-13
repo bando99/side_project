@@ -2,8 +2,7 @@ package com.inProject.in.domain.User.controller;
 
 import com.inProject.in.domain.User.Dto.ResponseUserDto;
 import com.inProject.in.domain.User.Dto.UpdateUserDto;
-import com.inProject.in.domain.User.Dto.UserDto;
-import com.inProject.in.domain.User.entity.User;
+import com.inProject.in.domain.User.Dto.RequestUserDto;
 import com.inProject.in.domain.User.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,9 +20,9 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<ResponseUserDto> createUser(@RequestBody UserDto userDto){
+    public ResponseEntity<ResponseUserDto> createUser(@RequestBody RequestUserDto requestUserDto){
 
-        ResponseUserDto responseUserDto = userService.createUser(userDto);
+        ResponseUserDto responseUserDto = userService.createUser(requestUserDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseUserDto);
     }

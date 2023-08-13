@@ -7,7 +7,6 @@ import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.entity.Applic
 import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.entity.ApplicantRoleRelation;
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.entity.ClipBoardRelation;
 import com.inProject.in.domain.User.Dto.UpdateUserDto;
-import com.inProject.in.domain.User.Dto.UserDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,8 +23,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @Table(name = "user") //테이블과 매핑
 public class User extends BaseEntity {
-    @Column(nullable = false)
-    private String user_id;
+
     @Column(nullable = false)
     private String username;
     @Column(nullable = false)
@@ -62,7 +60,6 @@ public class User extends BaseEntity {
     }
 
     public void updateUser(UpdateUserDto updateUserDto){
-        this.user_id = updateUserDto.getUser_id();
         this.username = updateUserDto.getUsername();
         this.password = updateUserDto.getPassword();
         this.mail = updateUserDto.getMail();

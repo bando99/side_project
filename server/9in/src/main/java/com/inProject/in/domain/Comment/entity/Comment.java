@@ -2,7 +2,6 @@ package com.inProject.in.domain.Comment.entity;
 
 import com.inProject.in.Global.BaseEntity;
 import com.inProject.in.domain.Board.entity.Board;
-import com.inProject.in.domain.Comment.Dto.CommentDto;
 import com.inProject.in.domain.Comment.Dto.UpdateCommentDto;
 import com.inProject.in.domain.User.entity.User;
 import jakarta.persistence.*;
@@ -28,7 +27,5 @@ public class Comment extends BaseEntity {
 
     public void updateComment(UpdateCommentDto updateCommentDto){
         this.text = updateCommentDto.getText();
-//        this.user = commentDto.getUser_id();
-//        this.board = commentDto.getBoard();
     }
 }
