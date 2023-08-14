@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Project.module.css';
 import Tag from '../../ components/tag/Tag';
-import Project from '../../ components/Project';
+import Project from '../../ components/Post';
 
 export default function ProjectPage() {
   return (

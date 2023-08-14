@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Study.module.css';
 import Tag from '../../ components/tag/Tag';
-import Project from '../../ components/Project';
 import axios from 'axios';
+import Post from '../../ components/Post';
 
 export default function Study() {
   const [isFetched, setIsFetched] = useState(false);
@@ -95,7 +95,7 @@ export default function Study() {
       </div>
       <div className={styles.projectGrid}>
         {postList.map((post) => (
-          <Project
+          <Post
             key={post.id}
             title={post.title}
             type={post.type}
