@@ -115,6 +115,7 @@ export default function AddPost() {
       period: new Date(),
       tagNames,
       roleNeededDtoList,
+      user_id: 1,
     };
 
     console.log(postData);

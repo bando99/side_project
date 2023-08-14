@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './Project.module.css';
 import Tag from '../../ components/tag/Tag';
 import Project from '../Join/Project';
-import Lists from '../Join/Lists';
 
 export default function ProjectPage() {
   return (
