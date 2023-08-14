@@ -95,7 +95,7 @@ export default function Study() {
       </div>
       <div className={styles.projectGrid}>
         {postList
-          .filter((post) => post.type == '스터디')
+          .filter((post) => post.type === '스터디')
           .map((post) => (
             <Post
               key={post.id}
