@@ -50,7 +50,6 @@ const router = createBrowserRouter([
       { path: '/mypage/clip', element: <ClipPage /> },
       { path: '/profile', element: <Profile /> },
       { path: '/board', element: <Board /> },
-      { path: '/lists', element: <Lists /> },
     ],
   },
 ]);
