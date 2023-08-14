@@ -1,9 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Study.module.css';
 import Tag from '../../ components/tag/Tag';
-import Project from '../Join/Project';
+import Project from '../../ components/Project';
+import axios from 'axios';
 
 export default function Study() {
+  const [isFetched, setIsFetched] = useState(false);
+  const [Loading, setLoading] = useState(true);
+  const [error, setError] = useState();
+
+  const [postList, setPostList] = useState([]);
+
+  useEffect(() => {
+    if (!isFetched) {
+      const getPostList = async () => {
+        try {
+          const response = await axios.get('http://1.246.104.170:8080/boards');
+          setPostList(response.data);
+          setLoading(false);
+        } catch (error) {
+          setError('네트워크 에러가 발생했습니다.');
+        } finally {
+          setIsFetched(true);
+          console.log('PostList를 정상적으로 받아왔습니다.');
+        }
+      };
+      getPostList();
+    }
+  }, [isFetched]);
+
+  useEffect(() => {
+    console.log(postList);
+  }, [postList]);
+
+  if (Loading) return <p>Loading...</p>;
+
+  if (error) return <p>{error}</p>;
+
   return (
     <section>
       <div className={styles.header}>
@@ -61,18 +94,17 @@ export default function Study() {
         </label>
       </div>
       <div className={styles.projectGrid}>
-        <Project />
-        <Project />
-        <Project />
-        <Project />
-        <Project />
-        <Project />
-        <Project />
-        <Project />
-        <Project />
-        <Project />
-        <Project />
-        <Project />
+        {postList.map((post) => (
+          <Project
+            key={post.id}
+            title={post.title}
+            type={post.type}
+            period={post.period}
+            proceed_method={post.proceed_method}
+            username={post.username}
+            text={post.text}
+          />
+        ))}
       </div>
     </section>
   );

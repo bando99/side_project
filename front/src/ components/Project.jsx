@@ -1,19 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function Project() {
+export default function Project({
+  id,
+  username,
+  type,
+  title,
+  text,
+  proceed_method,
+  period,
+}) {
   return (
     <>
       <ProjectList>
-        <TopTopic>프로젝트 6개월이상</TopTopic>
+        <div>{type}</div>
+        <div>{period}</div>
         <Stack>
           <img src="/stack/JS.png" alt="dd"></img>
           <img src="/stack/React.png" alt="dd"></img>
           <img src="/stack/Spring.png" alt="dd"></img>
         </Stack>
-        <Topic>
-          해커톤 팀원 모집합니다(UXUI 디자이너/프론트엔트/기획자/백엔드)
-        </Topic>
+        <Topic>{title}</Topic>
         <Board>
           <Member>현재인원</Member>
           <Member>PM</Member>
@@ -21,7 +28,7 @@ export default function Project() {
           <Member>프론트엔드</Member>
           <Member>백엔드</Member>
         </Board>
-        <Writer>홍길동</Writer>
+        <Writer>{username}</Writer>
       </ProjectList>
     </>
   );
