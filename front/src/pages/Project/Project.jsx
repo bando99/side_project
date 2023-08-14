@@ -34,8 +34,6 @@ export default function Project() {
     console.log(postList);
   }, [postList]);
 
-  if (Loading) return <p>Loading...</p>;
-
   if (error) return <p>{error}</p>;
 
   return (
@@ -95,19 +93,23 @@ export default function Project() {
         </label>
       </div>
       <div className={styles.projectGrid}>
-        {postList
-          .filter((post) => post.type === '프로젝트')
-          .map((post) => (
-            <Post
-              key={post.id}
-              title={post.title}
-              type={post.type}
-              period={post.period}
-              proceed_method={post.proceed_method}
-              username={post.username}
-              text={post.text}
-            />
-          ))}
+        {Loading ? (
+          <p>Loading...</p>
+        ) : (
+          postList
+            .filter((post) => post.type === '프로젝트')
+            .map((post) => (
+              <Post
+                key={post.id}
+                title={post.title}
+                type={post.type}
+                period={post.period}
+                proceed_method={post.proceed_method}
+                username={post.username}
+                text={post.text}
+              />
+            ))
+        )}
       </div>
     </section>
   );

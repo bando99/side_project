@@ -33,8 +33,6 @@ export default function Study() {
     console.log(postList);
   }, [postList]);
 
-  if (Loading) return <p>Loading...</p>;
-
   if (error) return <p>{error}</p>;
 
   return (
@@ -94,19 +92,23 @@ export default function Study() {
         </label>
       </div>
       <div className={styles.projectGrid}>
-        {postList
-          .filter((post) => post.type === '스터디')
-          .map((post) => (
-            <Post
-              key={post.id}
-              title={post.title}
-              type={post.type}
-              period={post.period}
-              proceed_method={post.proceed_method}
-              username={post.username}
-              text={post.text}
-            />
-          ))}
+        {Loading ? (
+          <p>Loading..,</p>
+        ) : (
+          postList
+            .filter((post) => post.type === '스터디')
+            .map((post) => (
+              <Post
+                key={post.id}
+                title={post.title}
+                type={post.type}
+                period={post.period}
+                proceed_method={post.proceed_method}
+                username={post.username}
+                text={post.text}
+              />
+            ))
+        )}
       </div>
     </section>
   );
