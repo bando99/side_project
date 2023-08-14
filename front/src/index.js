@@ -19,12 +19,9 @@ import Profile from './pages/Join/Profile';
 import Board from './pages/Join/Board';
 import Study from './pages/Study/Study';
 import MyPage from './pages/User/MyPage/MyPage';
-import Lists from './pages/Join/Lists';
-import Header from './ components/header/Header';
-import Logo from './ components/header/Logo';
-import ProjectPage from './pages/Project/ProjectPage';
 import ClipPage from './pages/User/ClipPage';
 import JoinSuccess from './pages/Join/JoinSuccess';
+import Project from './pages/Project/Project';
 
 const router = createBrowserRouter([
   {
@@ -33,7 +30,7 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, path: '/', element: <Home /> },
-      { path: '/project', element: <ProjectPage /> },
+      { path: '/project', element: <Project /> },
       { path: '/study', element: <Study /> },
       { path: '/Addpost', element: <AddPost /> },
       { path: '/postDetail/:post', element: <PostDetail /> },
