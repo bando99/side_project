@@ -94,17 +94,19 @@ export default function Study() {
         </label>
       </div>
       <div className={styles.projectGrid}>
-        {postList.map((post) => (
-          <Post
-            key={post.id}
-            title={post.title}
-            type={post.type}
-            period={post.period}
-            proceed_method={post.proceed_method}
-            username={post.username}
-            text={post.text}
-          />
-        ))}
+        {postList
+          .filter((post) => post.type == '스터디')
+          .map((post) => (
+            <Post
+              key={post.id}
+              title={post.title}
+              type={post.type}
+              period={post.period}
+              proceed_method={post.proceed_method}
+              username={post.username}
+              text={post.text}
+            />
+          ))}
       </div>
     </section>
   );
