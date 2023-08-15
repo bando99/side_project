@@ -27,8 +27,6 @@ import java.util.List;
 public class Board extends BaseEntity {
 
     @Column(nullable = false)
-    private String username;
-    @Column(nullable = false)
     private String type;
     @Column(nullable = false)
     private String title;
@@ -49,7 +47,7 @@ public class Board extends BaseEntity {
     @ToString.Exclude
     private List<ApplicantBoardRelation> applicantBoardRelationList;     //게시글에 지원서를 제출한 유저에 대한 정보
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Comment> commentList;    //게시글에 작성된 댓글들
 
@@ -57,7 +55,7 @@ public class Board extends BaseEntity {
     @ToString.Exclude
     private List<TagBoardRelation> tagBoardRelationList;   //태그
 
-    @OneToMany(mappedBy = "clipedBoard", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "clipedBoard", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<ClipBoardRelation> clipBoardRelationList; //관심 클립으로 지정한 유저들
 

@@ -18,6 +18,7 @@ import com.inProject.in.domain.RoleNeeded.repository.RoleNeededRepository;
 import com.inProject.in.domain.SkillTag.Dto.RequestSkillTagDto;
 import com.inProject.in.domain.SkillTag.entity.SkillTag;
 import com.inProject.in.domain.SkillTag.repository.SkillTagRepository;
+import com.inProject.in.domain.User.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,13 +53,18 @@ class BoardServiceImplTest {
     RoleNeededRepository roleNeededRepository;
     @Mock
     RoleBoardRelationRepository roleBoardRelationRepository;
+    @Mock
+    UserRepository userRepository;
+
     @InjectMocks                                       //생성한 mock 객체를 주입받음.
     BoardService boardService = new BoardServiceImpl(
             boardRepository,
             skillTagRepository,
             roleNeededRepository,
             tagBoardRelationRepository,
-            roleBoardRelationRepository);
+            roleBoardRelationRepository,
+            userRepository
+    );
 
     @BeforeEach
     void dataSetting(){
@@ -81,7 +87,7 @@ class BoardServiceImplTest {
         ResponseBoardDto responseBoardDto = boardService.getBoard(1L);
 
         //then
-        assertEquals(board.getId(), responseBoardDto.getId());
+        assertEquals(board.getId(), responseBoardDto.getBoard_id());
     }
 
     @Test
@@ -145,10 +151,10 @@ class BoardServiceImplTest {
 
 
         //when
-        ResponseBoardDto responseBoardDto = boardService.createBoard(requestBoardDto, requestSkillTagDtoList, requestRoleNeededDtoList);
+        ResponseBoardDto responseBoardDto = boardService.createBoard(1L, requestBoardDto, requestSkillTagDtoList, requestRoleNeededDtoList);
 
         //then
-        assertEquals(responseBoardDto.getId(), board.getId());
+        assertEquals(responseBoardDto.getBoard_id(), board.getId());
 
     }
 
@@ -185,7 +191,7 @@ class BoardServiceImplTest {
 
         //then
 
-        assertEquals(responseBoardDto.getId(), board2.getId());
+        assertEquals(responseBoardDto.getBoard_id(), board2.getId());
         assertEquals(responseBoardDto.getTitle(), board.getTitle());
         assertEquals(responseBoardDto.getText(), board.getText());
         assertEquals(responseBoardDto.getPeriod(), board.getPeriod());

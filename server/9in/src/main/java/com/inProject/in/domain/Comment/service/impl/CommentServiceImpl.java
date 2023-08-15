@@ -62,11 +62,13 @@ public class CommentServiceImpl implements CommentService {
 
         board.setComment_cnt(board.getComment_cnt() + 1);
 
-        Comment comment = Comment.builder()
-                .user(user)
-                .board(board)
-                .text(requestCommentDto.getText())
-                .build();
+//        Comment comment = Comment.builder()
+//                .user(user)
+//                .board(board)
+//                .text(requestCommentDto.getText())
+//                .build();
+
+        Comment comment = requestCommentDto.toEntity(user, board);
 
         Comment savedComment = commentRepository.save(comment);
         Long savedId = savedComment.getId();

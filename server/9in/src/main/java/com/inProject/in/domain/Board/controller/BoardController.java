@@ -50,6 +50,7 @@ public class BoardController {
     public ResponseEntity<ResponseBoardDto> createBoard(@RequestBody RequestCreateBoardDto requestCreateBoardDto){
 
         RequestBoardDto requestBoardDto = requestCreateBoardDto.toBoardDto();
+        Long user_id = requestCreateBoardDto.getUser_id();
         List<RequestSkillTagDto> requestSkillTagDtoList = new ArrayList<>();        //requestCreateDto에 requestSkilltagDto를 포함할까 고민중..
         List<RequestUsingInBoardDto> requestRoleNeededDtoList = requestCreateBoardDto.getRoleNeededDtoList();
 
@@ -57,7 +58,7 @@ public class BoardController {
             requestSkillTagDtoList.add(new RequestSkillTagDto(tagName));
         }
 
-        ResponseBoardDto responseBoardDto = boardService.createBoard(requestBoardDto, requestSkillTagDtoList, requestRoleNeededDtoList);
+        ResponseBoardDto responseBoardDto = boardService.createBoard(user_id, requestBoardDto, requestSkillTagDtoList, requestRoleNeededDtoList);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseBoardDto);
     }
@@ -70,9 +71,10 @@ public class BoardController {
         return null;
     }
 
-    @DeleteMapping()
-    public ResponseEntity<String> deleteBoard(){
-        return null;
+    @DeleteMapping("/{board_id}")
+    public ResponseEntity<String> deleteBoard(@PathVariable Long board_id){
+        boardService.deleteBoard(board_id);
+        return ResponseEntity.status(HttpStatus.OK).body("성공적으로 게시글 삭제");
     }
 
 }

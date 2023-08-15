@@ -1,14 +1,11 @@
 package com.inProject.in.domain.Board.service.impl;
 
-import com.inProject.in.domain.Board.Dto.RequestSearchBoardDto;
-import com.inProject.in.domain.Board.Dto.RequestUpdateBoardDto;
+import com.inProject.in.domain.Board.Dto.*;
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.repository.RoleBoardRelationRepository;
 import com.inProject.in.domain.MToNRelation.TagBoardRelation.entity.TagBoardRelation;
 import com.inProject.in.domain.MToNRelation.TagBoardRelation.repository.TagBoardRelationRepository;
-import com.inProject.in.domain.Board.Dto.RequestBoardDto;
-import com.inProject.in.domain.Board.Dto.ResponseBoardDto;
 import com.inProject.in.domain.Board.repository.BoardRepository;
 import com.inProject.in.domain.Board.service.BoardService;
 import com.inProject.in.domain.RoleNeeded.Dto.RequestRoleNeededDto;
@@ -18,6 +15,8 @@ import com.inProject.in.domain.RoleNeeded.repository.RoleNeededRepository;
 import com.inProject.in.domain.SkillTag.Dto.RequestSkillTagDto;
 import com.inProject.in.domain.SkillTag.entity.SkillTag;
 import com.inProject.in.domain.SkillTag.repository.SkillTagRepository;
+import com.inProject.in.domain.User.entity.User;
+import com.inProject.in.domain.User.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +35,7 @@ public class BoardServiceImpl implements BoardService {
     private RoleNeededRepository roleNeededRepository;
     private TagBoardRelationRepository tagBoardRelationRepository;
     private RoleBoardRelationRepository roleBoardRelationRepository;
+    private UserRepository userRepository;
 
     private final Logger log = LoggerFactory.getLogger(BoardServiceImpl.class);
 
@@ -44,13 +44,15 @@ public class BoardServiceImpl implements BoardService {
                             SkillTagRepository skilltagRepository,
                             RoleNeededRepository roleNeededRepository,
                             TagBoardRelationRepository tagBoardRelationRepository,
-                            RoleBoardRelationRepository roleBoardRelationRepository){
+                            RoleBoardRelationRepository roleBoardRelationRepository,
+                            UserRepository userRepository){
 
         this.boardRepository = boardRepository;
         this.tagBoardRelationRepository = tagBoardRelationRepository;
         this.skilltagRepository = skilltagRepository;
         this.roleBoardRelationRepository = roleBoardRelationRepository;
         this.roleNeededRepository = roleNeededRepository;
+        this.userRepository = userRepository;
 
     }
 
@@ -107,11 +109,15 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ResponseBoardDto createBoard(RequestBoardDto requestBoardDto, List<RequestSkillTagDto> requestSkillTagDtoList, List<RequestUsingInBoardDto> requestRoleNeededDtoList) {
+    public ResponseBoardDto createBoard(Long user_id, RequestBoardDto requestBoardDto, List<RequestSkillTagDto> requestSkillTagDtoList, List<RequestUsingInBoardDto> requestRoleNeededDtoList) {
+
+        User user = userRepository.findById(user_id)
+                .orElseThrow(() -> new IllegalArgumentException("BoardService createBoard에서 유저를 찾지 못함 : " + user_id));
 
         Board board = requestBoardDto.toEntity();
         board.setCreateAt(LocalDateTime.now());
         board.setUpdateAt(LocalDateTime.now());
+        board.setAuthor(user);
 
         Board createBoard = boardRepository.save(board);
 
@@ -147,7 +153,7 @@ public class BoardServiceImpl implements BoardService {
         board.updateBoard(requestUpdateBoardDto);
         Board updatedBoard = boardRepository.save(board);
         ResponseBoardDto responseBoardDto = new ResponseBoardDto(updatedBoard);
-        log.info("Using BoardService updateBoard : " + responseBoardDto.getId() + responseBoardDto.getTitle());
+        log.info("Using BoardService updateBoard : " + responseBoardDto.getBoard_id() + responseBoardDto.getTitle());
 
         return responseBoardDto;
     }
