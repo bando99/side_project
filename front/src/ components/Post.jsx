@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Role from './Role';
+import styles from './Post.module.css';
 
 export default function Post({
   id,
@@ -14,18 +15,20 @@ export default function Post({
   tags,
 }) {
   return (
-    <>
-      <ProjectList>
-        <div>{type}</div>
-        <div>{period}</div>
-        <div>
-          {tags.map((tag) => (
-            <img src={`/tag/${tag}.png`} alt={tag} />
-          ))}
-        </div>
-        <Topic>{title}</Topic>
-        <span>현재인원</span>
-        <Board>
+    <div className={styles.container}>
+      <div className={styles.type__container}>
+        <div className={styles.type__text}>{type}</div>
+        <div className={styles.period__text}>{period}</div>
+      </div>
+      <p className={styles.title}>{title}</p>
+      <div>
+        {tags.map((tag) => (
+          <img className={styles.tagImg} src={`/tag/${tag}.png`} alt={tag} />
+        ))}
+      </div>
+      <div className={styles.role__container}>
+        <p className={styles.cur__cnt}>현재인원</p>
+        <div className={styles.role}>
           {roles.map((role) => (
             <Role
               name={role.name}
@@ -34,10 +37,10 @@ export default function Post({
               want_cnt={role.want_cnt}
             />
           ))}
-        </Board>
-        <Writer>{username}</Writer>
-      </ProjectList>
-    </>
+        </div>
+      </div>
+      <p>{username}</p>
+    </div>
   );
 }
 
