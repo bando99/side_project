@@ -103,6 +103,7 @@ export default function Study() {
                 title={post.title}
                 type={post.type}
                 period={post.period}
+                roles={post.roles}
                 proceed_method={post.proceed_method}
                 username={post.username}
                 text={post.text}

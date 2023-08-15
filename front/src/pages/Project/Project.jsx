@@ -103,10 +103,12 @@ export default function Project() {
                 key={post.id}
                 title={post.title}
                 type={post.type}
+                roles={post.roles}
                 period={post.period}
                 proceed_method={post.proceed_method}
                 username={post.username}
                 text={post.text}
+                tags={post.tags}
               />
             ))
         )}

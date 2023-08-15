@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Role from './Role';
 
 export default function Post({
   id,
@@ -9,24 +10,30 @@ export default function Post({
   text,
   proceed_method,
   period,
+  roles,
+  tags,
 }) {
   return (
     <>
       <ProjectList>
         <div>{type}</div>
         <div>{period}</div>
-        <Stack>
-          <img src="/stack/JS.png" alt="dd"></img>
-          <img src="/stack/React.png" alt="dd"></img>
-          <img src="/stack/Spring.png" alt="dd"></img>
-        </Stack>
+        <div>
+          {tags.map((tag) => (
+            <img src={`/tag/${tag}.png`} alt={tag} />
+          ))}
+        </div>
         <Topic>{title}</Topic>
+        <span>현재인원</span>
         <Board>
-          <Member>현재인원</Member>
-          <Member>PM</Member>
-          <Member>디자이너</Member>
-          <Member>프론트엔드</Member>
-          <Member>백엔드</Member>
+          {roles.map((role) => (
+            <Role
+              name={role.name}
+              id={role.role_id}
+              pre_cnt={role.pre_cnt}
+              want_cnt={role.want_cnt}
+            />
+          ))}
         </Board>
         <Writer>{username}</Writer>
       </ProjectList>
@@ -49,13 +56,6 @@ const TopTopic = styled.div`
   height: 3rem;
   margin-top: 1rem;
   /* background-color: #FFCA3A; */
-`;
-
-const Stack = styled.div`
-  width: 10%;
-  height: 2em;
-  display: flex;
-  justify-content: row;
 `;
 
 const Topic = styled.div`
