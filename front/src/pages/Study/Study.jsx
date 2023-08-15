@@ -107,6 +107,7 @@ export default function Study() {
                 proceed_method={post.proceed_method}
                 username={post.username}
                 text={post.text}
+                tags={post.tags}
               />
             ))
         )}
