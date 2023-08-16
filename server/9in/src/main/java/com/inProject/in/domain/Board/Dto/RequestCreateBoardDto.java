@@ -12,7 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Builder
-public class RequestCreateBoardDto {
+public class RequestCreateBoardDto {   //게시글 생성 시 필요한 정보들.
+
+    private Long user_id;
     private String type;
     private String title;
     private String text;

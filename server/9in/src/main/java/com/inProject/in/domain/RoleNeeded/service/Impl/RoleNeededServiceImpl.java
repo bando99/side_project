@@ -42,7 +42,7 @@ public class RoleNeededServiceImpl implements RoleNeededService {
             RoleNeeded savedRoleNeeded = roleNeededRepository.save(roleNeeded);
 
             ResponseRoleNeededDto responseRoleNeededDto = ResponseRoleNeededDto.builder()
-                    .id(savedRoleNeeded.getId())
+                    .role_id(savedRoleNeeded.getId())
                     .name(savedRoleNeeded.getName())
                     .build();
 
