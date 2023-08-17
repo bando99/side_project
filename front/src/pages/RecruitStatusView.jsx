@@ -126,7 +126,7 @@ const Button2 = styled.button`
   border-radius: 0.5rem;
 `;
 
-export default function RecruitStatus() {
+export default function RecruitStatusView() {
   return (
     <Container>
       <MainTitle>내가 운영중인</MainTitle>

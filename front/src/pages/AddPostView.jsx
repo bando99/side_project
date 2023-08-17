@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './AddPost.module.css';
 import axios from 'axios';
 
-export default function AddPost() {
+export default function AddPostView() {
   const [title, setTitle] = useState('');
   const [skill, setSkill] = useState('');
   const [type, setType] = useState('');
