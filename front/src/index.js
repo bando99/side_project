@@ -16,7 +16,6 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Join from './pages/Join/Join';
 import Profile from './pages/Join/Profile';
-import Board from './pages/Join/Board';
 import Study from './pages/Study/Study';
 import MyPage from './pages/User/MyPage/MyPage';
 import ClipPage from './pages/User/ClipPage';
@@ -46,7 +45,6 @@ const router = createBrowserRouter([
       { path: '/joinSuccess', element: <JoinSuccess /> },
       { path: '/mypage/clip', element: <ClipPage /> },
       { path: '/profile', element: <Profile /> },
-      { path: '/board', element: <Board /> },
     ],
   },
 ]);
