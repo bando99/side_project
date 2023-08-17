@@ -1,45 +1,25 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 const Header = (props) => {
   const navigate = useNavigate();
 
-  const handleHome = () => {
-    navigate('/');
-  };
-
-  const handleStudy = () => {
-    navigate('/study');
-  };
-
-  const handleProject = () => {
-    navigate('/project');
-  };
-
-  const handleJoin = () => {
-    navigate('/join');
-  };
-
-  const handleLogin = () => {
-    navigate('/user/login');
-  };
-
-  const handleAddPost = () => {
-    navigate('/AddPost');
+  const handleNavigation = (path) => {
+    navigate(path);
   };
 
   return (
     <>
       <HeaderContainer>
-        <Logo onClick={handleHome} src="/logo/logoHead.png" alt="로고" />
-        <Title onClick={handleStudy}>스터디</Title>
-        <Title onClick={handleProject}>프로젝트</Title>
+        <Logo onClick={() => handleNavigation("/")} src="/logo/logoHead.png" alt="로고" />
+        <Title onClick={() => handleNavigation("/study")}>스터디</Title>
+        <Title onClick={() => handleNavigation("/project")}>프로젝트</Title>
         <SearchInput type="text" placeholder="검색하기" />
         <LogButtons>
-          <button onClick={handleAddPost}>글 작성하기</button>
-          <Button onClick={handleJoin}>회원가입</Button>
-          <Button onClick={handleLogin}>로그인</Button>
+          <button onClick={() => handleNavigation("/AddPost")}>글 작성하기</button>
+          <Button onClick={() => handleNavigation("/join")}>회원가입</Button>
+          <Button onClick={() => handleNavigation("/user/login")}>로그인</Button>
         </LogButtons>
       </HeaderContainer>
     </>
