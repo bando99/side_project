@@ -43,6 +43,7 @@ const Headers = styled.header`
   width: 100%;
   height: 80px;
   color: black;
+  background-color: white;
 `;
 
 const Container = styled.div`
