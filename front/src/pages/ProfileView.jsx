@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ProfileView = () => {
+export default function ProfileView() {
   return (
     <>
       <Container>
@@ -51,9 +51,7 @@ const ProfileView = () => {
       </ButtonWrapper>
     </>
   );
-};
-
-export default ProfileView;
+}
 
 const Container = styled.div`
   width: 50%;

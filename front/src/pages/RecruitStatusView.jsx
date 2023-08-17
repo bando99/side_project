@@ -1,6 +1,66 @@
 import React from 'react';
 import styled from 'styled-components';
 
+export default function RecruitStatusView() {
+  return (
+    <Container>
+      <MainTitle>내가 운영중인</MainTitle>
+      <MyBox>
+        <MyRecruit>
+          <Title>
+            <span>프로젝트</span>
+            <TitleCount>1</TitleCount>
+          </Title>
+          <ContentContainer>
+            <Truncate>
+              해커톤 팀원 모집합니다(UX/UI/프론트엔드/기획자/백엔드) 열심히
+              하실분만 구합니다
+            </Truncate>
+            <Options>
+              <OptionItem>수정</OptionItem>
+              <OptionItem>삭제</OptionItem>
+            </Options>
+          </ContentContainer>
+        </MyRecruit>
+        <MyRecruit>
+          <Title>
+            {' '}
+            <span>스터디</span>
+            <TitleCount>1</TitleCount>
+          </Title>
+          <ContentContainer>
+            <Truncate>
+              해커톤 팀원 모집합니다(UX/UI/프론트엔드/기획자/백엔드) 열심히
+              하실분만 구합니다
+            </Truncate>
+            <Options>
+              <OptionItem>수정</OptionItem>
+              <OptionItem>삭제</OptionItem>
+            </Options>
+          </ContentContainer>
+        </MyRecruit>
+      </MyBox>
+      <MainTitle>신청 알림</MainTitle>
+      <NewBox>
+        <LeftBox>
+          <Icon />
+          <TextContainer>
+            <Line1>
+              [프로젝트] 해커톤 모집합니다. (UXUI/프론트엔드/기획자/백엔드)
+              열심히 하실분만...의 디자이너 신청이 1건 있습니다.
+            </Line1>
+            <Line2>신청자: 공대생23</Line2>
+          </TextContainer>
+        </LeftBox>
+        <RightBox>
+          <Button1>프로필 자세히</Button1>
+          <Button2>승낙하기</Button2>
+        </RightBox>
+      </NewBox>
+    </Container>
+  );
+}
+
 const Container = styled.section`
   padding: 4rem;
 `;
@@ -125,63 +185,3 @@ const Button2 = styled.button`
   border: none;
   border-radius: 0.5rem;
 `;
-
-export default function RecruitStatusView() {
-  return (
-    <Container>
-      <MainTitle>내가 운영중인</MainTitle>
-      <MyBox>
-        <MyRecruit>
-          <Title>
-            <span>프로젝트</span>
-            <TitleCount>1</TitleCount>
-          </Title>
-          <ContentContainer>
-            <Truncate>
-              해커톤 팀원 모집합니다(UX/UI/프론트엔드/기획자/백엔드) 열심히
-              하실분만 구합니다
-            </Truncate>
-            <Options>
-              <OptionItem>수정</OptionItem>
-              <OptionItem>삭제</OptionItem>
-            </Options>
-          </ContentContainer>
-        </MyRecruit>
-        <MyRecruit>
-          <Title>
-            {' '}
-            <span>스터디</span>
-            <TitleCount>1</TitleCount>
-          </Title>
-          <ContentContainer>
-            <Truncate>
-              해커톤 팀원 모집합니다(UX/UI/프론트엔드/기획자/백엔드) 열심히
-              하실분만 구합니다
-            </Truncate>
-            <Options>
-              <OptionItem>수정</OptionItem>
-              <OptionItem>삭제</OptionItem>
-            </Options>
-          </ContentContainer>
-        </MyRecruit>
-      </MyBox>
-      <MainTitle>신청 알림</MainTitle>
-      <NewBox>
-        <LeftBox>
-          <Icon />
-          <TextContainer>
-            <Line1>
-              [프로젝트] 해커톤 모집합니다. (UXUI/프론트엔드/기획자/백엔드)
-              열심히 하실분만...의 디자이너 신청이 1건 있습니다.
-            </Line1>
-            <Line2>신청자: 공대생23</Line2>
-          </TextContainer>
-        </LeftBox>
-        <RightBox>
-          <Button1>프로필 자세히</Button1>
-          <Button2>승낙하기</Button2>
-        </RightBox>
-      </NewBox>
-    </Container>
-  );
-}
