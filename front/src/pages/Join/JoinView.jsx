@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import styles from './Join.module.css';
+import styles from './JoinView.module.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export default function Join() {
+export default function JoinView() {
   const [mail, setMail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

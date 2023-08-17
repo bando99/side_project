@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './JoinSuccess.module.css';
+import styles from './JoinSuccessView.module.css';
 import { useNavigate } from 'react-router-dom';
 
-export default function JoinSuccess() {
+export default function JoinSuccessView() {
   const navigate = useNavigate();
 
   return (

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import styles from './Project.module.css';
+import styles from './StudyView.module.css';
 import Tag from '../../ components/tag/Tag';
-
 import axios from 'axios';
 import Post from '../../ components/Post';
 
-export default function Project() {
+export default function StudyView() {
   const [isFetched, setIsFetched] = useState(false);
   const [Loading, setLoading] = useState(true);
   const [error, setError] = useState();
@@ -94,17 +93,17 @@ export default function Project() {
       </div>
       <div className={styles.projectGrid}>
         {Loading ? (
-          <p>Loading...</p>
+          <p>Loading..,</p>
         ) : (
           postList
-            .filter((post) => post.type === '프로젝트')
+            .filter((post) => post.type === '스터디')
             .map((post) => (
               <Post
                 key={post.id}
                 title={post.title}
                 type={post.type}
-                roles={post.roles}
                 period={post.period}
+                roles={post.roles}
                 proceed_method={post.proceed_method}
                 username={post.username}
                 text={post.text}

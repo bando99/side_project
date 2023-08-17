@@ -5,7 +5,7 @@ import styles from './Home.module.css';
 
 import axios from 'axios';
 
-const Home = () => {
+const HomeView = () => {
   const [isFetched, setIsFetched] = useState(false);
   const [Loading, setLoading] = useState(true);
   const [error, setError] = useState();
@@ -60,4 +60,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeView;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './MyPage.module.css';
 import { useNavigate } from 'react-router-dom';
 
-export default function MyPage() {
+export default function MyPageView() {
   const navigate = useNavigate();
   const [modalState, setModalState] = useState(false);
 
