@@ -21,6 +21,8 @@
 }
 
 .plusBtn {
+  margin-left: 10px;
+  cursor: pointer;
   background-image: url('../../public/icons/plus.png');
   background-size: cover;
   width: 1.5rem;
