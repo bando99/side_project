@@ -4,24 +4,23 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import AddPost from './pages/AddPost';
-import Login from './pages/User/Login/Login';
-import IDfound from './pages/User/IDFound/IDfound';
-import PWfound from './pages/User/PWfound/PWfound';
-import PWChange from './pages/User/PWChange/PWChange';
-import PostDetail from './pages/PostDetail';
-import Assign from './pages/Assign';
-import RecruitStatus from './pages/RecruitStatus';
-import Home from './pages/Home';
-import NotFound from './pages/NotFound';
-import Join from './pages/Join/Join';
-import Profile from './pages/Join/Profile';
-import Board from './pages/Join/Board';
-import Study from './pages/Study/Study';
-import MyPage from './pages/User/MyPage/MyPage';
-import ClipPage from './pages/User/ClipPage';
-import JoinSuccess from './pages/Join/JoinSuccess';
-import Project from './pages/Project/Project';
+import NotFound from './pages/NotFoundView';
+import JoinView from './pages/Join/JoinView';
+import JoinSuccessView from './pages/Join/JoinSuccessView';
+import ProjectView from './pages/Project/ProjectView';
+import StudyView from './pages/Study/StudyView';
+import IDfoundView from './pages/User/IDFound/IDfoundView';
+import AddPostView from './pages/AddPostView';
+import RecruitStatusView from './pages/RecruitStatusView';
+import MyPageView from './pages/User/MyPage/MyPageView';
+import PWfoundView from './pages/User/PWfound/PWfoundView';
+import PWChangeView from './pages/User/PWChange/PWChangeView';
+import ClipView from './pages/User/ClipView';
+import ProfileView from './pages/ProfileView';
+import HomeView from './pages/HomeView';
+import AssignView from './pages/AssignView';
+import PostDetailView from './pages/PostDetailView';
+import LoginView from './pages/User/Login/LoginView';
 
 const router = createBrowserRouter([
   {
@@ -29,24 +28,23 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <NotFound />,
     children: [
-      { index: true, path: '/', element: <Home /> },
-      { path: '/project', element: <Project /> },
-      { path: '/study', element: <Study /> },
-      { path: '/Addpost', element: <AddPost /> },
-      { path: '/postDetail/:post', element: <PostDetail /> },
-      { path: '/postDetail/assign/:post', element: <Assign /> },
-      { path: '/mypage', element: <MyPage /> },
-      { path: '/mypage/recruit', element: <RecruitStatus /> },
-      { path: '/mypage/addPost', element: <AddPost /> },
-      { path: '/user/login', element: <Login /> },
-      { path: '/user/idFound', element: <IDfound /> },
-      { path: '/user/pwFound', element: <PWfound /> },
-      { path: '/user/pwChange', element: <PWChange /> },
-      { path: '/join', element: <Join /> },
-      { path: '/joinSuccess', element: <JoinSuccess /> },
-      { path: '/mypage/clip', element: <ClipPage /> },
-      { path: '/profile', element: <Profile /> },
-      { path: '/board', element: <Board /> },
+      { index: true, path: '/', element: <HomeView /> },
+      { path: '/project', element: <ProjectView /> },
+      { path: '/study', element: <StudyView /> },
+      { path: '/Addpost', element: <AddPostView /> },
+      { path: '/postDetail/:post', element: <PostDetailView /> },
+      { path: '/postDetail/assign/:post', element: <AssignView /> },
+      { path: '/mypage', element: <MyPageView /> },
+      { path: '/mypage/recruit', element: <RecruitStatusView /> },
+      { path: '/mypage/addPost', element: <AddPostView /> },
+      { path: '/user/login', element: <LoginView /> },
+      { path: '/user/idFound', element: <IDfoundView /> },
+      { path: '/user/pwFound', element: <PWfoundView /> },
+      { path: '/user/pwChange', element: <PWChangeView /> },
+      { path: '/join', element: <JoinView /> },
+      { path: '/joinSuccess', element: <JoinSuccessView /> },
+      { path: '/mypage/clip', element: <ClipView /> },
+      { path: '/profile', element: <ProfileView /> },
     ],
   },
 ]);

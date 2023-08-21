@@ -1,9 +1,6 @@
 package com.inProject.in.domain.Board.service;
 
-import com.inProject.in.domain.Board.Dto.RequestBoardDto;
-import com.inProject.in.domain.Board.Dto.RequestSearchBoardDto;
-import com.inProject.in.domain.Board.Dto.RequestUpdateBoardDto;
-import com.inProject.in.domain.Board.Dto.ResponseBoardDto;
+import com.inProject.in.domain.Board.Dto.*;
 import com.inProject.in.domain.RoleNeeded.Dto.RequestRoleNeededDto;
 import com.inProject.in.domain.RoleNeeded.Dto.RequestUsingInBoardDto;
 import com.inProject.in.domain.SkillTag.Dto.RequestSkillTagDto;
@@ -15,7 +12,7 @@ import java.util.List;
 public interface BoardService {
     ResponseBoardDto getBoard(Long id);
 
-    ResponseBoardDto createBoard(RequestBoardDto requestBoardDto, List<RequestSkillTagDto> requestSkillTagDtoList, List<RequestUsingInBoardDto> requestRoleNeededDtoList);
+    ResponseBoardDto createBoard(Long user_id, RequestBoardDto requestBoardDto, List<RequestSkillTagDto> requestSkillTagDtoList, List<RequestUsingInBoardDto> requestRoleNeededDtoList);
 
     ResponseBoardDto updateBoard(Long id, RequestUpdateBoardDto requestUpdateBoardDto);
 

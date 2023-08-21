@@ -13,8 +13,12 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class RequestSearchBoardDto {
+    @Builder.Default
     private String username = "";
+    @Builder.Default
     private String title = "";
+    @Builder.Default
     private String type = "";
-    private List<String> tags = new ArrayList<>();
+    @Builder.Default
+    private List<String> tags = new ArrayList<>();  //url에 작성안하면 디폴트로 적용되는 값들 작성. 필터링할 때.
 }

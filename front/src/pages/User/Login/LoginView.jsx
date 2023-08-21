@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './Login.module.css';
+import styles from './LoginView.module.css';
 import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
+export default function LoginView() {
   const navigate = useNavigate();
 
   const handleIdFound = () => {

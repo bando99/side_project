@@ -76,7 +76,7 @@ const ProjectGrid = styled.div`
   padding: 3rem;
 `;
 
-const ClipPage = () => {
+const ClipView = () => {
   return (
     <section>
       <HeaderBox>
@@ -95,4 +95,4 @@ const ClipPage = () => {
   );
 };
 
-export default ClipPage;
+export default ClipView;

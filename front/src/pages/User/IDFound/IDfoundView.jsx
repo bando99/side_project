@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './IDfound.module.css';
+import styles from './IDfoundView.module.css';
 import { useNavigate } from 'react-router-dom';
 
-export default function IDfound() {
+export default function IDfoundView() {
   const navigate = useNavigate();
 
   const handlePW = () => {
