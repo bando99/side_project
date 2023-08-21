@@ -26,8 +26,8 @@
 .profile__img {
   background: url('../../../../public/profile/profile.png');
   background-size: cover;
-  width: 5rem;
-  height: 5rem;
+  width: 135px;
+  height: 135px;
   margin: 0.5rem;
 }
 
