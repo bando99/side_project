@@ -9,6 +9,7 @@ export default function AddPost() {
   const [type, setType] = useState('');
   const [text, setText] = useState('');
   const [proceed_method, setProceed_method] = useState('');
+  const [period, setPeriod] = useState('');
   const [tagNames, setTagNames] = useState([]);
 
   const [pmCnt, setPmCnt] = useState(0);
@@ -60,6 +61,7 @@ export default function AddPost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (pmCnt > 0) {
       roleNeededDtoList.push({
         name: 'PM',
@@ -113,7 +115,7 @@ export default function AddPost() {
       title,
       text,
       proceed_method,
-      period: new Date(),
+      period,
       tagNames,
       roleNeededDtoList,
       user_id: 1,
@@ -163,14 +165,18 @@ export default function AddPost() {
             onChange={handleTitle}
           />
         </Title>
-        <Date>
+        <DateContainer>
           <span>날짜 설정</span>
           <input type="date" />
           <span>시작 날짜</span>
           <input type="date" />
           <span>마감 날짜</span>
-          <input type="date" />
-        </Date>
+          <input
+            value={period}
+            onChange={(e) => setPeriod(e.target.value)}
+            type="date"
+          />
+        </DateContainer>
         <Skill>
           <span>사용 기술</span>
           <select name="stack" id="" value={skill} onChange={handleSkill}>
@@ -180,7 +186,7 @@ export default function AddPost() {
             <option value="javascript">javascript</option>
             <option value="flutter">flutter</option>
           </select>
-          <div onClick={handleAddTags} className={styles.plusBtn}></div>
+          <PlusBtn onClick={handleAddTags}></PlusBtn>
           <div className="tags">
             {tagNames.map((tagName, index) => (
               <div key={index}>{tagName}</div>
@@ -253,6 +259,20 @@ export default function AddPost() {
                 name="backEnd"
                 value={backEndCnt}
                 onChange={(e) => setBackEndCnt(e.target.value)}
+              >
+                <option value="">선택</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4명이상</option>
+              </select>
+            </div>
+            <div className="people_section">
+              <div className="people_title">모바일</div>
+              <select
+                name="mobile"
+                value={mobileCnt}
+                onChange={(e) => setMobileCnt(e.target.value)}
               >
                 <option value="">선택</option>
                 <option value="1">1</option>
@@ -342,7 +362,7 @@ const Recruitment = styled.div`
   }
 `;
 
-const Date = styled.div`
+const DateContainer = styled.div`
   display: flex;
   align-items: center;
   padding-bottom: 40px;
@@ -452,6 +472,16 @@ const People = styled.div`
     background: var(--bs-white, #fff);
     box-shadow: 0px 0px 0px 0px #cbdafc;
   }
+`;
+
+const PlusBtn = styled.div`
+  margin-left: 10px;
+  cursor: pointer;
+  background-image: url('/icons/plus.png');
+  background-size: cover;
+  width: 1.5rem;
+  height: 1.5rem;
+}
 `;
 
 const TextArea = styled.div`
