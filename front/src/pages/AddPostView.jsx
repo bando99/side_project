@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styles from './AddPost.module.css';
 import axios from 'axios';
 import styled from 'styled-components';
 
