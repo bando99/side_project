@@ -3,16 +3,16 @@ package com.inProject.in.domain.CommonLogic.service.Impl;
 import com.inProject.in.domain.Board.Dto.RequestBoardDto;
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.Board.repository.BoardRepository;
-import com.inProject.in.domain.CommonLogic.Dto.ApplicationDto;
-import com.inProject.in.domain.CommonLogic.Dto.ResponseApplicationDto;
-import com.inProject.in.domain.CommonLogic.service.ApplicationService;
+import com.inProject.in.domain.CommonLogic.Application.Dto.ApplicationDto;
+import com.inProject.in.domain.CommonLogic.Application.Dto.ResponseApplicationDto;
+import com.inProject.in.domain.CommonLogic.Application.service.ApplicationService;
+import com.inProject.in.domain.CommonLogic.Application.service.Impl.ApplicationServiceImpl;
 import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.entity.ApplicantBoardRelation;
 import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.repository.ApplicantBoardRelationRepository;
 import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.entity.ApplicantRoleRelation;
 import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.repository.ApplicantRoleRelationRepository;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.repository.RoleBoardRelationRepository;
-import com.inProject.in.domain.RoleNeeded.Dto.RequestRoleNeededDto;
 import com.inProject.in.domain.RoleNeeded.entity.RoleNeeded;
 import com.inProject.in.domain.RoleNeeded.repository.RoleNeededRepository;
 import com.inProject.in.domain.User.Dto.RequestUserDto;
@@ -25,7 +25,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

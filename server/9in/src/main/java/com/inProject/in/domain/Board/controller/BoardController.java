@@ -5,6 +5,8 @@ import com.inProject.in.domain.Board.service.BoardService;
 import com.inProject.in.domain.RoleNeeded.Dto.RequestRoleNeededDto;
 import com.inProject.in.domain.RoleNeeded.Dto.RequestUsingInBoardDto;
 import com.inProject.in.domain.SkillTag.Dto.RequestSkillTagDto;
+import com.inProject.in.domain.User.entity.User;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -34,6 +38,7 @@ public class BoardController {
 
         ResponseBoardDto responseBoardDto = boardService.getBoard(board_id);
 
+
         return ResponseEntity.status(HttpStatus.OK).body(responseBoardDto);
     }
 
@@ -47,7 +52,7 @@ public class BoardController {
     }
 
     @PostMapping()
-    public ResponseEntity<ResponseBoardDto> createBoard(@RequestBody RequestCreateBoardDto requestCreateBoardDto){
+    public ResponseEntity<ResponseBoardDto> createBoard(@RequestBody RequestCreateBoardDto requestCreateBoardDto, HttpServletRequest request){
 
         RequestBoardDto requestBoardDto = requestCreateBoardDto.toBoardDto();
         Long user_id = requestCreateBoardDto.getUser_id();
@@ -58,23 +63,26 @@ public class BoardController {
             requestSkillTagDtoList.add(new RequestSkillTagDto(tagName));
         }
 
-        ResponseBoardDto responseBoardDto = boardService.createBoard(user_id, requestBoardDto, requestSkillTagDtoList, requestRoleNeededDtoList);
+        ResponseBoardDto responseBoardDto = boardService.createBoard(user_id, requestBoardDto, requestSkillTagDtoList, requestRoleNeededDtoList, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseBoardDto);
     }
 
     @PutMapping("/{board_id}")
     public ResponseEntity<ResponseBoardDto> updateBoard(@PathVariable Long board_id,
-                                                        @RequestBody RequestUpdateBoardDto requestUpdateBoardDto){
+                                                        @RequestBody RequestUpdateBoardDto requestUpdateBoardDto,
+                                                        HttpServletRequest request
+    ){
 
-        ResponseBoardDto responseBoardDto = boardService.updateBoard(board_id, requestUpdateBoardDto);
+        ResponseBoardDto responseBoardDto = boardService.updateBoard(board_id, requestUpdateBoardDto, request);
         return null;
     }
 
     @DeleteMapping("/{board_id}")
-    public ResponseEntity<String> deleteBoard(@PathVariable Long board_id){
-        boardService.deleteBoard(board_id);
+    public ResponseEntity<String> deleteBoard(@PathVariable Long board_id, HttpServletRequest request){
+        boardService.deleteBoard(board_id, request);
         return ResponseEntity.status(HttpStatus.OK).body("성공적으로 게시글 삭제");
     }
+
 
 }

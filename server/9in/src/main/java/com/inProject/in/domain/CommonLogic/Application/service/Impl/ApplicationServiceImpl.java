@@ -1,9 +1,9 @@
-package com.inProject.in.domain.CommonLogic.service.Impl;
+package com.inProject.in.domain.CommonLogic.Application.service.Impl;
 
 import com.inProject.in.domain.Board.entity.Board;
-import com.inProject.in.domain.CommonLogic.Dto.ApplicationDto;
-import com.inProject.in.domain.CommonLogic.Dto.ResponseApplicationDto;
-import com.inProject.in.domain.CommonLogic.service.ApplicationService;
+import com.inProject.in.domain.CommonLogic.Application.Dto.ApplicationDto;
+import com.inProject.in.domain.CommonLogic.Application.Dto.ResponseApplicationDto;
+import com.inProject.in.domain.CommonLogic.Application.service.ApplicationService;
 import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.entity.ApplicantBoardRelation;
 import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.repository.ApplicantBoardRelationRepository;
 import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.entity.ApplicantRoleRelation;

@@ -1,5 +1,6 @@
 package com.inProject.in.domain.Board.service.impl;
 
+import com.inProject.in.config.security.JwtTokenProvider;
 import com.inProject.in.domain.Board.Dto.*;
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;
@@ -17,11 +18,15 @@ import com.inProject.in.domain.SkillTag.entity.SkillTag;
 import com.inProject.in.domain.SkillTag.repository.SkillTagRepository;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -36,6 +41,7 @@ public class BoardServiceImpl implements BoardService {
     private TagBoardRelationRepository tagBoardRelationRepository;
     private RoleBoardRelationRepository roleBoardRelationRepository;
     private UserRepository userRepository;
+    private JwtTokenProvider jwtTokenProvider;
 
     private final Logger log = LoggerFactory.getLogger(BoardServiceImpl.class);
 
@@ -45,7 +51,8 @@ public class BoardServiceImpl implements BoardService {
                             RoleNeededRepository roleNeededRepository,
                             TagBoardRelationRepository tagBoardRelationRepository,
                             RoleBoardRelationRepository roleBoardRelationRepository,
-                            UserRepository userRepository){
+                            UserRepository userRepository,
+                            JwtTokenProvider jwtTokenProvider){
 
         this.boardRepository = boardRepository;
         this.tagBoardRelationRepository = tagBoardRelationRepository;
@@ -53,7 +60,7 @@ public class BoardServiceImpl implements BoardService {
         this.roleBoardRelationRepository = roleBoardRelationRepository;
         this.roleNeededRepository = roleNeededRepository;
         this.userRepository = userRepository;
-
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     public List<TagBoardRelation> InsertTagBoardRelation(Board board, List<RequestSkillTagDto> requestSkillTagDtoList){
@@ -103,16 +110,25 @@ public class BoardServiceImpl implements BoardService {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("getBoard에서 유효하지 않은 게시글 id " + id));
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //현재 실행중인 스레드의 인증 정보를 보게 된다.
+
         ResponseBoardDto responseBoardDto = new ResponseBoardDto(board);
 
         return responseBoardDto;
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
-    public ResponseBoardDto createBoard(Long user_id, RequestBoardDto requestBoardDto, List<RequestSkillTagDto> requestSkillTagDtoList, List<RequestUsingInBoardDto> requestRoleNeededDtoList) {
+    public ResponseBoardDto createBoard(Long user_id, //없애도 될 것 같다.
+                                        RequestBoardDto requestBoardDto,
+                                        List<RequestSkillTagDto> requestSkillTagDtoList,
+                                        List<RequestUsingInBoardDto> requestRoleNeededDtoList,
+                                        HttpServletRequest request) {
 
-        User user = userRepository.findById(user_id)
-                .orElseThrow(() -> new IllegalArgumentException("BoardService createBoard에서 유저를 찾지 못함 : " + user_id));
+        User user = getUserFromRequest(request);
+
+//        User user = userRepository.findById(user_id)
+//                .orElseThrow(() -> new IllegalArgumentException("BoardService createBoard에서 유저를 찾지 못함 : " + user_id));
 
         Board board = requestBoardDto.toEntity();
         board.setCreateAt(LocalDateTime.now());
@@ -143,12 +159,18 @@ public class BoardServiceImpl implements BoardService {
 
         return responseBoardDto;
     }
-
-    @Override
-    public ResponseBoardDto updateBoard(Long id, RequestUpdateBoardDto requestUpdateBoardDto) {
+    @PreAuthorize("#board.author.username == authentication.principal.username")     //메서드 매개변수로 전달된 board를 참조한다. 여기서 #board는 SpEL(Spring Expression Language)을 통해
+    @Override                                                            //해당 메서드의 매개변수로 전달되지 않아도 메서드 내의 board를 참조한다.
+    public ResponseBoardDto updateBoard(Long id, RequestUpdateBoardDto requestUpdateBoardDto, HttpServletRequest request) {
 
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("updateBoard에서 유효하지 않은 게시글 id" + id));
+
+        User user = getUserFromRequest(request);
+
+        if(board.getAuthor().getUsername() != user.getUsername()){
+            throw new IllegalArgumentException("작성자만 게시글을 수정할 수 있습니다.");
+        }
 
         board.updateBoard(requestUpdateBoardDto);
         Board updatedBoard = boardRepository.save(board);
@@ -157,9 +179,13 @@ public class BoardServiceImpl implements BoardService {
 
         return responseBoardDto;
     }
-
+    @PreAuthorize("#board.author.username == authentication.principal.username")
     @Override
-    public void deleteBoard(Long id) {
+    public void deleteBoard(Long id, HttpServletRequest request) {
+
+        Board board = boardRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("deleteBoard에서 유효하지 않은 게시글 id" + id));
+
         boardRepository.deleteById(id);
     }
 
@@ -184,5 +210,22 @@ public class BoardServiceImpl implements BoardService {
         }
 
         return responseBoardDtoList;
+    }
+
+    private User getUserFromRequest(HttpServletRequest request){
+        String token = jwtTokenProvider.resolveToken(request);
+        User user;
+
+        if(token != null && jwtTokenProvider.validateToken(token)){
+            String username = jwtTokenProvider.getUsername(token);
+
+            return user = userRepository.getByUsername(username)
+                    .orElseThrow(() -> new IllegalArgumentException("BoardService에서 user를 찾지 못함"));
+        }
+        else{
+            throw new IllegalArgumentException("token이 없거나, 권한이 유효하지 않습니다.");
+        }
+
+
     }
 }

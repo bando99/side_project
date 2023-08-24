@@ -14,6 +14,7 @@ spring:
 logging:
   level:
     org:
+      springframework.security: DEBUG
       hibernate:
         SQL : debug
         type:
@@ -22,3 +23,7 @@ logging:
 server:
   address: 0.0.0.0
   port: 8080
+
+springboot:
+  jwt:
+    secret: flature!@#

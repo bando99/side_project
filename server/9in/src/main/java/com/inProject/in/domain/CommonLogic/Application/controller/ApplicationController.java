@@ -1,12 +1,11 @@
-package com.inProject.in.domain.CommonLogic.controller;
+package com.inProject.in.domain.CommonLogic.Application.controller;
 
-import com.inProject.in.domain.CommonLogic.Dto.ApplicationDto;
-import com.inProject.in.domain.CommonLogic.Dto.ResponseApplicationDto;
-import com.inProject.in.domain.CommonLogic.service.ApplicationService;
+import com.inProject.in.domain.CommonLogic.Application.Dto.ResponseApplicationDto;
+import com.inProject.in.domain.CommonLogic.Application.Dto.ApplicationDto;
+import com.inProject.in.domain.CommonLogic.Application.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
