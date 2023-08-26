@@ -16,7 +16,6 @@ import MyPageView from './pages/User/MyPage/MyPageView';
 import PWfoundView from './pages/User/PWfound/PWfoundView';
 import PWChangeView from './pages/User/PWChange/PWChangeView';
 import ClipView from './pages/User/ClipView';
-import ProfileView from './pages/ProfileView';
 import HomeView from './pages/HomeView';
 import AssignView from './pages/AssignView';
 import PostDetailView from './pages/PostDetailView';
@@ -44,7 +43,6 @@ const router = createBrowserRouter([
       { path: '/join', element: <JoinView /> },
       { path: '/joinSuccess', element: <JoinSuccessView /> },
       { path: '/mypage/clip', element: <ClipView /> },
-      { path: '/profile', element: <ProfileView /> },
     ],
   },
 ]);
