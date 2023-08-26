@@ -13,22 +13,26 @@ const Header = (props) => {
     <>
       <Headers>
         <Container>
-          <Logo onClick={() => handleNavigation("/")} src="/logo/logoHead.png" alt="로고" />
+          <Logo
+            onClick={() => handleNavigation('/')}
+            src="/logo/logoHead.png"
+            alt="로고"
+          />
           <Title>
-            <div onClick={() => handleNavigation("/project")}>프로젝트</div>
-            <div onClick={() => handleNavigation("/study")}>스터디</div>
+            <div onClick={() => handleNavigation('/project')}>프로젝트</div>
+            <div onClick={() => handleNavigation('/study')}>스터디</div>
           </Title>
           <LogButtons>
-            <button onClick={() => handleNavigation("/AddPost")}>글 작성하기</button>
-            <button onClick={() => handleNavigation("/profile")}>
+            <button onClick={() => handleNavigation('/AddPost')}>
+              글 작성하기
+            </button>
+            <button onClick={() => handleNavigation('/mypage')}>
               <img src="/profile/profile.png" alt="프로필 이미지" />
             </button>
-            <button onClick={() => handleNavigation("/user/login")}>
+            <button onClick={() => handleNavigation('/user/login')}>
               <img src="/icons/vector.png" alt="알람 이미지" />
             </button>
-            <div className='logout'>
-              로그아웃
-            </div>
+            <div className="logout">로그아웃</div>
           </LogButtons>
         </Container>
       </Headers>
@@ -48,11 +52,11 @@ const Headers = styled.header`
 
 const Container = styled.div`
   width: 1200px;
-  margin : auto;
-  background-color: "red";
-  display : flex;
+  margin: auto;
+  background-color: 'red';
+  display: flex;
   position: relative;
-`
+`;
 
 const Logo = styled.img`
   cursor: pointer;
@@ -69,21 +73,20 @@ const Title = styled.h1`
   position: absolute;
   left: 140px;
   div {
-    font-size:  22px;
+    font-size: 22px;
     cursor: pointer;
   }
 `;
 
-
 const LogButtons = styled.div`
   position: absolute;
-  right : 0;
+  right: 0;
   height: 80px;
   align-items: center;
   display: flex;
   gap: 1rem;
   button:first-child {
-    background : #1F7CEB;
+    background: #1f7ceb;
     width: 151px;
     height: 38px;
     border-radius: 8px;
@@ -96,7 +99,7 @@ const LogButtons = styled.div`
   }
 
   button:nth-child(2) {
-    background: #D9D9D9;
+    background: #d9d9d9;
     width: 34px;
     height: 34px;
     border-radius: 100%;
@@ -106,14 +109,14 @@ const LogButtons = styled.div`
     justify-content: center;
     align-items: center;
     margin-left: 10px;
-    img{
+    img {
       width: 34px;
       height: 34px;
     }
   }
 
   button:nth-child(3) {
-    background: #D9D9D9;
+    background: #d9d9d9;
     width: 34px;
     height: 34px;
     border-radius: 100%;
@@ -123,7 +126,7 @@ const LogButtons = styled.div`
     justify-content: center;
     align-items: center;
     margin-right: 10px;
-    img{
+    img {
       width: 20px;
       height: 20px;
     }
@@ -134,7 +137,5 @@ const LogButtons = styled.div`
     cursor: pointer;
   }
 `;
-
-
 
 export default Header;
