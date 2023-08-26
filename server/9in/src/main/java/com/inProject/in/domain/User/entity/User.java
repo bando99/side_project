@@ -84,7 +84,7 @@ public class User extends BaseEntity implements UserDetails{
 
     //권한 인증
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER)  //지연로딩을 통해 실제로 이 컬렉션을 사용할 때만 접근하도록 함
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 

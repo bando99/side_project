@@ -13,6 +13,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -49,7 +50,7 @@ public class Board extends BaseEntity {
 
     @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<Comment> commentList;    //게시글에 작성된 댓글들
+    private List<Comment> commentList = new ArrayList<>();    //게시글에 작성된 댓글들
 
     @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude

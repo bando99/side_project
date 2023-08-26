@@ -1,5 +1,6 @@
 package com.inProject.in.domain.Board.Dto;
 
+import com.inProject.in.domain.Comment.Dto.ResponseCommentDto;
 import com.inProject.in.domain.Comment.entity.Comment;
 import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.entity.ApplicantBoardRelation;
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.entity.ClipBoardRelation;
@@ -35,22 +36,8 @@ public class ResponseBoardDto {
     private int comment_cnt;
     private List<String> tags = new ArrayList<>();
     private List<ResponseRoleNeededDto> roles = new ArrayList<>();
+    private List<ResponseCommentDto> commentList = new ArrayList<>();
 
-    /*
-    {
-        role_id : long,
-        name : string,
-        pre_cnt : int,
-        want_cnt : int
-    }
-     */
-
-//    private User author;
-//    private List<ApplicantBoardRelation> applicantBoardRelationList;
-//    private List<Comment> commentList;
-//    private List<TagBoardRelation> tagBoardRelationList;
-//    private List<ClipBoardRelation> clipBoardRelationList;
-//    private List<RoleBoardRelation> roleBoardRelationList;
 
     public ResponseBoardDto(Board board){
         this.board_id = board.getId();
@@ -70,11 +57,13 @@ public class ResponseBoardDto {
             ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
             this.roles.add(responseRoleNeededDto);
         }
-//        this.author = board.getAuthor();
-//        this.applicantBoardRelationList = board.getApplicantBoardRelationList();
-//        this.commentList = board.getCommentList();
-//        this.tagBoardRelationList = board.getTagBoardRelationList();
-//        this.clipBoardRelationList = board.getClipBoardRelationList();
-//        this.roleBoardRelationList = board.getRoleBoardRelationList();
+
+        if(board.getCommentList() != null){
+            for(Comment comment : board.getCommentList()){
+                ResponseCommentDto responseCommentDto = new ResponseCommentDto(comment);
+                this.commentList.add(responseCommentDto);
+            }
+        }
+
     }
 }

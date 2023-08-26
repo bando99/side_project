@@ -9,13 +9,13 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class ResponseCommentDto {
-    private Long id;
+    private Long comment_id;
     private Long user_id;
     private Long board_id;
     private String text;
 
     public ResponseCommentDto(Comment comment){
-        this.id = comment.getId();
+        this.comment_id = comment.getId();
         this.user_id = comment.getUser().getId();
         this.board_id = comment.getBoard().getId();
         this.text = comment.getText();

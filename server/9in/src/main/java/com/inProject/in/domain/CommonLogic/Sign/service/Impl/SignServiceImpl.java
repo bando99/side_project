@@ -27,9 +27,11 @@ public class SignServiceImpl implements SignService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     public SignServiceImpl(UserRepository userRepository,
-                           JwtTokenProvider jwtTokenProvider){
+                           JwtTokenProvider jwtTokenProvider,
+                           PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.passwordEncoder = passwordEncoder;
     }
     @Override
     public ResponseSignUpDto signUp(RequestSignUpDto requestSignUpDto) {

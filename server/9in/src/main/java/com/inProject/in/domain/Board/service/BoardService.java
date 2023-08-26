@@ -13,16 +13,13 @@ import java.util.List;
 public interface BoardService {
     ResponseBoardDto getBoard(Long id);
 
-    ResponseBoardDto createBoard(Long user_id,
-                                 RequestBoardDto requestBoardDto,
-                                 List<RequestSkillTagDto> requestSkillTagDtoList,
-                                 List<RequestUsingInBoardDto> requestRoleNeededDtoList,
+    ResponseBoardDto createBoard(RequestCreateBoardDto requestCreateBoardDto,
                                  HttpServletRequest request);
 
     ResponseBoardDto updateBoard(Long id, RequestUpdateBoardDto requestUpdateBoardDto, HttpServletRequest request);
 
     void deleteBoard(Long id, HttpServletRequest request);
 
-    List<ResponseBoardDto> getBoardList(Pageable pageable, RequestSearchBoardDto requestSearchBoardDto);
+    List<ResponseBoardListDto> getBoardList(Pageable pageable, RequestSearchBoardDto requestSearchBoardDto);
 
 }

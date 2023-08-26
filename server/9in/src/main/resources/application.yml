@@ -26,4 +26,4 @@ server:
 
 springboot:
   jwt:
-    secret: flature!@#
+    secret: secretKey-for-authorization-jwtToken

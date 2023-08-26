@@ -29,7 +29,7 @@ public class JwtTokenProvider {
     private final UserDetailsService userDetailsService;
 
     @Value("${springboot.jwt.secret}")
-    private String secretKey = "secretKey";
+    private String secretKey = "secretKey-for-authorization-jwtToken";
     private final long tokenValidMilliSecond = 1000L * 60 * 60;
 
     @PostConstruct        //해당 객체가 주입된 이후 수행되는 메서드 지정

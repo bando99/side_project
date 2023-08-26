@@ -1,28 +1,22 @@
 package com.inProject.in.config;
 
+
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+@Configuration
+public class SwaggerConfig {
+    @Bean
+    public OpenAPI openAPI() {
+        Info info = new Info().title("9uin 프로젝트 API Document")
+                .version("v0.0.0")
+                .description("9uin 프로젝트의 API 명세서입니다.");
 
-//@Configuration
-//@EnableSwagger2
-//public class SwaggerConfig  {
-//    @Bean
-//    public Docket api(){
-//        return new Docket(DocumentationType.SWAGGER_2)
-//                .apiInfo(apiInfo())
-//                .select()
-//                .apis(RequestHandlerSelectors.any())
-//                .paths(PathSelectors.any())
-//                .build();
-//    }
-//
-//    private ApiInfo apiInfo(){
-//        return new ApiInfoBuilder()
-//                .title("Spring Boot Open API Test with Swagger")
-//                .description("설명 부분")
-//                .version("1.0.0")
-//                .build();
-//    }
-//}
+        return new OpenAPI()
+                .components(new Components())
+                .info(info);
+    }
+}

@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(id).get();
 
         ResponseCommentDto responseCommentDto = ResponseCommentDto.builder()
-                .id(comment.getId())
+                .comment_id(comment.getId())
                 .text(comment.getText())
                 .build();
 

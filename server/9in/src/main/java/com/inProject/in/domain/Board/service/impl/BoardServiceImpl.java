@@ -119,18 +119,19 @@ public class BoardServiceImpl implements BoardService {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @Override
-    public ResponseBoardDto createBoard(Long user_id, //없애도 될 것 같다.
-                                        RequestBoardDto requestBoardDto,
-                                        List<RequestSkillTagDto> requestSkillTagDtoList,
-                                        List<RequestUsingInBoardDto> requestRoleNeededDtoList,
+    public ResponseBoardDto createBoard(//Long user_id, 없애도 될 것 같다.
+                                        RequestCreateBoardDto requestCreateBoardDto,
                                         HttpServletRequest request) {
 
         User user = getUserFromRequest(request);
+        Board board = requestCreateBoardDto.toBoardDto().toEntity();
+        List<RequestSkillTagDto> requestSkillTagDtoList = requestCreateBoardDto.getTagDtoList();
+        List<RequestUsingInBoardDto> requestRoleNeededDtoList = requestCreateBoardDto.getRoleNeededDtoList();
 
 //        User user = userRepository.findById(user_id)
 //                .orElseThrow(() -> new IllegalArgumentException("BoardService createBoard에서 유저를 찾지 못함 : " + user_id));
 
-        Board board = requestBoardDto.toEntity();
+//        Board board = requestBoardDto.toEntity();
         board.setCreateAt(LocalDateTime.now());
         board.setUpdateAt(LocalDateTime.now());
         board.setAuthor(user);
@@ -155,7 +156,7 @@ public class BoardServiceImpl implements BoardService {
                     + " role id : " + roleBoardRelation.getRoleNeeded().getId());
         }
 
-        ResponseBoardDto responseBoardDto = new ResponseBoardDto(createBoard);
+        ResponseBoardDto responseBoardDto = new ResponseBoardDto(createBoard );
 
         return responseBoardDto;
     }
@@ -191,7 +192,7 @@ public class BoardServiceImpl implements BoardService {
 
 
     @Override
-    public List<ResponseBoardDto> getBoardList(Pageable pageable, RequestSearchBoardDto requestSearchBoardDto)  {  //Pageable pageable, String user_id, String title, String type, List<String> tags
+    public List<ResponseBoardListDto> getBoardList(Pageable pageable, RequestSearchBoardDto requestSearchBoardDto)  {  //Pageable pageable, String user_id, String title, String type, List<String> tags
 
         String username = requestSearchBoardDto.getUsername();
         String title = requestSearchBoardDto.getTitle();
@@ -200,12 +201,12 @@ public class BoardServiceImpl implements BoardService {
 
         Page<Board> boardPage = boardRepository.findBoards(pageable, username, title, type, tags);
         List<Board> boardList = boardPage.getContent();
-        List<ResponseBoardDto> responseBoardDtoList = new ArrayList<>();
+        List<ResponseBoardListDto> responseBoardDtoList = new ArrayList<>();
         log.info("Using BoardService getBoardList ==> filtering by username : " + username + " title : " + title + " type : " + type );
         log.info("Tag filtering : " + tags.toString());
 
         for (Board board : boardList) {
-            ResponseBoardDto responseBoardDto = new ResponseBoardDto(board);
+            ResponseBoardListDto responseBoardDto = new ResponseBoardListDto(board);
             responseBoardDtoList.add(responseBoardDto);
         }
 

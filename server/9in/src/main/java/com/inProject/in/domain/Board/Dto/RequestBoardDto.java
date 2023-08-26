@@ -19,12 +19,6 @@ public class RequestBoardDto {
     private String proceed_method;
     private LocalDateTime period;
     private int comment_cnt;
-//    private User author;
-//    private List<ApplicantBoardRelation> applicantBoardRelationList;
-//    private List<Comment> commentList;
-//    private List<TagBoardRelation> tagBoardRelationList;
-//    private List<ClipBoardRelation> clipBoardRelationList;
-//    private List<RoleBoardRelation> roleBoardRelationList;
 
     public Board toEntity(){
         return Board.builder()
@@ -34,12 +28,6 @@ public class RequestBoardDto {
                 .proceed_method(proceed_method)
                 .period(period)
                 .comment_cnt(comment_cnt)
-//                .author(author)
-//                .applicantBoardRelationList(applicantBoardRelationList)
-//                .commentList(commentList)
-//                .tagBoardRelationList(tagBoardRelationList)
-//                .clipBoardRelationList(clipBoardRelationList)
-//                .roleBoardRelationList(roleBoardRelationList)
                 .build();
     }
 
@@ -50,12 +38,7 @@ public class RequestBoardDto {
         this.proceed_method = board.getProceed_method();
         this.period = board.getPeriod();
         this.comment_cnt = board.getComment_cnt();
-//        this.author = board.getAuthor();
-//        this.applicantBoardRelationList = board.getApplicantBoardRelationList();
-//        this.commentList = board.getCommentList();
-//        this.tagBoardRelationList = board.getTagBoardRelationList();
-//        this.clipBoardRelationList = board.getClipBoardRelationList();
-//        this.roleBoardRelationList = board.getRoleBoardRelationList();
+
     }
 
 

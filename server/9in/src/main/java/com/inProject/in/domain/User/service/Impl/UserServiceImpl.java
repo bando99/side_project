@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("UserService loadUserByUsername ==> username : " + username);
-        return userRepository.getByUsername(username);
+        return userRepository.getByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("loadUserByUsername에서 username으로 user 찾지 못함"));
     }
 }
