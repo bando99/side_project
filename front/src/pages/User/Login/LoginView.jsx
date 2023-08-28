@@ -62,6 +62,12 @@ export default function LoginView() {
           <span className={styles.SNStext}>Github로 로그인 하기</span>
         </div>
       </div>
+      <div className={styles.join__container}>
+        <p className={styles.join__qa}>아직 회원이 아니세요?</p>
+        <p className={styles.join__text} onClick={() => navigate('/join')}>
+          회원가입하기
+        </p>
+      </div>
     </section>
   );
 }
