@@ -9,7 +9,7 @@ export default function AddPost() {
   const [text, setText] = useState('');
   const [proceed_method, setProceed_method] = useState('');
   const [period, setPeriod] = useState('');
-  const [tagNames, setTagNames] = useState([]);
+  const [tagDtoList, setTagDtoList] = useState([]);
 
   const [pmCnt, setPmCnt] = useState(0);
   const [mobileCnt, setMobileCnt] = useState(0);
@@ -53,7 +53,7 @@ export default function AddPost() {
 
   const handleAddTags = (e) => {
     if (skill) {
-      setTagNames([...tagNames, skill]);
+      setTagDtoList([...tagDtoList, skill]);
       setSkill('');
     }
   };
@@ -115,7 +115,7 @@ export default function AddPost() {
       text,
       proceed_method,
       period,
-      tagNames,
+      tagDtoList,
       roleNeededDtoList,
       user_id: 1,
     };
@@ -187,7 +187,7 @@ export default function AddPost() {
           </select>
           <PlusBtn onClick={handleAddTags}></PlusBtn>
           <div className="tags">
-            {tagNames.map((tagName, index) => (
+            {tagDtoList.map((tagName, index) => (
               <div key={index}>{tagName}</div>
             ))}
           </div>

@@ -90,3 +90,25 @@ input {
 .SNStext {
   font-size: 0.8rem;
 }
+
+.join__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.join__qa {
+  font-size: 0.8rem;
+  margin-top: 2.4rem;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.join__text {
+  font-weight: 900;
+  text-decoration: underline;
+}
+
+.join__text:hover {
+  cursor: pointer;
+}
