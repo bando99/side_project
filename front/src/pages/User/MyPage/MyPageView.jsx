@@ -2,27 +2,37 @@ import React, { useState } from 'react';
 import styles from './MyPage.module.css';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import Modal from './Modal';
 
 export default function MyPage() {
   const navigate = useNavigate();
-  const [modalState, setModalState] = useState(false);
+  const [modals, setModals] = useState({
+    modal1: false,
+    modal2: false,
+    modal3: false,
+    modal4: false,
+  });
 
+  const openModal = (modalName) => {
+    setModals((prevModals) => ({
+      ...prevModals,
+      [modalName]: true,
+    }));
+  };
+
+  const closeModal = (modalName) => {
+    setModals((prevModals) => ({
+      ...prevModals,
+      [modalName]: false,
+    }));
+  };
+  
   const handleRecruit = () => {
     navigate('/mypage/recruit');
   };
 
   const handleClip = () => {
     navigate('/mypage/clip');
-  };
-
-  const handleAddModal = () => {
-    const modal = document.getElementById('modal');
-    setModalState(!modalState);
-
-    if (modalState) modal.style.display = 'flex';
-    else {
-      modal.style.display = 'none';
-    }
   };
 
   return (
@@ -68,7 +78,17 @@ export default function MyPage() {
               <input type="text" placeholder="닉네임을 입력해주세요" />
             </div>
           </div>
-          <button className="section1_fix_btn">수정하기</button>
+          <button className="section1_fix_btn" onClick={() => openModal('modal1')}>
+            {modals.modal1 && 
+              <Modal
+                title="모달 1"
+                content="모달 1의 내용입니다."
+                isOpen={modals.modal1}
+                onClose={() => closeModal('modal1')}
+              />
+            }
+           수정하기
+          </button>
         </div>
         <Section1school>
           <div className="section1_school">
@@ -96,7 +116,17 @@ export default function MyPage() {
             <input type="text" placeholder="내용을 입력해 주세요." />
           </div>
           <div className="section1_school_btn_flex">
-            <button className="section1_school_btn">수정하기</button>
+            <button onClick={() => openModal('modal2')} className="section1_school_btn">
+            {modals.modal2 && 
+              <Modal
+                title="모달 2"
+                content="모달 2의 내용입니다."
+                isOpen={modals.modal2}
+                onClose={() => closeModal('modal2')}
+              />
+            }
+            수정하기
+            </button>
           </div>
         </Section1school>
         <Section1Etc>
@@ -202,7 +232,17 @@ export default function MyPage() {
           </div>
         </div>
         <div className="section3_btn">
-          <button>수정하기</button>
+          <button onClick={() => openModal('modal3')}>
+          {modals.modal3 && 
+              <Modal
+                title="모달 3"
+                content="모달 3의 내용입니다."
+                isOpen={modals.modal3}
+                onClose={() => closeModal('modal3')}
+              />
+          }
+          수정하기
+          </button>
           <button>추가하기</button>
         </div>
       </Section3>
@@ -268,7 +308,17 @@ export default function MyPage() {
           </div>
         </div>
         <div className="section3_btn">
-          <button>수정하기</button>
+          <button onClick={() => openModal("modal4")}>
+          {modals.modal4 && 
+              <Modal
+                title="모달 4"
+                content="모달 4의 내용입니다."
+                isOpen={modals.modal4}
+                onClose={() => closeModal('modal4')}
+              />
+          }  
+          수정하기
+          </button>
           <button>추가하기</button>
         </div>
       </Section3>
