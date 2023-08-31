@@ -18,16 +18,21 @@ import com.inProject.in.domain.SkillTag.entity.SkillTag;
 import com.inProject.in.domain.SkillTag.repository.SkillTagRepository;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpServletRequest;
+import org.hibernate.engine.spi.SessionLazyDelegator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -44,6 +49,7 @@ public class BoardServiceImpl implements BoardService {
     private JwtTokenProvider jwtTokenProvider;
 
     private final Logger log = LoggerFactory.getLogger(BoardServiceImpl.class);
+
 
     @Autowired
     public BoardServiceImpl(BoardRepository boardRepository,
@@ -117,7 +123,6 @@ public class BoardServiceImpl implements BoardService {
         return responseBoardDto;
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     public ResponseBoardDto createBoard(//Long user_id, 없애도 될 것 같다.
                                         RequestCreateBoardDto requestCreateBoardDto,
@@ -144,7 +149,7 @@ public class BoardServiceImpl implements BoardService {
         createBoard.setTagBoardRelationList(tagBoardRelationList);
         createBoard.setRoleBoardRelationList(roleBoardRelationList);
 
-        log.info("Using BoardService createPost : " + createBoard.getId() + " " + createBoard.getTitle());
+        log.info("BoardService createPost : " + createBoard.getId() + " " + createBoard.getTitle());
 
         for(TagBoardRelation tagBoardRelation : tagBoardRelationList){
             log.info("Insert Tag - Board relation ==> board id : " + tagBoardRelation.getBoard().getId() + " tag id : "
@@ -160,9 +165,9 @@ public class BoardServiceImpl implements BoardService {
 
         return responseBoardDto;
     }
-    @PreAuthorize("#board.author.username == authentication.principal.username")     //메서드 매개변수로 전달된 board를 참조한다. 여기서 #board는 SpEL(Spring Expression Language)을 통해
-    @Override                                                            //해당 메서드의 매개변수로 전달되지 않아도 메서드 내의 board를 참조한다.
-    public ResponseBoardDto updateBoard(Long id, RequestUpdateBoardDto requestUpdateBoardDto, HttpServletRequest request) {
+    @Override
+    @PreAuthorize("#board.author.username == authentication.principal.username")                                              //메서드 매개변수로 전달된 board를 참조한다. 여기서 #board는 SpEL(Spring Expression Language)을 통해
+    public ResponseBoardDto updateBoard(Long id, RequestUpdateBoardDto requestUpdateBoardDto, HttpServletRequest request) {   //해당 메서드의 매개변수로 전달되지 않아도 메서드 내의 board를 참조한다.
 
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("updateBoard에서 유효하지 않은 게시글 id" + id));
@@ -180,14 +185,26 @@ public class BoardServiceImpl implements BoardService {
 
         return responseBoardDto;
     }
-    @PreAuthorize("#board.author.username == authentication.principal.username")
+
     @Override
-    public void deleteBoard(Long id, HttpServletRequest request) {
+    @Transactional
+   // @PreAuthorize("hasAuthority('ADMIN') or #board.author.username == authentication.principal.username")      //hasAuthority를 사용해야 함.여기서 hasRole은 단지 문자열 비교로
+    public void deleteBoard(Long id, HttpServletRequest request) {                                                //권한을 확인하기에, 권한 계층을 고려하지 않음.
 
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("deleteBoard에서 유효하지 않은 게시글 id" + id));
+        User user = getUserFromRequest(request);
+
+        if(!user.getUsername().equals(board.getAuthor().getUsername()) && !request.isUserInRole("ROLE_ADMIN")){
+            throw new AccessDeniedException("권한이 없습니다.");
+        }
+
+//        user.getAuthoredBoardList().remove(board);
 
         boardRepository.deleteById(id);
+
+        log.info("BoardService deleteBoard ==> username : " + user.getUsername());
+        log.info("authorization ADMIN : " + request.isUserInRole("ROLE_ADMIN"));
     }
 
 

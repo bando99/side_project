@@ -16,7 +16,7 @@ logging:
     org:
       springframework.security: DEBUG
       hibernate:
-        SQL : debug
+        SQL : DEBUG
         type:
           descriptor:
             sql: trace

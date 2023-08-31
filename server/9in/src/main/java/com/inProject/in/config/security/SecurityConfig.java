@@ -5,6 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
+import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -32,15 +37,14 @@ public class SecurityConfig  {   //WebSecurityConfigurerAdapter 상속받아서 
                 .and()
 
                 .authorizeHttpRequests()                                                    //authorizedRequests, antMatchers는 deprecated되서 사용 안 함.
-                .requestMatchers(HttpMethod.GET, "/boards/**").permitAll()          //boards로 시작하는 get요청은 다 허용한다는 의미.
+                .requestMatchers( "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/boards**").permitAll()          //boards로 시작하는 get요청은 다 허용한다는 의미.
                 .requestMatchers("/sign/**").permitAll()
-                .requestMatchers("/swagger-ui/**").permitAll()                 //swagger는 모두 접근할 수 있어야 함.
-                .requestMatchers(HttpMethod.POST, "/boards/**").hasRole("USER")
+                .requestMatchers("**exception**").permitAll()
 //                .anyRequest().hasRole("USER")
-                .anyRequest().anonymous()   //기타 요청은 인증을 받지 않아도 모두 접근 가능.
-
-
+//                .anyRequest().anonymous()   //기타 요청은 인증을 받지 않아도 모두 접근 가능.
 //                .anyRequest().hasRole("ADMIN")       //기타 요청은 admin권한을 가진 사용자가 접근이 가능하다.
+                .anyRequest().authenticated()
 
                 .and()
 
@@ -55,6 +59,20 @@ public class SecurityConfig  {   //WebSecurityConfigurerAdapter 상속받아서 
         return httpSecurity.build();
     }
 
+//    @Bean
+//    public RoleHierarchy roleHierarchy(){
+//        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+//        roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");     //권한 우선순위 마다 문자열 개행을 해야 한다.
+//        return roleHierarchy;
+//    }
+//
+//
+//    @Bean
+//    public MethodSecurityExpressionHandler methodSecurityExpressionHandler(RoleHierarchy roleHierarchy){  //메서드 수준의 보안을 다루는 인터페이스. 매개변수는 자동으로 주입된다.
+//        DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler(); //@PreAuthorize같은 어노테이션으로 메서드 수준 보안을 정의
+//        expressionHandler.setRoleHierarchy(roleHierarchy);                                                       //이후 보안 평가식을 평가, 실행한다.
+//        return expressionHandler;
+//    }
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
         return (web) -> web.ignoring().requestMatchers("/");    //인증, 인가를 무시하는 경로. 인증과 인가가 적용되지 않는 리소스를 대상으로 사용.

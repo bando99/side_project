@@ -5,12 +5,14 @@ import com.inProject.in.domain.Board.service.BoardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,8 +87,10 @@ public class BoardController {
 
     @DeleteMapping("/{board_id}")
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)
+    @Parameter(name = "board_id", description = "게시글 ID", in = ParameterIn.PATH, schema = @Schema(type = "integer", format = "int64"))
     @Operation(summary = "게시글 삭제", description = "게시글 하나를 삭제합니다.")
-    public ResponseEntity<String> deleteBoard(@PathVariable Long board_id, HttpServletRequest request){
+    public ResponseEntity<String> deleteBoard(@PathVariable(name = "board_id") Long board_id, HttpServletRequest request){
+        log.info("BoardController deleteBoard ==> header : " + request.getRequestURI());
         boardService.deleteBoard(board_id, request);
         return ResponseEntity.status(HttpStatus.OK).body("성공적으로 게시글 삭제");
     }

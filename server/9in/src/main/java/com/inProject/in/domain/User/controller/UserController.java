@@ -4,6 +4,7 @@ import com.inProject.in.domain.User.Dto.ResponseUserDto;
 import com.inProject.in.domain.User.Dto.UpdateUserDto;
 import com.inProject.in.domain.User.Dto.RequestUserDto;
 import com.inProject.in.domain.User.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
+@Tag(name = "user", description = "유저 관련 api로, 자주 사용되지는 않을 것입니다.")
 public class UserController {
     private UserService userService;
 

@@ -47,36 +47,36 @@ public class User extends BaseEntity implements UserDetails{
 
     //연관관계
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<Board> authoredBoardList;   //작성한 글들
 
-    @OneToMany(mappedBy = "board_applicant", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board_applicant", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<ApplicantBoardRelation> applicantBoardRelationList; //지원한 게시글들
 
-    @OneToMany(mappedBy = "role_applicant", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "role_applicant", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<ApplicantRoleRelation> applicantRoleRelationList;  //지원한 역할
 
-    @OneToMany(mappedBy = "clipUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clipUser", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<ClipBoardRelation> clipBoardRelationList; //관심 클립으로 지정한 게시글들
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",  cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<Comment> commentList;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Job_ex jobEx;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Education education;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Project_skill projectSkill;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Certificate certificate;
 
 
