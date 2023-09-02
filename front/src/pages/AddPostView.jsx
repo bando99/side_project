@@ -23,6 +23,12 @@ export default function AddPost() {
 
   const roleNeededDtoList = [];
 
+  const token = localStorage.getItem('token');
+
+  const headers = {
+    'X-AUTH-TOKEN': token,
+  };
+
   const handleTitle = (e) => {
     setTitle(e.target.value);
   };
@@ -125,7 +131,13 @@ export default function AddPost() {
     try {
       const response = await axios.post(
         'http://1.246.104.170:8080/boards',
-        postData
+        postData,
+        {
+          headers: {
+            'X-AUTH-TOKEN': token,
+            'Content-Type': 'application/json',
+          },
+        }
       );
       console.log('글 작성 성공');
     } catch (error) {
