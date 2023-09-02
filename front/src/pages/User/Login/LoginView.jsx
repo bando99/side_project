@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './LoginView.module.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function LoginView() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
   const navigate = useNavigate();
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
 
   const handleIdFound = () => {
     navigate('/user/idFound');
@@ -17,23 +29,50 @@ export default function LoginView() {
     navigate('/user/pwChange');
   };
 
-  // { path: '/user/idFound/:id', element: <IDfound /> },
-  //     { path: '/user/idChange/:id', element: <IDChange /> },
-  //     { path: '/user/pwFound/:id', element: <PWfound /> },
-  //     { path: '/user/pwChange/:id', element: <PWChange /> },
+  const hadnleLogin = async (e) => {
+    e.preventDefault();
+    console.log('로그인 정보:', {
+      username,
+      password,
+    });
+    const userData = { username, password };
+
+    try {
+      const response = await axios.post(
+        'http://1.246.104.170:8080/sign/sign-in',
+        userData
+      );
+      console.log('로그인 성공');
+      navigate('/');
+    } catch (error) {
+      console.error('로그인 실패', error);
+    }
+  };
 
   return (
     <section className={styles.container}>
       <p className={styles.title}>로그인</p>
-      <form className={styles.container__box}>
-        <div className={styles.input__container}>
-          <p>아이디</p>
-          <input type="text" placeholder="내용을 입력해 주세요." />
-          <p>비밀번호</p>
-          <input type="text" placeholder="내용을 입력해 주세요." />
-        </div>
+      <div className={styles.container__box}>
+        <form onSubmit={hadnleLogin}>
+          <div className={styles.input__container}>
+            <p>아이디</p>
+            <input
+              type="text"
+              onChange={handleUsernameChange}
+              placeholder="내용을 입력해 주세요."
+            />
+            <p>비밀번호</p>
+            <input
+              type="password"
+              onChange={handlePasswordChange}
+              placeholder="내용을 입력해 주세요."
+            />
+            <div className={styles.loginBtn__container}>
+              <button className={styles.loginBtn}>로그인</button>
+            </div>
+          </div>
+        </form>
         <div className={styles.button__container}>
-          <p className={styles.loginBtn}>로그인</p>
           <div className={styles.modify__container}>
             <p className={styles.menu__text} onClick={handleIdFound}>
               아이디 찾기
@@ -46,7 +85,8 @@ export default function LoginView() {
             </p>
           </div>
         </div>
-      </form>
+      </div>
+
       <p className={styles.loginSNS}>SNS로 로그인 하기</p>
       <div className={styles.sns__container}>
         <div className={styles.snsIcon__container}>

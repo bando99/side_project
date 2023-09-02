@@ -38,6 +38,11 @@ input {
   cursor: pointer;
 }
 
+.loginBtn__container {
+  display: flex;
+  justify-content: center;
+}
+
 .loginBtn {
   margin: auto;
   background-color: #1f7ceb;
@@ -45,6 +50,8 @@ input {
   border-radius: 25px;
   color: #ffffff;
   padding: 0.5rem 1rem;
+  border: none;
+  margin: 1rem;
 }
 
 .loginSNS {

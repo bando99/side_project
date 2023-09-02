@@ -34,7 +34,7 @@ export default function JoinView() {
 
     try {
       const response = await axios.post(
-        'http://1.246.104.170:8080/users',
+        'http://1.246.104.170:8080/sign/sign-up',
         userData
       );
       console.log('회원가입 성공');
