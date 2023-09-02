@@ -177,6 +177,9 @@ function LoginView() {
         userData
       );
       console.log('로그인 성공');
+      console.log(response.data.token);
+      const token = response.data.token;
+      localStorage.setItem('token', token);
       navigate('/');
     } catch (error) {
       console.error('로그인 실패', error);
