@@ -44,15 +44,13 @@ export default function HomeView() {
       <div className={styles.projectGrid}>
         {postList.map((post) => (
           <Post
-            key={post.id}
+            key={post.board_id}
             title={post.title}
             type={post.type}
             roles={post.roles}
             period={post.period}
             proceed_method={post.proceed_method}
             username={post.username}
-            text={post.text}
-            tags={post.tags}
           />
         ))}
       </div>
