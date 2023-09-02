@@ -3,38 +3,10 @@ import styles from './StudyView.module.css';
 import Tag from '../../ components/tag/Tag';
 import axios from 'axios';
 import Post from '../../ components/Post';
+import useFetchData from '../../ components/hooks/getPostList';
 
 export default function StudyView() {
-  const [isFetched, setIsFetched] = useState(false);
-  const [Loading, setLoading] = useState(true);
-  const [error, setError] = useState();
-
-  const [studyList, setStudyList] = useState([]);
-
-  useEffect(() => {
-    if (!isFetched) {
-      const getPostList = async () => {
-        try {
-          const response = await axios.get('http://1.246.104.170:8080/boards');
-          const filterResponse = response.data.filter(
-            (res) => res.type === 'study'
-          );
-          setStudyList(filterResponse);
-          setLoading(false);
-        } catch (error) {
-          setError('네트워크 에러가 발생했습니다.');
-        } finally {
-          setIsFetched(true);
-          console.log('PostList를 정상적으로 받아왔습니다.');
-        }
-      };
-      getPostList();
-    }
-  }, [isFetched]);
-
-  useEffect(() => {
-    console.log(studyList);
-  }, [studyList]);
+  const { data: studyList, Loading, error } = useFetchData('/boards');
 
   if (error) return <p>{error}</p>;
 
@@ -63,7 +35,7 @@ export default function StudyView() {
             <Tag skill="Go" />
             <Tag skill="Spring" />
             <Tag skill="Nest.js" />
-            <Tag skill="Pigma" />
+            <Tag skill="Figma" />
             <Tag skill="XD" />
           </div>
         </div>
@@ -98,18 +70,20 @@ export default function StudyView() {
         {Loading ? (
           <p>Loading..,</p>
         ) : (
-          studyList.map((post) => (
-            <Post
-              key={post.board_id}
-              title={post.title}
-              type={post.type}
-              period={post.period}
-              roles={post.roles}
-              proceed_method={post.proceed_method}
-              username={post.username}
-              tags={post.tags}
-            />
-          ))
+          studyList
+            .filter((post) => post.type === '스터디')
+            .map((post) => (
+              <Post
+                key={post.board_id}
+                title={post.title}
+                type={post.type}
+                period={post.period}
+                roles={post.roles}
+                proceed_method={post.proceed_method}
+                username={post.username}
+                tags={post.tags}
+              />
+            ))
         )}
       </div>
     </section>

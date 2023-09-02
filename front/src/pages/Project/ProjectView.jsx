@@ -1,42 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ProjectView.module.css';
 import Tag from '../../ components/tag/Tag';
-
 import axios from 'axios';
 import Post from '../../ components/Post';
+import useFetchData from '../../ components/hooks/getPostList';
 
 export default function ProjectView() {
-  const [isFetched, setIsFetched] = useState(false);
-  const [Loading, setLoading] = useState(true);
-  const [error, setError] = useState();
-
-  const [projectList, setProjectList] = useState([]);
-
-  useEffect(() => {
-    if (!isFetched) {
-      const getPostList = async () => {
-        try {
-          const response = await axios.get('http://1.246.104.170:8080/boards');
-          const filterResponse = response.data.filter(
-            (res) => res.type === 'project'
-          );
-          console.log(filterResponse);
-          setProjectList(filterResponse);
-          setLoading(false);
-        } catch (error) {
-          setError('네트워크 에러가 발생했습니다.');
-        } finally {
-          setIsFetched(true);
-          console.log('PostList를 정상적으로 받아왔습니다.');
-        }
-      };
-      getPostList();
-    }
-  }, [isFetched]);
-
-  useEffect(() => {
-    console.log(projectList);
-  }, [projectList]);
+  const { data: projectList, Loading, error } = useFetchData('/boards');
 
   if (error) return <p>{error}</p>;
 
@@ -65,7 +35,7 @@ export default function ProjectView() {
             <Tag skill="Go" />
             <Tag skill="Spring" />
             <Tag skill="Nest.js" />
-            <Tag skill="Pigma" />
+            <Tag skill="Figma" />
             <Tag skill="XD" />
           </div>
         </div>
@@ -100,19 +70,21 @@ export default function ProjectView() {
         {Loading ? (
           <p>Loading...</p>
         ) : (
-          projectList.map((post) => (
-            <Post
-              key={post.id}
-              title={post.title}
-              type={post.type}
-              roles={post.roles}
-              period={post.period}
-              proceed_method={post.proceed_method}
-              username={post.username}
-              text={post.text}
-              tags={post.tags}
-            />
-          ))
+          projectList
+            .filter((post) => post.type === '프로젝트')
+            .map((post) => (
+              <Post
+                key={post.id}
+                title={post.title}
+                type={post.type}
+                roles={post.roles}
+                period={post.period}
+                proceed_method={post.proceed_method}
+                username={post.username}
+                text={post.text}
+                tags={post.tags}
+              />
+            ))
         )}
       </div>
     </section>
