@@ -10,14 +10,18 @@ export default function ProjectView() {
   const [Loading, setLoading] = useState(true);
   const [error, setError] = useState();
 
-  const [postList, setPostList] = useState([]);
+  const [projectList, setProjectList] = useState([]);
 
   useEffect(() => {
     if (!isFetched) {
       const getPostList = async () => {
         try {
           const response = await axios.get('http://1.246.104.170:8080/boards');
-          setPostList(response.data);
+          const filterResponse = response.data.filter(
+            (res) => res.type === 'project'
+          );
+          console.log(filterResponse);
+          setProjectList(filterResponse);
           setLoading(false);
         } catch (error) {
           setError('네트워크 에러가 발생했습니다.');
@@ -31,8 +35,8 @@ export default function ProjectView() {
   }, [isFetched]);
 
   useEffect(() => {
-    console.log(postList);
-  }, [postList]);
+    console.log(projectList);
+  }, [projectList]);
 
   if (error) return <p>{error}</p>;
 
@@ -96,21 +100,19 @@ export default function ProjectView() {
         {Loading ? (
           <p>Loading...</p>
         ) : (
-          postList
-            .filter((post) => post.type === '프로젝트')
-            .map((post) => (
-              <Post
-                key={post.id}
-                title={post.title}
-                type={post.type}
-                roles={post.roles}
-                period={post.period}
-                proceed_method={post.proceed_method}
-                username={post.username}
-                text={post.text}
-                tags={post.tags}
-              />
-            ))
+          projectList.map((post) => (
+            <Post
+              key={post.id}
+              title={post.title}
+              type={post.type}
+              roles={post.roles}
+              period={post.period}
+              proceed_method={post.proceed_method}
+              username={post.username}
+              text={post.text}
+              tags={post.tags}
+            />
+          ))
         )}
       </div>
     </section>

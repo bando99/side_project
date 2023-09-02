@@ -28,8 +28,9 @@ export default function JoinView() {
       username,
       password,
       mail,
+      role: 'user',
     });
-    const userData = { username, password, mail };
+    const userData = { username, password, mail, role: 'user' };
 
     try {
       const response = await axios.post(

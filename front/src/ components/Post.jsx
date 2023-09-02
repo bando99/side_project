@@ -4,11 +4,10 @@ import Role from './Role';
 import styles from './Post.module.css';
 
 export default function Post({
-  id,
+  board_id,
   username,
   type,
   title,
-  text,
   proceed_method,
   period,
   roles,
@@ -22,9 +21,11 @@ export default function Post({
       </div>
       <p className={styles.title}>{title}</p>
       <div>
-        {tags.map((tag) => (
-          <img className={styles.tagImg} src={`/tag/${tag}.png`} alt={tag} />
-        ))}
+        {tags &&
+          tags.length > 0 &&
+          tags.map((tag) => (
+            <img className={styles.tagImg} src={`/tag/${tag}.png`} alt={tag} />
+          ))}
       </div>
       <div className={styles.role__container}>
         <p className={styles.cur__cnt}>현재인원</p>
