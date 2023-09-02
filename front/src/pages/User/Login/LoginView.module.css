@@ -8,8 +8,20 @@
   font-weight: 800;
 }
 
+.input__text {
+  font-weight: 700;
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+}
+
 input {
   width: 100%;
+  border: 1px solid #d2e2ec;
+}
+
+.password__input {
+  background-color: #d2e2ec;
+  margin-bottom: 0.7rem;
 }
 
 .container__box {
@@ -56,6 +68,7 @@ input {
 
 .loginSNS {
   font-weight: 800;
+  margin: 2rem;
 }
 
 .sns__container {
