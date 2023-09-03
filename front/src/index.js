@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       { path: '/project', element: <ProjectView /> },
       { path: '/study', element: <StudyView /> },
       { path: '/Addpost', element: <AddPostView /> },
-      { path: '/postDetail/:post', element: <PostDetailView /> },
+      { path: '/postDetail/:board_id', element: <PostDetailView /> },
       { path: '/postDetail/assign/:post', element: <AssignView /> },
       { path: '/mypage', element: <MyPageView /> },
       { path: '/mypage/recruit', element: <RecruitStatusView /> },
