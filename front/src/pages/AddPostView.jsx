@@ -115,12 +115,14 @@ export default function AddPost() {
       });
     }
 
+    console.log();
+
     const postData = {
       type,
       title,
       text,
       proceed_method,
-      period,
+      period: new Date(period).toISOString(),
       tagDtoList,
       roleNeededDtoList,
       user_id: 1,
@@ -135,7 +137,7 @@ export default function AddPost() {
         {
           headers: {
             'X-AUTH-TOKEN': token,
-            'Content-Type': 'application/json',
+            // 'Content-Type': 'application/json',
           },
         }
       );
