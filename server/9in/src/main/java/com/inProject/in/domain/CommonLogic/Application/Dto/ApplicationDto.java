@@ -1,4 +1,4 @@
-package com.inProject.in.domain.CommonLogic.Dto;
+package com.inProject.in.domain.CommonLogic.Application.Dto;
 
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;

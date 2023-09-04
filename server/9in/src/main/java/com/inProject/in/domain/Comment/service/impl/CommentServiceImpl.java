@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(id).get();
 
         ResponseCommentDto responseCommentDto = ResponseCommentDto.builder()
-                .id(comment.getId())
+                .comment_id(comment.getId())
                 .text(comment.getText())
                 .build();
 
@@ -80,6 +81,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @PreAuthorize(("#comment.user.username == authentication.principal.username")  )
     public ResponseCommentDto updateComment(Long id, UpdateCommentDto updateCommentDto) {
 
         Comment comment = commentRepository.findById(id)
@@ -109,7 +111,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @PreAuthorize("#comment.user.username == authentication.principle.username or hasRole('ROLE_ADMIN')")
     public void deleteComment(Long id) {
-        commentRepository.deleteById(id);
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("deleteComment에서 유효하지 않은 comment id : " + id));
+
+        commentRepository.delete(comment);
     }
 }

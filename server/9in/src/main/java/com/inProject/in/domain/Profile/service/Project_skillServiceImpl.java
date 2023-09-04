@@ -7,7 +7,9 @@ import com.inProject.in.domain.Profile.repository.Project_skillRepository;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class Project_skillServiceImpl {
     private UserRepository userRepository;
     private Project_skillRepository project_skillRepository;

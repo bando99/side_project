@@ -7,7 +7,9 @@ import com.inProject.in.domain.Profile.repository.EducationRepository;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EducationServiceImpl {
     private UserRepository userRepository;
     private EducationRepository educationRepository;

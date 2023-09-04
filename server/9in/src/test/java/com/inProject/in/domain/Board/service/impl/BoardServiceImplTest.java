@@ -19,6 +19,8 @@ import com.inProject.in.domain.SkillTag.Dto.RequestSkillTagDto;
 import com.inProject.in.domain.SkillTag.entity.SkillTag;
 import com.inProject.in.domain.SkillTag.repository.SkillTagRepository;
 import com.inProject.in.domain.User.repository.UserRepository;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,9 +33,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.Principal;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -143,6 +147,9 @@ class BoardServiceImplTest {
         requestSkillTagDtoList.add(requestSkillTagDto);
         requestRoleNeededDtoList.add(requestUsingInBoardDto);
 
+
+        HttpServletRequest request;
+
         given(boardRepository.save(any(Board.class))).willReturn(board);
         given(skillTagRepository.findTagByName(any(String.class))).willReturn(Optional.of(skillTag));
         given(roleNeededRepository.findRoleByName(any(String.class))).willReturn(Optional.of(roleNeeded));
@@ -151,7 +158,7 @@ class BoardServiceImplTest {
 
 
         //when
-        ResponseBoardDto responseBoardDto = boardService.createBoard(1L, requestBoardDto, requestSkillTagDtoList, requestRoleNeededDtoList);
+        ResponseBoardDto responseBoardDto = boardService.createBoard( requestBoardDto, requestSkillTagDtoList, requestRoleNeededDtoList, request);
 
         //then
         assertEquals(responseBoardDto.getBoard_id(), board.getId());

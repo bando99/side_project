@@ -6,13 +6,19 @@ import com.inProject.in.domain.User.Dto.RequestUserDto;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
 import com.inProject.in.domain.User.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
+    private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     UserServiceImpl(UserRepository userRepository){
@@ -56,4 +62,10 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        log.info("UserService loadUserByUsername ==> username : " + username);
+        return userRepository.getByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("loadUserByUsername에서 username으로 user 찾지 못함"));
+    }
 }

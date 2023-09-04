@@ -14,11 +14,16 @@ spring:
 logging:
   level:
     org:
+      springframework.security: DEBUG
       hibernate:
-        SQL : debug
+        SQL : DEBUG
         type:
           descriptor:
             sql: trace
 server:
   address: 0.0.0.0
   port: 8080
+
+springboot:
+  jwt:
+    secret: secretKey-for-authorization-jwtToken

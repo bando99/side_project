@@ -7,7 +7,9 @@ import com.inProject.in.domain.Profile.repository.Job_exRepository;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class Job_exServiceImpl {
     private UserRepository userRepository;
     private Job_exRepository job_exRepository;
