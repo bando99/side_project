@@ -34,8 +34,9 @@ public class BoardController {
     }
 
     @GetMapping("/{board_id}")
+    @Parameter(name = "board_id", description = "게시글 ID", in = ParameterIn.PATH, schema = @Schema(type = "integer", format = "int64"))
     @Operation(summary = "게시글 조회", description = "게시글 하나를 조회합니다.")
-    public ResponseEntity<ResponseBoardDto> getBoard(@PathVariable Long board_id){
+    public ResponseEntity<ResponseBoardDto> getBoard(@PathVariable(name = "board_id") Long board_id){
 
         ResponseBoardDto responseBoardDto = boardService.getBoard(board_id);
 
@@ -75,14 +76,15 @@ public class BoardController {
 
     @PutMapping("/{board_id}")
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)
+    @Parameter(name = "board_id", description = "게시글 ID", in = ParameterIn.PATH, schema = @Schema(type = "integer", format = "int64"))
     @Operation(summary = "게시글 수정", description = "게시글 하나를 업데이트 합니다.")
-    public ResponseEntity<ResponseBoardDto> updateBoard(@PathVariable Long board_id,
+    public ResponseEntity<ResponseBoardDto> updateBoard(@PathVariable(name = "board_id") Long board_id,
                                                         @RequestBody RequestUpdateBoardDto requestUpdateBoardDto,
                                                         HttpServletRequest request
     ){
 
         ResponseBoardDto responseBoardDto = boardService.updateBoard(board_id, requestUpdateBoardDto, request);
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(responseBoardDto);
     }
 
     @DeleteMapping("/{board_id}")

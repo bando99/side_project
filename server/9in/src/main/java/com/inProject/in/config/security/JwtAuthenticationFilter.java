@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {  //jwt토큰
             log.info("JwtAuthenticationFilter doFilterInternal ==> token 값 유효성 체크 성공");
         }
 
-        filterChain.doFilter(request, response);  //서블릿을 실행하는 메서드.
+        filterChain.doFilter(request, response);  //서블릿을 실행하는 메서드. 이 메서드를 기준으로 앞서 작성된 코드는 서블릿이 실행되기 전에 실행됨.
 
     }
 }

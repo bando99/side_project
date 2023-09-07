@@ -57,6 +57,24 @@ public class JwtTokenProvider {
         return token;
     }
 
+    public String createRefreshToken(String username, List<String> roles){
+        log.info("JwtToken create RefreshToken ==> refresh token 생성 시작");
+        Claims claims = Jwts.claims().setSubject(username);
+        claims.put("roles" ,roles);
+
+        Date now = new Date();
+        String refreshToken = Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + tokenValidMilliSecond * 10))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+
+        log.info("JwtToken create refresh Token ==> refresh 토큰 생성 완료");
+        return refreshToken;
+        //DB에 실제로 refresh 토큰 저장해야함.
+    }
+
     public Authentication getAuthentication(String token){   //인증이 성공하면 SecurityContextHolder에 저장할 authentication을 생성하는 역할.
         log.info("JwtToken getAuthentication ==> 토큰 인증 시작" );
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUsername(token));

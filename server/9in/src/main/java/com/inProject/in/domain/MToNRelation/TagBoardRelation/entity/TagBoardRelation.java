@@ -14,7 +14,10 @@ import lombok.*;
 @Builder
 @Table(name = "tagBoardRelation")
 public class TagBoardRelation extends BaseEntity {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
