@@ -26,7 +26,7 @@ export default function MyPage() {
       [modalName]: false,
     }));
   };
-  
+
   const handleRecruit = () => {
     navigate('/mypage/recruit');
   };
@@ -78,16 +78,19 @@ export default function MyPage() {
               <input type="text" placeholder="닉네임을 입력해주세요" />
             </div>
           </div>
-          <button className="section1_fix_btn" onClick={() => openModal('modal1')}>
-            {modals.modal1 && 
+          <button
+            className="section1_fix_btn"
+            onClick={() => openModal('modal1')}
+          >
+            {modals.modal1 && (
               <Modal
                 title="모달 1"
                 content="모달 1의 내용입니다."
                 isOpen={modals.modal1}
                 onClose={() => closeModal('modal1')}
               />
-            }
-           수정하기
+            )}
+            수정하기
           </button>
         </div>
         <Section1school>
@@ -116,21 +119,27 @@ export default function MyPage() {
             <input type="text" placeholder="내용을 입력해 주세요." />
           </div>
           <div className="section1_school_btn_flex">
-            <button onClick={() => openModal('modal2')} className="section1_school_btn">
-            {modals.modal2 && 
-              <Modal
-                title="모달 2"
-                content="모달 2의 내용입니다."
-                isOpen={modals.modal2}
-                onClose={() => closeModal('modal2')}
-              />
-            }
-            수정하기
+            <button
+              onClick={() => openModal('modal2')}
+              className="section1_school_btn"
+            >
+              {modals.modal2 && (
+                <Modal
+                  title="모달 2"
+                  content="모달 2의 내용입니다."
+                  isOpen={modals.modal2}
+                  onClose={() => closeModal('modal2')}
+                />
+              )}
+              수정하기
             </button>
           </div>
         </Section1school>
         <Section1Etc>
-          <div className="section1_etc_clip">
+          <div
+            onClick={() => navigate('/mypage/clip')}
+            className="section1_etc_clip"
+          >
             <div>
               <img
                 src="icons/clip.png"
@@ -142,7 +151,10 @@ export default function MyPage() {
             </div>
             <div>3</div>
           </div>
-          <div className="section1_etc_recruitment">
+          <div
+            onClick={() => navigate('/mypage/recruit')}
+            className="section1_etc_recruitment"
+          >
             <div className="section1_etc_recruitment_title">
               <img
                 src="icons/clip.png"
@@ -233,15 +245,15 @@ export default function MyPage() {
         </div>
         <div className="section3_btn">
           <button onClick={() => openModal('modal3')}>
-          {modals.modal3 && 
+            {modals.modal3 && (
               <Modal
                 title="모달 3"
                 content="모달 3의 내용입니다."
                 isOpen={modals.modal3}
                 onClose={() => closeModal('modal3')}
               />
-          }
-          수정하기
+            )}
+            수정하기
           </button>
           <button>추가하기</button>
         </div>
@@ -308,16 +320,16 @@ export default function MyPage() {
           </div>
         </div>
         <div className="section3_btn">
-          <button onClick={() => openModal("modal4")}>
-          {modals.modal4 && 
+          <button onClick={() => openModal('modal4')}>
+            {modals.modal4 && (
               <Modal
                 title="모달 4"
                 content="모달 4의 내용입니다."
                 isOpen={modals.modal4}
                 onClose={() => closeModal('modal4')}
               />
-          }  
-          수정하기
+            )}
+            수정하기
           </button>
           <button>추가하기</button>
         </div>
