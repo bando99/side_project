@@ -1,12 +1,23 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Header = (props) => {
   const navigate = useNavigate();
 
+  const { token, login, logout } = useAuth();
+
   const handleNavigation = (path) => {
     navigate(path);
+  };
+
+  const handleLogin = () => {
+    if (token) {
+      logout();
+    } else {
+      navigate('/user/login');
+    }
   };
 
   return (
@@ -23,16 +34,24 @@ const Header = (props) => {
             <div onClick={() => handleNavigation('/study')}>스터디</div>
           </Title>
           <LogButtons>
-            <button onClick={() => handleNavigation('/AddPost')}>
-              글 작성하기
-            </button>
-            <button onClick={() => handleNavigation('/mypage')}>
-              <img src="/profile/profile.png" alt="프로필 이미지" />
-            </button>
-            <button onClick={() => handleNavigation('/user/login')}>
-              <img src="/icons/vector.png" alt="알람 이미지" />
-            </button>
-            <div className="logout">로그아웃</div>
+            {token && (
+              <button onClick={() => handleNavigation('/AddPost')}>
+                글 작성하기
+              </button>
+            )}
+            {token && (
+              <button onClick={() => handleNavigation('/mypage')}>
+                <img src="/profile/profile.png" alt="프로필 이미지" />
+              </button>
+            )}
+            {token && (
+              <button onClick={() => handleNavigation('/user/login')}>
+                <img src="/icons/vector.png" alt="알람 이미지" />
+              </button>
+            )}
+            <div onClick={handleLogin} className="logout">
+              {token ? '로그아웃' : '로그인'}
+            </div>
           </LogButtons>
         </Container>
       </Headers>
