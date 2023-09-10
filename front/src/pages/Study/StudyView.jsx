@@ -4,9 +4,11 @@ import Tag from '../../ components/tag/Tag';
 import axios from 'axios';
 import Post from '../../ components/Post';
 import useFetchData from '../../ components/hooks/getPostList';
+import { useNavigate } from 'react-router-dom';
 
 export default function StudyView() {
   const { data: studyList, Loading, error } = useFetchData('/boards');
+  const navigate = useNavigate();
 
   if (error) return <p>{error}</p>;
 
@@ -73,16 +75,18 @@ export default function StudyView() {
           studyList
             .filter((post) => post.type === '스터디')
             .map((post) => (
-              <Post
-                key={post.board_id}
-                title={post.title}
-                type={post.type}
-                period={post.period}
-                roles={post.roles}
-                proceed_method={post.proceed_method}
-                username={post.username}
-                tags={post.tags}
-              />
+              <div onClick={() => navigate(`/postDetail/${post.board_id}`)}>
+                <Post
+                  key={post.board_id}
+                  title={post.title}
+                  type={post.type}
+                  period={post.period}
+                  roles={post.roles}
+                  proceed_method={post.proceed_method}
+                  username={post.username}
+                  tags={post.tags}
+                />
+              </div>
             ))
         )}
       </div>

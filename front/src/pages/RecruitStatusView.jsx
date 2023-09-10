@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import useFetchData from '../ components/hooks/getPostList';
+import { useNavigate } from 'react-router-dom';
 
 export default function RecruitStatusView() {
+  const { data: postList, Loading, error } = useFetchData('/boards');
+  const navigate = useNavigate();
+
   return (
     <Container>
       <MainTitle>내가 운영중인</MainTitle>
@@ -11,16 +16,20 @@ export default function RecruitStatusView() {
             <span>프로젝트</span>
             <TitleCount>1</TitleCount>
           </Title>
-          <ContentContainer>
-            <Truncate>
-              해커톤 팀원 모집합니다(UX/UI/프론트엔드/기획자/백엔드) 열심히
-              하실분만 구합니다
-            </Truncate>
-            <Options>
-              <OptionItem>수정</OptionItem>
-              <OptionItem>삭제</OptionItem>
-            </Options>
-          </ContentContainer>
+          {postList
+            .filter((post) => post.type === '프로젝트')
+            .map((post) => (
+              <ContentContainer
+                onClick={() => navigate(`/postDetail/${post.board_id}`)}
+              >
+                <Truncate>{post.title}</Truncate>
+                <Options>
+                  <OptionItem>수정</OptionItem>
+                  <OptionItem>삭제</OptionItem>
+                </Options>
+              </ContentContainer>
+            ))}
+          <ContentContainer></ContentContainer>
         </MyRecruit>
         <MyRecruit>
           <Title>
@@ -28,16 +37,19 @@ export default function RecruitStatusView() {
             <span>스터디</span>
             <TitleCount>1</TitleCount>
           </Title>
-          <ContentContainer>
-            <Truncate>
-              해커톤 팀원 모집합니다(UX/UI/프론트엔드/기획자/백엔드) 열심히
-              하실분만 구합니다
-            </Truncate>
-            <Options>
-              <OptionItem>수정</OptionItem>
-              <OptionItem>삭제</OptionItem>
-            </Options>
-          </ContentContainer>
+          {postList
+            .filter((post) => post.type === '스터디')
+            .map((post) => (
+              <ContentContainer
+                onClick={() => navigate(`/postDetail/${post.board_id}`)}
+              >
+                <Truncate>{post.title}</Truncate>
+                <Options>
+                  <OptionItem>수정</OptionItem>
+                  <OptionItem>삭제</OptionItem>
+                </Options>
+              </ContentContainer>
+            ))}
         </MyRecruit>
       </MyBox>
       <MainTitle>신청 알림</MainTitle>
