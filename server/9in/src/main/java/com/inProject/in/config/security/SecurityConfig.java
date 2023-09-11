@@ -46,6 +46,7 @@ public class SecurityConfig  {   //WebSecurityConfigurerAdapter 상속받아서 
                 .requestMatchers(HttpMethod.GET, "/boards/**").permitAll()  //boards로 시작하는 get요청은 다 허용한다는 의미.
                 .requestMatchers("/sign/**").permitAll()   //
                 .requestMatchers("**exception**").permitAll()
+//                .requestMatchers("/error").permitAll()
                 .requestMatchers("/skillTag**", "/roleNeeded**").permitAll()
 //                .anyRequest().hasRole("USER")
 //                .anyRequest().anonymous()   //기타 요청은 인증을 받지 않아도 모두 접근 가능.

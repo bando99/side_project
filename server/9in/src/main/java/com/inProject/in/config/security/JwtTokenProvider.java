@@ -30,9 +30,9 @@ public class JwtTokenProvider {
 
     @Value("${springboot.jwt.secret}")
     private String secretKey = "secretKey-for-authorization-jwtToken";
-    private final long tokenValidMilliSecond = 1000L * 60 * 60;
-
-    @PostConstruct        //해당 객체가 주입된 이후 수행되는 메서드 지정
+    private final long tokenValidMilliSecond = 1000L * 60 * 60;    //test 를 위해 5분으로 설정.
+    private final long refreshValidMilliSecond = tokenValidMilliSecond * 24;
+    @PostConstruct        //해당 객체가 주입된 이후 수행되는 메서드 지정d
     protected void init(){
         log.info("JwtToken init ==> secret 키 초기화 시작");
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));  //secret key를 base64형식으로 인코딩한다.
@@ -63,10 +63,10 @@ public class JwtTokenProvider {
         claims.put("roles" ,roles);
 
         Date now = new Date();
-        String refreshToken = Jwts.builder()
+        String refreshToken = Jwts.builder()              //refresh 토큰에는 사용자 관련 정보를 넣지 않는 것도 생각해볼것.
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + tokenValidMilliSecond * 10))
+                .setExpiration(new Date(now.getTime() + refreshValidMilliSecond))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
 
@@ -95,6 +95,11 @@ public class JwtTokenProvider {
         return request.getHeader("X-AUTH-TOKEN");    //헤더값으로 전달된 X-AUTH-TOKEN값을 가져와 리턴한다. 헤더 이름은 임의로 변경가능
     }
 
+    public String resolveRefreshToken(HttpServletRequest request){
+        log.info("JwtToken resolveRefreshToken ==> http 헤더로부터 refresh token 값 추출 시작");
+        return request.getHeader("REFRESH-TOKEN");
+    }
+
     public boolean validateToken(String token){
         log.info("JwtToken validateToken ==> 토큰 유효성 체크 시작");
         try{
@@ -104,6 +109,23 @@ public class JwtTokenProvider {
             return !claims.getBody().getExpiration().before(new Date());
         } catch(Exception e){
             log.info("JwtToken validateToken ==> 예외 발생");
+            return false;
+        }
+    }
+
+    // refreshToken 토큰 검증
+    // db에 저장되어 있는 token과 비교
+    // db에 저장한다는 것이 jwt token을 사용한다는 강점을 상쇄시킨다.
+    // db 보다는 redis를 사용하는 것이 더욱 좋다. (in-memory db기 때문에 조회속도가 빠르고 주기적으로 삭제하는 기능이 기본적으로 존재합니다.)
+    public boolean validateRefreshToken(String refreshToken){
+        log.info("JwtToken validateRefreshToken ==> refresh 토큰 유효성 체크 시작");
+        try{
+            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secretKey).build()
+                    .parseClaimsJws(refreshToken);
+
+            return !claims.getBody().getExpiration().before(new Date());
+        }catch (Exception e){
+            log.info("JwtToken validateRefreshToken ==> 예외 발생");
             return false;
         }
     }
