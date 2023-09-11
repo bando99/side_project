@@ -47,7 +47,7 @@ public class SignController {
 
     @PostMapping("/sign-up")
     @Operation(summary = "회원가입", description = "회원가입을 시도합니다.")
-    public ResponseSignUpDto signUp(@Valid @RequestBody RequestSignUpDto requestSignUpDto){
+    public ResponseSignUpDto signUp(@RequestBody RequestSignUpDto requestSignUpDto){
         log.info("SignController signUp ==> 회원가입 시도   id : " + requestSignUpDto.getUsername() + " mail : " + requestSignUpDto.getMail() +
                 " role : " + requestSignUpDto.getRole());
         ResponseSignUpDto responseSignUpDto = signService.signUp(requestSignUpDto);

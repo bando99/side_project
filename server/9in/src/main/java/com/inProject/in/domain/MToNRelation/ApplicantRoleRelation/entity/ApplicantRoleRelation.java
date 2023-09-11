@@ -3,10 +3,7 @@ package com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.entity;
 import com.inProject.in.Global.BaseEntity;
 import com.inProject.in.domain.RoleNeeded.entity.RoleNeeded;
 import com.inProject.in.domain.User.entity.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -18,6 +15,10 @@ import lombok.*;
 @Builder
 @Table(name = "applicantRoleRelation")
 public class ApplicantRoleRelation extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User role_applicant;

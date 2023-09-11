@@ -18,6 +18,10 @@ import java.time.LocalDateTime;
 @ToString
 @Table(name = "job_ex")
 public class Job_ex extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
     @Column
     private String company_name;
     @Column

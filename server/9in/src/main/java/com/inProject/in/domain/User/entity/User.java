@@ -14,6 +14,8 @@ import com.inProject.in.domain.Profile.entity.Project_skill;
 import com.inProject.in.domain.User.Dto.UpdateUserDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,8 +34,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @Table(name = "user") //테이블과 매핑
+@SQLDelete(sql = "UPDATE user SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class User extends BaseEntity implements UserDetails{
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
 
 //    @Column(nullable = false)
 //    private String userId;
@@ -43,7 +50,8 @@ public class User extends BaseEntity implements UserDetails{
     private String password;
     @Column(nullable = false)
     private String mail;
-
+    @Column
+    private boolean deleted = Boolean.FALSE;
 
 
     //연관관계
