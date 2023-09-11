@@ -6,6 +6,8 @@ import com.inProject.in.domain.Comment.Dto.UpdateCommentDto;
 import com.inProject.in.domain.User.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Builder
@@ -14,8 +16,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "comment")
+@SQLDelete(sql = "UPDATE comment SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Comment extends BaseEntity {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
     @Column(nullable = false)
     private String text;
     @ManyToOne
@@ -25,6 +32,8 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "board_id")       //N : 1
     private Board board;
 
+    @Column
+    private boolean deleted = Boolean.FALSE;
     public void updateComment(UpdateCommentDto updateCommentDto){
         this.text = updateCommentDto.getText();
     }

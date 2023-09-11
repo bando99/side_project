@@ -16,7 +16,10 @@ import lombok.*;
 @ToString
 @Table(name = "roleBoardRelation")
 public class RoleBoardRelation extends BaseEntity {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "role_id")
     private RoleNeeded roleNeeded;

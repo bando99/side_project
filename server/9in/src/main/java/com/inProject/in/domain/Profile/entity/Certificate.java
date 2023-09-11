@@ -14,6 +14,10 @@ import lombok.*;
 @ToString
 @Table(name = "certificate")
 public class Certificate extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
     @Column
     private String certificate_name;  //자격증 이름
     @Column

@@ -15,6 +15,10 @@ import java.time.LocalDateTime;
 @ToString
 @Table(name = "education")
 public class Education extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
     @Column
     private String school; //대학교
     @Column

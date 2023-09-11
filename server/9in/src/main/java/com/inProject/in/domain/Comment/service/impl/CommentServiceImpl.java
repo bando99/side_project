@@ -1,5 +1,6 @@
 package com.inProject.in.domain.Comment.service.impl;
 
+import com.inProject.in.config.security.JwtTokenProvider;
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.Board.repository.BoardRepository;
 import com.inProject.in.domain.Comment.Dto.RequestCommentDto;
@@ -10,13 +11,16 @@ import com.inProject.in.domain.Comment.repository.CommentRepository;
 import com.inProject.in.domain.Comment.service.CommentService;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +31,17 @@ public class CommentServiceImpl implements CommentService {
     private UserRepository userRepository;
     private BoardRepository boardRepository;
     private CommentRepository commentRepository;
+    private JwtTokenProvider jwtTokenProvider;
     private final Logger log = LoggerFactory.getLogger(CommentServiceImpl.class);
     @Autowired
     public CommentServiceImpl(CommentRepository commentRepository,
                               UserRepository userRepository,
-                              BoardRepository boardRepository) {
+                              BoardRepository boardRepository,
+                              JwtTokenProvider jwtTokenProvider) {
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
         this.boardRepository = boardRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
@@ -50,13 +57,15 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public ResponseCommentDto createComment(RequestCommentDto requestCommentDto) {
+    @PreAuthorize("hasRole('USER')")
+    public ResponseCommentDto createComment(RequestCommentDto requestCommentDto, HttpServletRequest request) {
 
-        Long user_id = requestCommentDto.getUser_id();
         Long board_id = requestCommentDto.getBoard_id();
 
-        User user = userRepository.findById(user_id)
-                .orElseThrow(() -> new IllegalArgumentException("createComment에서 유효하지 않은 user id : " + user_id));
+//        User user = userRepository.findById(user_id)
+//                .orElseThrow(() -> new IllegalArgumentException("createComment에서 유효하지 않은 user id : " + user_id));
+
+        User user = getUserFromRequest(request);
 
         Board board = boardRepository.findById(board_id)
                 .orElseThrow(() -> new IllegalArgumentException("createComment에서 유효하지 않은 board id : " + board_id));
@@ -73,7 +82,8 @@ public class CommentServiceImpl implements CommentService {
 
         Comment savedComment = commentRepository.save(comment);
         Long savedId = savedComment.getId();
-        log.info("CreateComment in commentService ==> comment id : " + savedId);
+        log.info("CreateComment in commentService ==> comment id : " + savedId + " username : " + user.getUsername());
+        log.info("comment count increase : " + board.getComment_cnt());
 
         ResponseCommentDto responseCommentDto = new ResponseCommentDto(savedComment);
 
@@ -81,16 +91,22 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @PreAuthorize(("#comment.user.username == authentication.principal.username")  )
-    public ResponseCommentDto updateComment(Long id, UpdateCommentDto updateCommentDto) {
+    //@PreAuthorize(("#comment.user.username == authentication.principal.username"))
+    public ResponseCommentDto updateComment(Long id, UpdateCommentDto updateCommentDto, HttpServletRequest request) {
+        User user = getUserFromRequest(request);
 
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("updqteComment에서 유효하지 않은 comment id : " + id));
+
+        if(!user.getUsername().equals(comment.getUser().getUsername())){
+            throw new AccessDeniedException("권한이 없습니다.");
+        }
 
         comment.updateComment(updateCommentDto);
         Comment updatedComment = commentRepository.save(comment);
 
         ResponseCommentDto responseCommentDto = new ResponseCommentDto(updatedComment);
+        log.info("CommentService updateComment : " + responseCommentDto.getComment_id() + responseCommentDto.getText());
 
         return responseCommentDto;
     }
@@ -111,11 +127,40 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @PreAuthorize("#comment.user.username == authentication.principle.username or hasRole('ROLE_ADMIN')")
-    public void deleteComment(Long id) {
+    @Transactional
+//    @PreAuthorize("#comment.user.username == authentication.principle.username or hasRole('ADMIN')")
+    public void deleteComment(Long id, HttpServletRequest request) {
+        User user = getUserFromRequest(request);
+
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("deleteComment에서 유효하지 않은 comment id : " + id));
 
-        commentRepository.delete(comment);
+        if(!user.getUsername().equals(comment.getUser().getUsername()) && !request.isUserInRole("ROLE_ADMIN") ){
+            throw new AccessDeniedException("권한이 없습니다.");
+        }
+        int cnt = comment.getBoard().getComment_cnt();
+
+        comment.getBoard().setComment_cnt(cnt - 1);
+        commentRepository.deleteById(id);
+
+        log.info("CommentService deleteComment ==> username : " + user.getUsername());
+        log.info("authorization ADMIN : " + request.isUserInRole("ROLE_ADMIN"));
+    }
+
+    private User getUserFromRequest(HttpServletRequest request){
+        String token = jwtTokenProvider.resolveToken(request);
+        User user;
+
+        if(token != null && jwtTokenProvider.validateToken(token)){
+            String username = jwtTokenProvider.getUsername(token);
+
+            return user = userRepository.getByUsername(username)
+                    .orElseThrow(() -> new IllegalArgumentException("CommentService에서 user를 찾지 못함"));
+        }
+        else{
+            throw new IllegalArgumentException("token이 없거나, 권한이 유효하지 않습니다.");
+        }
+
+
     }
 }
