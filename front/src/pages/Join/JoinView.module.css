@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container__box {
+  border: 2px solid #d2e2ec;
+  border-radius: 20px;
+  padding: 3rem 8rem;
+}
+
+.title {
+  margin-top: 5rem;
+  font-weight: 900;
+}
+
+.title__sub {
+  font-weight: 800;
+}
+
+.input__box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.check__btn {
+  color: #1f7ceb;
+  border: solid 1px #d2e2ec;
+  background-color: white;
+  width: 45%;
+}
+
+.check__btn:hover {
+  cursor: pointer;
+}
+
+.btn__container {
+  display: flex;
+  justify-content: center;
+}
+.btn__join {
+  width: 80%;
+  background-color: #1f7ceb;
+  margin-top: 1rem;
+  color: white;
+  border-radius: 25px;
+  padding: 0.3rem 0.6rem;
+  border: none;
+}
+
+.btn__join:hover {
+  cursor: pointer;
+}
