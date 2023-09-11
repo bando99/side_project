@@ -10,6 +10,9 @@ import com.inProject.in.domain.Board.Dto.RequestBoardDto;
 import com.inProject.in.domain.MToNRelation.TagBoardRelation.entity.TagBoardRelation;
 import com.inProject.in.domain.User.entity.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -37,6 +40,7 @@ public class Board extends BaseEntity {
     private String proceed_method; //진행 방식
     @Column(nullable = false)
     private LocalDateTime period; //예상 기간
+
     @Column
     private int comment_cnt;  //댓글 개수
 

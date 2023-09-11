@@ -38,9 +38,12 @@ public class SecurityConfig  {   //WebSecurityConfigurerAdapter 상속받아서 
 
                 .authorizeHttpRequests()                                                    //authorizedRequests, antMatchers는 deprecated되서 사용 안 함.
                 .requestMatchers( "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/boards**").permitAll()          //boards로 시작하는 get요청은 다 허용한다는 의미.
+                .requestMatchers(HttpMethod.GET, "/boards/**").permitAll()          //boards로 시작하는 get요청은 다 허용한다는 의미.
                 .requestMatchers("/sign/**").permitAll()
+                .requestMatchers("/sse**").permitAll()
                 .requestMatchers("**exception**").permitAll()
+
+                .requestMatchers("/skillTag**","/roleNeeded**").permitAll()
 //                .anyRequest().hasRole("USER")
 //                .anyRequest().anonymous()   //기타 요청은 인증을 받지 않아도 모두 접근 가능.
 //                .anyRequest().hasRole("ADMIN")       //기타 요청은 admin권한을 가진 사용자가 접근이 가능하다.

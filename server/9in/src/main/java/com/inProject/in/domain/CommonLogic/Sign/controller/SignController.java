@@ -7,6 +7,7 @@ import com.inProject.in.domain.CommonLogic.Sign.Dto.ResponseSignUpDto;
 import com.inProject.in.domain.CommonLogic.Sign.service.SignService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class SignController {
 
     @PostMapping("/sign-in")
     @Operation(summary = "로그인 시도", description = "생성되어있는 계정으로 로그인합니다.")
-    public ResponseSignInDto signIn(@RequestBody RequestSignInDto requestSignInDto) throws RuntimeException{
+    public ResponseSignInDto signIn(@Valid @RequestBody RequestSignInDto requestSignInDto) throws RuntimeException{
         log.info("SignController signIn ==> 로그인 시도   id : " + requestSignInDto.getUsername());
 
         ResponseSignInDto responseSignInDto = signService.signIn(requestSignInDto);
@@ -46,7 +47,7 @@ public class SignController {
 
     @PostMapping("/sign-up")
     @Operation(summary = "회원가입", description = "회원가입을 시도합니다.")
-    public ResponseSignUpDto signUp(@RequestBody RequestSignUpDto requestSignUpDto){
+    public ResponseSignUpDto signUp(@Valid @RequestBody RequestSignUpDto requestSignUpDto){
         log.info("SignController signUp ==> 회원가입 시도   id : " + requestSignUpDto.getUsername() + " mail : " + requestSignUpDto.getMail() +
                 " role : " + requestSignUpDto.getRole());
         ResponseSignUpDto responseSignUpDto = signService.signUp(requestSignUpDto);

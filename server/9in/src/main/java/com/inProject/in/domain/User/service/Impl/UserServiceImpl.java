@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -45,11 +47,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public ResponseUserDto updateUser(Long id, UpdateUserDto updateUserdto) {
+    @Transactional
+    public ResponseUserDto updateUser(Long id, @RequestBody UpdateUserDto updateUserdto) {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("updateUser에서 유효하지 않은 id " + id));
 
+        //빈 data가 들어왔을 때 예외처리 하는 코드 작성필요.
+        //==
         user.updateUser(updateUserdto);
         User updatedUser = userRepository.save(user);
 
