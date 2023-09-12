@@ -116,8 +116,6 @@ public class BoardServiceImpl implements BoardService {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("getBoard에서 유효하지 않은 게시글 id " + id));
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //현재 실행중인 스레드의 인증 정보를 보게 된다.
-
         ResponseBoardDto responseBoardDto = new ResponseBoardDto(board);
 
         return responseBoardDto;
@@ -166,7 +164,7 @@ public class BoardServiceImpl implements BoardService {
         return responseBoardDto;
     }
     @Override
-    @PreAuthorize("#board.author.username == authentication.principal.username")                                              //메서드 매개변수로 전달된 board를 참조한다. 여기서 #board는 SpEL(Spring Expression Language)을 통해
+//    @PreAuthorize("#board.author.username == authentication.principal.username")                                              //메서드 매개변수로 전달된 board를 참조한다. 여기서 #board는 SpEL(Spring Expression Language)을 통해
     public ResponseBoardDto updateBoard(Long id, RequestUpdateBoardDto requestUpdateBoardDto, HttpServletRequest request) {   //해당 메서드의 매개변수로 전달되지 않아도 메서드 내의 board를 참조한다.
 
         Board board = boardRepository.findById(id)
@@ -181,7 +179,7 @@ public class BoardServiceImpl implements BoardService {
         board.updateBoard(requestUpdateBoardDto);
         Board updatedBoard = boardRepository.save(board);
         ResponseBoardDto responseBoardDto = new ResponseBoardDto(updatedBoard);
-        log.info("Using BoardService updateBoard : " + responseBoardDto.getBoard_id() + responseBoardDto.getTitle());
+        log.info("BoardService updateBoard : " + responseBoardDto.getBoard_id() + responseBoardDto.getTitle());
 
         return responseBoardDto;
     }
@@ -198,8 +196,6 @@ public class BoardServiceImpl implements BoardService {
         if(!user.getUsername().equals(board.getAuthor().getUsername()) && !request.isUserInRole("ROLE_ADMIN")){
             throw new AccessDeniedException("권한이 없습니다.");
         }
-
-//        user.getAuthoredBoardList().remove(board);
 
         boardRepository.deleteById(id);
 

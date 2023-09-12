@@ -16,6 +16,10 @@ import java.util.List;
 @Builder
 @Table(name = "skilltag")
 public class SkillTag extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
     @Column(nullable = false)
     private String name;
     @OneToMany(mappedBy = "skillTag", fetch = FetchType.EAGER)

@@ -18,6 +18,10 @@ import java.util.List;
 @ToString
 @Table(name = "roleNeeded")
 public class RoleNeeded extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
     @Column
     private String name;
     @OneToMany(mappedBy = "roleNeeded", fetch = FetchType.EAGER)

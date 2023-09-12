@@ -16,6 +16,10 @@ import java.time.LocalDateTime;
 @ToString
 @Table(name = "project_skill")
 public class Project_skill extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
     @Column
     private String project_name;
     @Column
