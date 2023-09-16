@@ -2,35 +2,21 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import useFetchData from '../ components/hooks/getPostList';
 
 export default function PostDetail() {
-  const [data, setData] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
   const { board_id } = useParams();
-  console.log(board_id);
 
-  const baseURL = 'http://1.246.104.170:8080';
+  const { data, loading, error } = useFetchData('/boards/' + board_id);
+
   const { title, type, proceed_method, period, roles, tags } = data;
   console.log(tags);
 
-  useEffect(() => {
-    console.log(baseURL + '/boards/' + board_id);
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(baseURL + '/boards/' + board_id);
-        setData(response.data);
-        setLoading(false);
-        console.log('게시물 GET 성공!', response.data);
-      } catch (error) {
-        setError('네트워크 에러가 발생했습니다.');
-      }
-    };
-
-    fetchData();
-  }, []);
-  // const formattedPeriod = new Date(data.period).toISOString().split('T')[0];
+  const formattedPeriod = new Date(data.period).toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
 
   return (
     <Container>
@@ -38,7 +24,7 @@ export default function PostDetail() {
       <Content>
         <div className="content_flex">
           <span>게시 날짜</span>
-          <span></span>
+          <span>{formattedPeriod}</span>
         </div>
         <div className="content_flex">
           <svg
