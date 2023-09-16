@@ -41,7 +41,7 @@ export default function RecruitStatusView() {
             .filter((post) => post.type === '스터디')
             .map((post) => (
               <ContentContainer
-                onClick={() => navigate(`/postDetail/${post.board_id}`)}
+                onClick={() => navigate(`/AddPost/?board_id=${post.board_id}`)}
               >
                 <Truncate>{post.title}</Truncate>
                 <Options>

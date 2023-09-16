@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
+import useFetchData from '../ components/hooks/getPostList';
 
 export default function AddPost() {
-  const [title, setTitle] = useState('');
+  const queryParams = new URLSearchParams(useLocation().search);
+  const board_id = queryParams.get('board_id');
+  console.log(board_id);
+
+  const { data } = useFetchData('/boards/' + board_id);
+
+  const [title, setTitle] = useState(data.title);
   const [skill, setSkill] = useState('');
   const [type, setType] = useState('');
   const [text, setText] = useState('');
@@ -25,9 +33,39 @@ export default function AddPost() {
 
   const token = localStorage.getItem('token');
 
-  const headers = {
-    'X-AUTH-TOKEN': token,
-  };
+  useEffect(() => {
+    if (data && data.roles) {
+      setType(data.type);
+      if (data.type === '프로젝트') {
+        setProjectBtn(true);
+        setStudyBtn(false);
+      } else {
+        setProjectBtn(false);
+        setStudyBtn(true);
+      }
+      setTitle(data.title);
+      // 날짜 처리는 의논 사항
+      // 수정 시 사용기술은 사용자가 직접 입력
+      setProceed_method(data.proceed_method);
+      data.roles.forEach((role) => {
+        if (role.name === 'PM') {
+          setPmCnt(role.want_cnt);
+        } else if (role.name === 'designer') {
+          setDesignerCnt(role.want_cnt);
+        } else if (role.name === 'frontend') {
+          setFrontEndCnt(role.want_cnt);
+        } else if (role.name === '모바일') {
+          setMobileCnt(role.want_cnt);
+        } else if (role.name === 'backend') {
+          setBackEndCnt(role.want_cnt);
+        } else if (role.name === '기타') {
+          setEtcCnt(role.want_cnt);
+        }
+      });
+      setText(data.text);
+    }
+  }, [data]);
+  console.log(type);
 
   const handleTitle = (e) => {
     setTitle(e.target.value);
@@ -114,8 +152,6 @@ export default function AddPost() {
         want_cnt: etcCnt,
       });
     }
-
-    console.log();
 
     const postData = {
       type,
