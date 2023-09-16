@@ -32,6 +32,7 @@ export default function HomeView() {
               period={post.period}
               proceed_method={post.proceed_method}
               username={post.username}
+              tags={post.tags}
             />
           </div>
         ))}
