@@ -30,7 +30,7 @@ public class JwtTokenProvider {
 
     @Value("${springboot.jwt.secret}")
     private String secretKey = "secretKey-for-authorization-jwtToken";
-    private final long tokenValidMilliSecond = 1000L * 60 * 60;    //test 를 위해 5분으로 설정.
+    private final long tokenValidMilliSecond = 1000L * 60 * 60;
     private final long refreshValidMilliSecond = tokenValidMilliSecond * 24;
     @PostConstruct        //해당 객체가 주입된 이후 수행되는 메서드 지정d
     protected void init(){

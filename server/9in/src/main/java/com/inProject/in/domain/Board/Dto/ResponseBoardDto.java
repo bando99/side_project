@@ -32,7 +32,7 @@ public class ResponseBoardDto {
     private String title;
     private String text;
     private String proceed_method;
-    private LocalDateTime period;
+    private String period;
     private int comment_cnt;
     private List<String> tags = new ArrayList<>();
     private List<ResponseRoleNeededDto> roles = new ArrayList<>();

@@ -24,9 +24,9 @@ public class RoleNeeded extends BaseEntity {
     private Long id;
     @Column
     private String name;
-    @OneToMany(mappedBy = "roleNeeded", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "roleNeeded")
     private List<RoleBoardRelation> roleBoardRelationList;              //여러 게시글과 연관
 
-    @OneToMany(mappedBy = "roleNeeded", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "roleNeeded")
     private List<ApplicantRoleRelation> applicantRoleRelationList;   //여러 지원자들과 연관
 }

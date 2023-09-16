@@ -22,7 +22,7 @@ public class ResponseBoardListDto {   //게시글 리스트를 리턴할 때 사
     private String title;
 //    private String text;               //게시글 내용은 보여줄 필요 x
     private String proceed_method;
-    private LocalDateTime period;
+    private String period;
     private int comment_cnt;
     private List<String> tags = new ArrayList<>();
     private List<ResponseRoleNeededDto> roles = new ArrayList<>();

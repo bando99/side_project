@@ -20,10 +20,7 @@ public class RequestCreateBoardDto {   //게시글 생성 시 필요한 정보�
     private String title;
     private String text;
     private String proceed_method;
-    private LocalDateTime period;
-
-    //태그
-//    private List<String> tagNames;
+    private String period;
 
     //직군
     private List<RequestUsingInBoardDto> roleNeededDtoList;
