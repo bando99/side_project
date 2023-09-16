@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { useLocation, useParams } from 'react-router-dom';
+import useFetchData from '../ components/hooks/getPostList';
 
-export default function AddPost() {
+export default function ModifyPostView() {
+  const { board_id } = useParams();
+  console.log(board_id);
+
+  const { data } = useFetchData('/boards/' + board_id);
+
   const [title, setTitle] = useState();
   const [skill, setSkill] = useState('');
   const [type, setType] = useState('');
@@ -24,6 +31,40 @@ export default function AddPost() {
   const roleNeededDtoList = [];
 
   const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    if (data && data.roles) {
+      setType(data.type);
+      if (data.type === '프로젝트') {
+        setProjectBtn(true);
+        setStudyBtn(false);
+      } else {
+        setProjectBtn(false);
+        setStudyBtn(true);
+      }
+      setTitle(data.title);
+      // 날짜 처리는 의논 사항
+      // 수정 시 사용기술은 사용자가 직접 입력
+      setTagDtoList([]);
+      setProceed_method(data.proceed_method);
+      data.roles.forEach((role) => {
+        if (role.name === 'PM') {
+          setPmCnt(role.want_cnt);
+        } else if (role.name === 'designer') {
+          setDesignerCnt(role.want_cnt);
+        } else if (role.name === 'frontend') {
+          setFrontEndCnt(role.want_cnt);
+        } else if (role.name === '모바일') {
+          setMobileCnt(role.want_cnt);
+        } else if (role.name === 'backend') {
+          setBackEndCnt(role.want_cnt);
+        } else if (role.name === '기타') {
+          setEtcCnt(role.want_cnt);
+        }
+      });
+      setText(data.text);
+    }
+  }, [data]);
 
   const handleProejectBtn = () => {
     setType('프로젝트');
@@ -95,33 +136,30 @@ export default function AddPost() {
       });
     }
 
-    const postData = {
+    const modifyData = {
       type,
       title,
       text,
       proceed_method,
       period,
-      tagDtoList,
-      roleNeededDtoList,
-      user_id: 1,
+      requestSkillTagDtoList: tagDtoList,
+      requestUsingInBoardDtoList: roleNeededDtoList,
     };
-
-    console.log(postData);
+    console.log(modifyData);
 
     try {
-      const response = await axios.post(
-        'http://1.246.104.170:8080/boards',
-        postData,
+      const response = await axios.put(
+        `http://1.246.104.170:8080/boards/${board_id}`,
+        modifyData,
         {
           headers: {
             'X-AUTH-TOKEN': token,
-            // 'Content-Type': 'application/json',
           },
         }
       );
-      console.log('글 작성 성공');
+      console.log('글 수정 성공');
     } catch (error) {
-      console.error('글 작성 실패', error);
+      console.error('글 수정 실패', error);
     }
   };
 
@@ -307,7 +345,6 @@ export default function AddPost() {
         </TextArea>
         <Submit>
           <button>수정하기</button>
-          <button>작성 완료</button>
         </Submit>
       </form>
     </Section>

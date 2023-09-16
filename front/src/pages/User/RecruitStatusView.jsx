@@ -20,7 +20,7 @@ export default function RecruitStatusView() {
             .filter((post) => post.type === '프로젝트')
             .map((post) => (
               <ContentContainer
-                onClick={() => navigate(`/AddPost/?board_id=${post.board_id}`)}
+                onClick={() => navigate(`/modifyPost/${post.board_id}`)}
               >
                 <Truncate>{post.title}</Truncate>
                 <Options>
@@ -41,7 +41,7 @@ export default function RecruitStatusView() {
             .filter((post) => post.type === '스터디')
             .map((post) => (
               <ContentContainer
-                onClick={() => navigate(`/AddPost/?board_id=${post.board_id}`)}
+                onClick={() => navigate(`/modifyPost/${post.board_id}`)}
               >
                 <Truncate>{post.title}</Truncate>
                 <Options>
