@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import useFetchData from '../ components/hooks/getPostList';
 import { useNavigate } from 'react-router-dom';
+import useFetchData from '../../ components/hooks/getPostList';
 
 export default function RecruitStatusView() {
   const { data: postList, Loading, error } = useFetchData('/boards');
@@ -20,7 +20,7 @@ export default function RecruitStatusView() {
             .filter((post) => post.type === '프로젝트')
             .map((post) => (
               <ContentContainer
-                onClick={() => navigate(`/postDetail/${post.board_id}`)}
+                onClick={() => navigate(`/AddPost/?board_id=${post.board_id}`)}
               >
                 <Truncate>{post.title}</Truncate>
                 <Options>

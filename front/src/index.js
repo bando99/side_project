@@ -11,7 +11,6 @@ import ProjectView from './pages/Project/ProjectView';
 import StudyView from './pages/Study/StudyView';
 import IDfoundView from './pages/User/IDFound/IDfoundView';
 import AddPostView from './pages/AddPostView';
-import RecruitStatusView from './pages/RecruitStatusView';
 import MyPageView from './pages/User/MyPage/MyPageView';
 import PWfoundView from './pages/User/PWfound/PWfoundView';
 import PWChangeView from './pages/User/PWChange/PWChangeView';
@@ -20,6 +19,7 @@ import HomeView from './pages/HomeView';
 import AssignView from './pages/AssignView';
 import PostDetailView from './pages/PostDetailView';
 import LoginView from './pages/User/Login/LoginView';
+import RecruitStatusView from './pages/User/RecruitStatusView';
 
 const router = createBrowserRouter([
   {

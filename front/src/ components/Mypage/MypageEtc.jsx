@@ -1,49 +1,44 @@
-import React from 'react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const MypageEtc = () => {
+  const navigate = useNavigate();
+
   return (
     <MyPageEtc>
-          <div
-            className="section1_etc_clip"
-          >
-            <div>
-              <img
-                src="icons/clip.png"
-                width="24"
-                height="24"
-                alt="clip icon"
-              />
-              <p>클립 해놓은 게시물 {'>'}</p>
-            </div>
-            <div>3</div>
+      <div className="section1_etc_clip">
+        <div>
+          <img src="icons/clip.png" width="24" height="24" alt="clip icon" />
+          <p>클립 해놓은 게시물 {'>'}</p>
+        </div>
+        <div>3</div>
+      </div>
+      <div className="section1_etc_recruitment">
+        <div
+          onClick={() => navigate('/mypage/recruit')}
+          className="section1_etc_recruitment_title"
+        >
+          <img src="icons/clip.png" width="24" height="24" alt="clip icon" />
+          <p>모집 현황 {'>'}</p>
+        </div>
+        <div
+          onClick={() => navigate('/mypage/recruit')}
+          className="section1_etc_recruitment_content"
+        >
+          <div className="section1_etc_recruitment_content_project">
+            <div>프로젝트</div>
+            <div>1</div>
           </div>
-          <div
-            className="section1_etc_recruitment"
-          >
-            <div className="section1_etc_recruitment_title">
-              <img
-                src="icons/clip.png"
-                width="24"
-                height="24"
-                alt="clip icon"
-              />
-              <p>모집 현황 {'>'}</p>
-            </div>
-            <div className="section1_etc_recruitment_content">
-              <div className="section1_etc_recruitment_content_project">
-                <div>프로젝트</div>
-                <div>1</div>
-              </div>
-              <div className="section1_etc_recruitment_content_study">
-                <div>스터디</div>
-                <div>1</div>
-              </div>
-            </div>
+          <div className="section1_etc_recruitment_content_study">
+            <div>스터디</div>
+            <div>1</div>
           </div>
-        </MyPageEtc>
-  )
-}
+        </div>
+      </div>
+    </MyPageEtc>
+  );
+};
 
 const MyPageEtc = styled.div`
   display: flex;
@@ -138,4 +133,4 @@ const MyPageEtc = styled.div`
     }
   }
 `;
-export default MypageEtc
+export default MypageEtc;
