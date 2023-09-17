@@ -534,6 +534,7 @@ const Playing = styled.div`
       outline: none;
       background: none;
       flex: 0.95;
+      border: none;
     }
   }
   button {

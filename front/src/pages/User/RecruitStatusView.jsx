@@ -7,6 +7,8 @@ export default function RecruitStatusView() {
   const { data: postList, Loading, error } = useFetchData('/boards');
   const navigate = useNavigate();
 
+  const handleDelete = () => {};
+
   return (
     <Container>
       <MainTitle>내가 운영중인</MainTitle>
@@ -25,7 +27,7 @@ export default function RecruitStatusView() {
                 <Truncate>{post.title}</Truncate>
                 <Options>
                   <OptionItem>수정</OptionItem>
-                  <OptionItem>삭제</OptionItem>
+                  <OptionItem onClick={handleDelete}>삭제</OptionItem>
                 </Options>
               </ContentContainer>
             ))}
