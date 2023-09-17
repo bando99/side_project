@@ -74,6 +74,9 @@ const MypageLicese = () => {
         <button onClick={addLicenseField}>
           <img src="/icons/plus.png" alt="버튼" />
         </button>
+        <button className='add_btn'>
+          추가
+        </button>
       </div>
     </BodyContentStyled>
   );
@@ -288,13 +291,27 @@ const BodyContentStyled = styled.div`
   .section3{
     display: flex;
     justify-content: center;
+    gap: 10px;
+    align-items: center;
+
     button {
+      cursor: pointer;
       border: none;
       background: none;
+      padding-top: 5px;
       img {
         width: 26.88px;
         height: 26.88px;
       }
+    }
+
+    .add_btn {
+      cursor: pointer;
+      background-color: #1F7CEB;
+      width: 70px;
+      height: 30px;
+      border-radius: 20px;
+      color:white;
     }
   }
 `
