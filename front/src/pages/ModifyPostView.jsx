@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
+import useFetchData from '../ components/hooks/getPostList';
 
-export default function AddPost() {
+export default function ModifyPostView() {
+  const { board_id } = useParams();
+  console.log(board_id);
+
+  const { data } = useFetchData('/boards/' + board_id);
+
   const [formData, setFormData] = useState({
     title: '',
     skill: '',
@@ -19,8 +26,70 @@ export default function AddPost() {
     etcCnt: 0,
 
     projectBtn: false,
-    studyBtn: false,
+    studyBtn: true,
   });
+
+  useEffect(() => {
+    if (data && data.roles) {
+      setFormData((prevData) => ({
+        ...prevData,
+        type: data.type,
+        projectBtn: data.type === '프로젝트',
+        studyBtn: data.type === '스터디',
+        title: data.title,
+        tagDtoList: [],
+        proceed_method: data.proceed_method,
+      }));
+
+      data.roles.forEach((role) => {
+        switch (role.name) {
+          case 'PM':
+            setFormData((prevData) => ({
+              ...prevData,
+              pmCnt: role.want_cnt,
+            }));
+            break;
+          case '모바일':
+            setFormData((prevData) => ({
+              ...prevData,
+              mobileCnt: role.want_cnt,
+            }));
+            break;
+          case 'designer':
+            setFormData((prevData) => ({
+              ...prevData,
+              designerCnt: role.want_cnt,
+            }));
+            break;
+          case 'frontend':
+            setFormData((prevData) => ({
+              ...prevData,
+              frontEndCnt: role.want_cnt,
+            }));
+            break;
+          case 'backend':
+            setFormData((prevData) => ({
+              ...prevData,
+              backEndCnt: role.want_cnt,
+            }));
+            break;
+          case '기타':
+            setFormData((prevData) => ({
+              ...prevData,
+              etcCnt: role.want_cnt,
+            }));
+            break;
+          default:
+            break;
+        }
+      });
+
+      setFormData((prevData) => ({
+        ...prevData,
+        text: data.text,
+      }));
+    }
+  }, [data]);
 
   const handleProejectBtn = () => {
     setFormData((prevData) => ({
@@ -103,32 +172,30 @@ export default function AddPost() {
       });
     }
 
-    const postData = {
+    const modifyData = {
       type: formData.type,
       title: formData.title,
       text: formData.text,
       proceed_method: formData.proceed_method,
       period: formData.period,
-      tagDtoList: formData.tagDtoList,
-      roleNeededDtoList,
-      user_id: 1,
+      requestSkillTagDtoList: formData.tagDtoList,
+      requestUsingInBoardDtoList: roleNeededDtoList,
     };
-
-    console.log(postData);
+    console.log(modifyData);
 
     try {
-      const response = await axios.post(
-        'http://1.246.104.170:8080/boards',
-        postData,
+      const response = await axios.put(
+        `http://1.246.104.170:8080/boards/${board_id}`,
+        modifyData,
         {
           headers: {
             'X-AUTH-TOKEN': localStorage.getItem('token'),
           },
         }
       );
-      console.log('글 작성 성공');
+      console.log('글 수정 성공');
     } catch (error) {
-      console.error('글 작성 실패', error);
+      console.error('글 수정 실패', error);
     }
   };
 
@@ -368,7 +435,7 @@ export default function AddPost() {
           ></textarea>
         </TextArea>
         <Submit>
-          <button>글 작성하기</button>
+          <button>수정하기</button>
         </Submit>
       </form>
     </Section>

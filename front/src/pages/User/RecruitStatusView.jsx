@@ -1,11 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useFetchData from '../../ components/hooks/getPostList';
+import axios from 'axios';
 
 export default function RecruitStatusView() {
   const { data: postList, Loading, error } = useFetchData('/boards');
   const navigate = useNavigate();
+
+  const handleDelete = async (board_id) => {
+    try {
+      const response = await axios.delete(
+        `http://1.246.104.170:8080/boards/${board_id}`,
+        {
+          headers: {
+            'X-AUTH-TOKEN': localStorage.getItem('token'),
+          },
+        }
+      );
+      console.log('글 삭제 성공');
+    } catch (error) {
+      console.error('글 삭제 실패', error);
+    }
+  };
 
   return (
     <Container>
@@ -19,13 +36,21 @@ export default function RecruitStatusView() {
           {postList
             .filter((post) => post.type === '프로젝트')
             .map((post) => (
-              <ContentContainer
-                onClick={() => navigate(`/AddPost/?board_id=${post.board_id}`)}
-              >
-                <Truncate>{post.title}</Truncate>
+              <ContentContainer>
+                <Truncate
+                  onClick={() => navigate(`/postDetail/${post.board_id}`)}
+                >
+                  {post.title}
+                </Truncate>
                 <Options>
-                  <OptionItem>수정</OptionItem>
-                  <OptionItem>삭제</OptionItem>
+                  <OptionItem
+                    onClick={() => navigate(`/modifyPost/${post.board_id}`)}
+                  >
+                    수정
+                  </OptionItem>
+                  <OptionItem onClick={() => handleDelete(post.board_id)}>
+                    삭제
+                  </OptionItem>
                 </Options>
               </ContentContainer>
             ))}
@@ -40,13 +65,21 @@ export default function RecruitStatusView() {
           {postList
             .filter((post) => post.type === '스터디')
             .map((post) => (
-              <ContentContainer
-                onClick={() => navigate(`/AddPost/?board_id=${post.board_id}`)}
-              >
-                <Truncate>{post.title}</Truncate>
+              <ContentContainer>
+                <Truncate
+                  onClick={() => navigate(`/postDetail/${post.board_id}`)}
+                >
+                  {post.title}
+                </Truncate>
                 <Options>
-                  <OptionItem>수정</OptionItem>
-                  <OptionItem>삭제</OptionItem>
+                  <OptionItem
+                    onClick={() => navigate(`/modifyPost/${post.board_id}`)}
+                  >
+                    수정
+                  </OptionItem>
+                  <OptionItem onClick={() => handleDelete(post.board_id)}>
+                    삭제
+                  </OptionItem>
                 </Options>
               </ContentContainer>
             ))}
