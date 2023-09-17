@@ -110,7 +110,7 @@ export default function AddPost() {
       proceed_method: formData.proceed_method,
       period: formData.period,
       tagDtoList: formData.tagDtoList,
-      roleNeededDtoList: formData.roleNeededDtoList,
+      roleNeededDtoList,
       user_id: 1,
     };
 
