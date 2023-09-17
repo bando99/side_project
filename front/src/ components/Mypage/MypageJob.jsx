@@ -4,10 +4,55 @@ import MypageModal from './MypageModal'
 
 const MypageJob = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-
+  const [jobFields, setJobFields] = useState([
+    { id: 1, jobname: '', startDate: '', endDate: '', stack: [], description: '' },
+  ]);
+  const [selectedStack, setSelectedStack] = useState('');
+  
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  
+  const skillImage = {
+    react: 'React.png',
+    Spring: 'Spring.png',
+    javascript: 'JS.png',
+  };
+  
+  const handleFieldChange = (index, field, value) => {
+    const updatedFields = [...jobFields];
+    updatedFields[index][field] = value;
+    setJobFields(updatedFields);
+  };
+  
+  const addJobField = () => {
+    const newField = { id: Date.now(), jobname: '', startDate: '', endDate: '', stack: [], description: '' };
+    setJobFields([...jobFields, newField]);
+  };
+  
+  const handleAddStack = (index, selectedStack) => {
+    const updatedFields = [...jobFields];
+    const stackToAdd = selectedStack.trim();
+  
+    if (stackToAdd && !updatedFields[index].stack.includes(stackToAdd)) {
+      updatedFields[index].stack.push(stackToAdd);
+      setJobFields(updatedFields);
+    } else {
+      alert("이미 추가한 스택입니다.");
+    } 
+  };
+
+
+  const handleRemoveSkill = (jobIndex, skillIndex) => {
+    const shouldRemoveSkill = window.confirm(`사용한 기술 스택을 삭제하시겠습니까?`);
+  
+    if (shouldRemoveSkill) {
+      const updatedFields = [...jobFields];
+      updatedFields[jobIndex].stack.splice(skillIndex, 1);
+      setJobFields(updatedFields);
+    }
+  };
+  
+  console.log(jobFields)
 
   const titleContent = (
     <TitleContentStyled>
@@ -16,45 +61,81 @@ const MypageJob = () => {
       <p></p>
     </TitleContentStyled>
   );
-
+  
   const bodyContent = (
     <BodyContentStyled>
-      <div className='section1'>
-        <div>
-          <span>회사이름</span>
-          <input type="text" />
+      {jobFields.map((field, index) => (
+        <div key={field.id} className='job-field'>
+          <div className='section1'>
+            <div>
+              <span>직무 이름</span>
+              <input
+                type='text'
+                value={field.jobname}
+                onChange={(e) => handleFieldChange(index, 'jobname', e.target.value)}
+              />
+            </div>
+            <div>
+              <span>재직 기간</span>
+              <p className='date'>
+                <input
+                  type='date'
+                  value={field.startDate}
+                  onChange={(e) => handleFieldChange(index, 'startDate', e.target.value)}
+                />
+                <p className='date_p'>~</p>
+                <input
+                  type='date'
+                  value={field.endDate}
+                  onChange={(e) => handleFieldChange(index, 'endDate', e.target.value)}
+                />
+              </p>
+            </div>
+          </div>
+          <div className='section2'>
+            <span>사용한 기술 스택</span>
+            <div className='section2_select'>
+              <select 
+              name='stack' 
+              id=''
+              value={selectedStack} 
+              onChange={(e) => setSelectedStack(e.target.value)}
+              >
+                <option value=''>선택</option>
+                <option value='react'>react</option>
+                <option value='Spring'>spring</option>
+                <option value='javascript'>javascript</option>
+              </select>
+              <button>
+                <img src='/icons/plus.png' alt='' onClick={() => handleAddStack(index, selectedStack)}/>
+              </button>
+            </div>
+          </div>
+          <div className="skill_stack">
+            {field.stack.map((skill,index) => (
+              <div key={skill} onClick={() => handleRemoveSkill(index, index)}>
+                {skillImage[skill] && (
+                  <img className='skill_image' src={`/stack/${skillImage[skill]}`} alt={skill} />
+                )}
+              </div>
+            ))}
+          </div>
+          <div className='section3'>
+            <span>직무 설명</span>
+            <textarea
+              type='text'
+              value={field.description}
+              onChange={(e) => handleFieldChange(index, 'description', e.target.value)}
+            />
+          </div>
         </div>
-        <div>
-          <span>재직기간</span>
-          <p className='date'>
-            <input type="date" /> 
-            <p> ~ </p>
-            <input type="date" />  
-          </p>
-        </div>
-      </div>
-      <div className='section2'>
-        <span>사용할 기술 스택</span>
-        <div className='section2_select'>
-          <select name="stack" id="">
-            <option value="">선택</option>
-            <option value="react">react</option>
-            <option value="Spring">spring</option>
-            <option value="javascript">javascript</option>
-            <option value="flutter">flutter</option>
-          </select>
-          <button>
-            <img src="/icons/plus.png" alt="" />
-          </button>
-        </div>
-      </div>
-      <div className='section3'>
-        <span>직무 설명</span>
-        <textarea />
-      </div>
+      ))}
       <div className='section4'>
-        <button>
-          <img src="/icons/plus.png" alt="버튼" />
+        <button onClick={addJobField}>
+          <img src='/icons/plus.png' alt='버튼' />
+        </button>
+        <button className='add_btn'>
+          추가
         </button>
       </div>
     </BodyContentStyled>
@@ -175,6 +256,7 @@ const Section3 = styled.div`
       gap: 40px;
 
       .section3_container_leftright_flex {
+        
         display: flex;
         justify-content: center;
         align-items: center;
@@ -265,6 +347,10 @@ const BodyContentStyled = styled.div`
   justify-content: center;
   padding-left: 50px;
   padding-right: 50px;
+
+  .job-field {
+    margin-bottom: 100px;
+  }
   span {
     color: #000;
     font-family: SUITE Variable;
@@ -273,6 +359,18 @@ const BodyContentStyled = styled.div`
     font-weight: 700;
     line-height: normal;
     padding-bottom: 10px;
+  }
+
+  .skill_stack {
+    display: flex;
+    gap: 10px;
+    div {
+      img {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+      }
+    }
   }
   
   .section1 {
@@ -300,12 +398,20 @@ const BodyContentStyled = styled.div`
      
       .date {
         display: flex;
+        justify-content: space-around;
+        align-items: center;
         width: 500px;
       }
+
+      .date_p {
+        width: 25px;
+      }
+
       input {
         display: inline-flex;
+        padding: none;
         height: 21px;
-        width: 180px;
+        width: 163px;
         border-radius: 5px;
         border: 1.5px solid #1F7CEB;
         background: var(--bs-white, #FFF);
@@ -316,8 +422,11 @@ const BodyContentStyled = styled.div`
   }
 
   .section2 {
+    margin-top: 10px;
     display: flex;
-    height: 30px;
+    height: 50px;
+    align-items: center;
+    gap:10px;
     
     .section2_select {
       display:flex;
@@ -375,6 +484,15 @@ const BodyContentStyled = styled.div`
         width: 26.88px;
         height: 26.88px;
       }
+    }
+
+    .add_btn {
+      cursor: pointer;
+      background-color: #1F7CEB;
+      width: 70px;
+      height: 30px;
+      border-radius: 20px;
+      color:white;
     }
   }
 `

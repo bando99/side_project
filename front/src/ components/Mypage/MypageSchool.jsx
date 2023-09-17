@@ -1,6 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 const MypageSchool = () => {
+  const [contact, setContact] = useState('');
+  const [email, setEmail] = useState('');
+  const [school, setSchool] = useState('');
+  const [major, setMajor] = useState('');
+  const [graduationStatus, setGraduationStatus] = useState('');
+
+  const handleContactChange = (e) => {
+    setContact(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleSchoolChange = (e) => {
+    setSchool(e.target.value);
+  };
+
+  const handleMajorChange = (e) => {
+    setMajor(e.target.value);
+  };
+
+  const handleGraduationStatusChange = (e) => {
+    setGraduationStatus(e.target.value);
+  };
+
   return (
     <MySchool>
       <div className="section1_school">
@@ -9,28 +35,51 @@ const MypageSchool = () => {
       </div>
       <div className="section1_school">
         <span>연락처</span>
-        <input type="text" placeholder="내용을 입력해 주세요." />
+        <input
+          type="text"
+          placeholder="내용을 입력해 주세요."
+          value={contact}
+          onChange={handleContactChange}
+        />
       </div>
       <div className="section1_school">
         <span>이메일</span>
-        <input type="text" placeholder="내용을 입력해 주세요." />
+        <input
+          type="text"
+          placeholder="내용을 입력해 주세요."
+          value={email}
+          onChange={handleEmailChange}
+        />
       </div>
       <div className="section1_school">
         <span>학교</span>
-        <input type="text" placeholder="내용을 입력해 주세요." />
+        <input
+          type="text"
+          placeholder="내용을 입력해 주세요."
+          value={school}
+          onChange={handleSchoolChange}
+        />
       </div>
       <div className="section1_school">
         <span>전공</span>
-        <input type="text" placeholder="내용을 입력해 주세요." />
+        <input
+          type="text"
+          placeholder="내용을 입력해 주세요."
+          value={major}
+          onChange={handleMajorChange}
+        />
       </div>
       <div className="section1_school">
         <span>졸업여부</span>
-        <input type="text" placeholder="내용을 입력해 주세요." />
+        <input
+          type="text"
+          placeholder="내용을 입력해 주세요."
+          value={graduationStatus}
+          onChange={handleGraduationStatusChange}
+        />
       </div>
       <div className="section1_school_btn_flex">
-        <button
-          className="section1_school_btn"
-        >
+        <button className="section1_school_btn">
           수정하기
         </button>
       </div>

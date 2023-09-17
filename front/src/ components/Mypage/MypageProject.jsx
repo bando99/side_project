@@ -4,11 +4,62 @@ import MypageModal from './MypageModal'
 
 const MypageProject = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [projectFields, setProjectFields] = useState([
+    { id: 1, projectName: '', startDate: '', endDate: '', role: "", stack: [], description: '', file: "", link: "" },
+  ]);
+  const [selectedStack, setSelectedStack] = useState('');
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const handleFieldChange = (index, field, value) => {
+    const updatedFields = [...projectFields];
+    updatedFields[index][field] = value;
+    setProjectFields(updatedFields);
+  };
+
+  const addProjectField = () => {
+    const newField = {
+      id: Date.now(),
+      projectName: '',
+      startDate: '',
+      endDate: '',
+      role: '',
+      stack: [],
+      description: '',
+      file: '',
+      link: '',
+    };
+    setProjectFields([...projectFields, newField]);
+  };
+
+  const skillImage = {
+    react: 'React.png',
+    Spring: 'Spring.png',
+    javascript: 'JS.png',
+  };
+  
+  const handleAddStack = (index, selectedStack) => {
+    const updatedFields = [...projectFields];
+    const stackToAdd = selectedStack.trim();
+
+    if (stackToAdd && !updatedFields[index].stack.includes(stackToAdd)) {
+      updatedFields[index].stack.push(stackToAdd);
+      setProjectFields(updatedFields);
+    } else {
+      alert('이미 추가한 스택입니다.');
+    }
+  };
+
+  const handleRemoveSkill = (projectIndex, skillIndex) => {
+    const shouldRemoveSkill = window.confirm(`사용한 기술 스택을 삭제하시겠습니까?`);
+
+    if (shouldRemoveSkill) {
+      const updatedFields = [...projectFields];
+      updatedFields[projectIndex].stack.splice(skillIndex, 1);
+      setProjectFields(updatedFields);
+    }
+  };
   const titleContent = (
     <TitleContentStyled>
       <p></p>
@@ -17,73 +68,121 @@ const MypageProject = () => {
     </TitleContentStyled>
   );
 
-  const bodyContent = (
+    console.log(projectFields)
+
+    const bodyContent = (
     <BodyContentStyled>
-      <div className='section1'>
-        <div>
-          <span>프로젝트 이름</span>
-          <input type="text" />
-        </div>
-        <div>
-          <span>진행 기간</span>
-          <p className='date'>
-            <input type="date" /> 
-            <p> ~ </p>
-            <input type="date" />  
-          </p>
-        </div>
-      </div>
-      <div className='section2'>
-        <span>사용할 기술 스택</span>
-        <div className='section_select'>
-          <div>
-            <select name="role" id="">
-              <option value="">선택</option>
-              <option value="react">프론트엔드</option>
-              <option value="Spring">백엔드</option>
-            </select>
+      {projectFields.map((field, index) => (
+        <div key={field.id} className="project-field">
+          <div className="section1">
+            <div>
+              <span>프로젝트 이름</span>
+              <input
+                type="text"
+                value={field.projectName}
+                onChange={(e) => handleFieldChange(index, 'projectName', e.target.value)}
+              />
+            </div>
+            <div>
+              <span>진행 기간</span>
+              <p className="date">
+                <input
+                  type="date"
+                  value={field.startDate}
+                  onChange={(e) => handleFieldChange(index, 'startDate', e.target.value)}
+                />
+                <p className="date_p">~</p>
+                <input
+                  type="date"
+                  value={field.endDate}
+                  onChange={(e) => handleFieldChange(index, 'endDate', e.target.value)}
+                />
+              </p>
+            </div>
           </div>
-          <div className='section2_select'>
-            <select name="stack" id="">
-              <option value="">선택</option>
-              <option value="react">react</option>
-              <option value="Spring">spring</option>
-              <option value="javascript">javascript</option>
-              <option value="flutter">flutter</option>
-            </select>
-            <button>
-              <img src="/icons/plus.png" alt="" />
-            </button>
+          <div className="section2">
+            <div className="section2_flex">
+              <div className="section_select">
+                <span>역할</span>
+                <select
+                  name="role"
+                  value={field.role}
+                  onChange={(e) => handleFieldChange(index, 'role', e.target.value)}
+                >
+                  <option value="">선택</option>
+                  <option value="프론트엔드">프론트엔드</option>
+                  <option value="백엔드">백엔드</option>
+                </select>
+              </div>
+              <div className="section_select">
+                <span>사용한 기술 스택</span>
+                <div className="section_select_flex">
+                  <select
+                    name="stack"
+                    value={field.selectedStack}
+                    onChange={(e) => setSelectedStack(e.target.value)}
+                  >
+                    <option value="">선택</option>
+                    <option value="react">react</option>
+                    <option value="Spring">spring</option>
+                    <option value="javascript">javascript</option>
+                    <option value="flutter">flutter</option>
+                  </select>
+                  <button>
+                    <img
+                      src="/icons/plus.png"
+                      alt=""
+                      onClick={() => handleAddStack(index, selectedStack)}
+                    />
+                  </button>
+                  <div className="skill_stack">
+                    {field.stack && field.stack.map((skill,index) => (
+                      <div key={skill} onClick={() => handleRemoveSkill(index, index)}>
+                        {skillImage[skill] && (
+                          <img className='skill_image' src={`/stack/${skillImage[skill]}`} alt={skill} />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className='section3'>
-        <span>프로젝트 내용</span>
-        <textarea />
-      </div>
-      <div className='section4'>
-        <div>
-          <span>파일업로드</span>
-          <div className='file'>
-            <p></p>
-            <div class="file-input">
-              <input type="file" id="file" class="input-hidden" />
-              <label for="file" class="button">업로드</label>
+          <div className="section3">
+            <span>프로젝트 내용</span>
+            <textarea
+              type="text"
+              value={field.description}
+              onChange={(e) => handleFieldChange(index, 'description', e.target.value)}
+            />
+          </div>
+          <div className='section4'>
+            <div>
+              <span>파일업로드</span>
+              <div className='file'>
+                <p></p>
+                <div class="file-input">
+                  <input type="file" id="file" class="input-hidden" onChange={(e) => handleFieldChange(index, 'endDate', e.target.value)}/>
+                  <label for="file" class="button" >업로드</label>
+                </div>
+              </div>
+            </div>
+            <div className='link'>
+              <span>링크</span>
+              <input type="text" onChange={(e) => handleFieldChange(index, 'link', e.target.value)}/>
             </div>
           </div>
         </div>
-        <div className='link'>
-          <span>링크</span>
-          <input type="text" />
-        </div>
-      </div>
-      <div className='section5'>
-        <button>
+      ))}
+      <div className="section5">
+        <button onClick={addProjectField}>
           <img src="/icons/plus.png" alt="버튼" />
         </button>
+        <button className="add_btn">추가</button>
       </div>
     </BodyContentStyled>
   );
+
   return (
     <MyProject>
       <div className="section3_title">
@@ -237,8 +336,15 @@ const BodyContentStyled = styled.div`
 
   .section2 {
     display: flex;
-    height: 30px;
-    
+    align-items:center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    .section2_flex {
+      display:flex;
+      gap: 10px;
+    }
+
     .section2_select {
       display:flex;
       gap: 10px;
@@ -247,6 +353,14 @@ const BodyContentStyled = styled.div`
 
     .section_select {
       display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .section_select_flex {
+      display: flex; 
+      justify-content: center;
+      align-items: center;
       gap: 10px;
     }
     select{
@@ -270,6 +384,17 @@ const BodyContentStyled = styled.div`
       background: none;
       border: none;
       cursor: pointer;
+    }
+
+    .skill_stack {
+      display: flex;
+      gap: 10px;
+      div {
+        img {
+          width: 30px;
+          height: 30px;
+        }
+      }
     }
   }
 
@@ -360,6 +485,29 @@ const BodyContentStyled = styled.div`
       }
     }
   }  
+
+  .section5{
+    margin-top:30px;
+    display: flex;
+    justify-content: center;
+    button {
+      border: none;
+      background: none;
+      img {
+        width: 26.88px;
+        height: 26.88px;
+      }
+    }
+
+    .add_btn {
+      cursor: pointer;
+      background-color: #1F7CEB;
+      width: 70px;
+      height: 30px;
+      border-radius: 20px;
+      color:white;
+    }
+  }
 
   .section5{
     margin-top:30px;
