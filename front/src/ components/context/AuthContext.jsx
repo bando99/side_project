@@ -13,6 +13,7 @@ export function AuthProvider({ children }) {
   // 로그아웃
   const logout = () => {
     setToken(null);
+    localStorage.setItem('token', null);
   };
 
   return (
