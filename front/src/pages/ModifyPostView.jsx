@@ -177,7 +177,7 @@ export default function ModifyPostView() {
       title: formData.title,
       text: formData.text,
       proceed_method: formData.proceed_method,
-      period: new Date(formData.period).toISOString(),
+      period: new Date(formData.period).toISOString,
       requestSkillTagDtoList: formData.tagDtoList,
       requestUsingInBoardDtoList: roleNeededDtoList,
     };

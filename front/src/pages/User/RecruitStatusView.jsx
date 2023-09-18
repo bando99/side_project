@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFetchData from '../../ components/hooks/getPostList';
 import axios from 'axios';
+import Modal from '../../ components/Mypage/MypageModal';
 
 export default function RecruitStatusView() {
   const { data: postList, Loading, error } = useFetchData('/boards');
   const navigate = useNavigate();
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [postToDelete, setPostToDelete] = useState(null);
+
+  const closeModal = () => {
+    setShowDeleteModal(false);
+  };
+
   const handleDelete = async (board_id) => {
+    alert('게시글이 삭제되었습니다');
     try {
       const response = await axios.delete(
         `http://1.246.104.170:8080/boards/${board_id}`,
@@ -19,13 +28,25 @@ export default function RecruitStatusView() {
         }
       );
       console.log('글 삭제 성공');
+      setShowDeleteModal(false);
     } catch (error) {
       console.error('글 삭제 실패', error);
+      setShowDeleteModal(false);
     }
   };
 
   return (
     <Container>
+      {showDeleteModal && (
+        <Modal
+          isOpen={showDeleteModal}
+          onClose={closeModal}
+          titleContent={<p>게시물을 삭제하시겠습니까?</p>}
+          bodyContent={
+            <ModalBtn onClick={() => handleDelete(postToDelete)}>확인</ModalBtn>
+          }
+        />
+      )}
       <MainTitle>내가 운영중인</MainTitle>
       <MyBox>
         <MyRecruit>
@@ -48,7 +69,12 @@ export default function RecruitStatusView() {
                   >
                     수정
                   </OptionItem>
-                  <OptionItem onClick={() => handleDelete(post.board_id)}>
+                  <OptionItem
+                    onClick={() => {
+                      setPostToDelete(post.board_id);
+                      setShowDeleteModal(true);
+                    }}
+                  >
                     삭제
                   </OptionItem>
                 </Options>
@@ -77,7 +103,12 @@ export default function RecruitStatusView() {
                   >
                     수정
                   </OptionItem>
-                  <OptionItem onClick={() => handleDelete(post.board_id)}>
+                  <OptionItem
+                    onClick={() => {
+                      setPostToDelete(post.board_id);
+                      setShowDeleteModal(true);
+                    }}
+                  >
                     삭제
                   </OptionItem>
                 </Options>
@@ -228,5 +259,16 @@ const Button2 = styled.button`
   margin: 0.3rem;
   width: 5.5rem;
   border: none;
+  border-radius: 0.5rem;
+`;
+
+const ModalBtn = styled.button`
+  background: white;
+  padding: 0.9rem 0.7rem;
+  border: 0.1rem solid #1f7ceb;
+  color: #1f7ceb;
+  font-size: 0.8rem;
+  margin: 0.3rem;
+  width: 3rem;
   border-radius: 0.5rem;
 `;
