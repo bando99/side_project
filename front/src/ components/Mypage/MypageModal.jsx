@@ -16,8 +16,8 @@ const ModalOverlay = styled.div`
 
 const ModalContent = styled.div`
   border-radius: 20px;
-  border: 2px solid #D2E2EC;
-  background: #DAE9FC;
+  border: 2px solid #d2e2ec;
+  background: #dae9fc;
   padding: 1rem;
   border-radius: 0.375rem;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -27,7 +27,7 @@ const ModalContent = styled.div`
 `;
 
 const CloseButton = styled.div`
-  border-radius: 50%; 
+  border-radius: 50%;
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
@@ -35,6 +35,12 @@ const CloseButton = styled.div`
   transition: background 0.2s;
   width: 42px;
   height: 42px;
+`;
+
+const BodyContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Modal = ({ isOpen, onClose, titleContent, bodyContent }) => {
@@ -49,11 +55,9 @@ const Modal = ({ isOpen, onClose, titleContent, bodyContent }) => {
       <ModalContent onClick={handleModalContentClick}>
         {titleContent}
         <CloseButton onClick={onClose}>
-          <img src='/icons/close.png' alt="" />
+          <img src="/icons/close.png" alt="" />
         </CloseButton>
-        <div>
-          {bodyContent}
-        </div>
+        <BodyContainer>{bodyContent}</BodyContainer>
       </ModalContent>
     </ModalOverlay>
   );
