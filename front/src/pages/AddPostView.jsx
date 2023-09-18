@@ -108,10 +108,9 @@ export default function AddPost() {
       title: formData.title,
       text: formData.text,
       proceed_method: formData.proceed_method,
-      period: formData.period,
+      period: new Date(formData.period).toISOString(),
       tagDtoList: formData.tagDtoList,
       roleNeededDtoList,
-      user_id: 1,
     };
 
     console.log(postData);
@@ -169,10 +168,6 @@ export default function AddPost() {
           />
         </Title>
         <DateContainer>
-          <span>날짜 설정</span>
-          <input type="date" />
-          <span>시작 날짜</span>
-          <input type="date" />
           <span>마감 날짜</span>
           <input
             value={formData.period}
@@ -377,7 +372,8 @@ export default function AddPost() {
 
 const Section = styled.section`
   margin: auto;
-  width: 850px;
+  width: 100%;
+  max-width: 850px;
   margin-top: 70px;
   display: flex;
   flex-direction: column;
@@ -497,8 +493,8 @@ const Skill = styled.div`
 
   .tags {
     display: flex;
-    gap: 5px;
-    margin-left: 10px;
+    gap: 0.8rem;
+    margin-left: 1rem;
   }
 `;
 

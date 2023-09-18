@@ -177,7 +177,7 @@ export default function ModifyPostView() {
       title: formData.title,
       text: formData.text,
       proceed_method: formData.proceed_method,
-      period: formData.period,
+      period: new Date(formData.period).toISOString(),
       requestSkillTagDtoList: formData.tagDtoList,
       requestUsingInBoardDtoList: roleNeededDtoList,
     };
@@ -236,10 +236,6 @@ export default function ModifyPostView() {
           />
         </Title>
         <DateContainer>
-          <span>날짜 설정</span>
-          <input type="date" />
-          <span>시작 날짜</span>
-          <input type="date" />
           <span>마감 날짜</span>
           <input
             value={formData.period}
