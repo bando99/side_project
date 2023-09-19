@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -86,6 +87,7 @@ public class SignServiceImpl implements SignService {
     }
 
     @Override
+    @Transactional
     public ResponseSignInDto signIn(RequestSignInDto requestSignInDto) {
         log.info("SignService signin ==> 회원 인증 확인 시작");
         String username = requestSignInDto.getUsername();
@@ -130,6 +132,8 @@ public class SignServiceImpl implements SignService {
         ResponseSignInDto responseSignInDto = ResponseSignInDto.builder()
                 .token(accessToken)
                 .refreshToken(refreshToken)
+                .user_id(user.getId())
+                .username(username)
                 .build();
 
 

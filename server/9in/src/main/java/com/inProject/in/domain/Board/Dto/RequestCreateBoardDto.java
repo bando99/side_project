@@ -4,7 +4,9 @@ import com.inProject.in.domain.RoleNeeded.Dto.RequestRoleNeededDto;
 import com.inProject.in.domain.RoleNeeded.Dto.RequestUsingInBoardDto;
 import com.inProject.in.domain.SkillTag.Dto.RequestSkillTagDto;
 import lombok.*;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,9 +23,6 @@ public class RequestCreateBoardDto {   //게시글 생성 시 필요한 정보�
     private String text;
     private String proceed_method;
     private LocalDateTime period;
-
-    //태그
-//    private List<String> tagNames;
 
     //직군
     private List<RequestUsingInBoardDto> roleNeededDtoList;
