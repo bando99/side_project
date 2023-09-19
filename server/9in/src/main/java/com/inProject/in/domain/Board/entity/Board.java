@@ -43,7 +43,7 @@ public class Board extends BaseEntity {
     @Column(nullable = false)
     private String proceed_method; //진행 방식
     @Column(nullable = false)
-    private String period; //예상 기간
+    private LocalDateTime period; //예상 기간
     @Column
     private int comment_cnt;  //댓글 개수
 

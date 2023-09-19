@@ -7,10 +7,7 @@ import com.inProject.in.domain.Comment.entity.Comment;
 import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.entity.ApplicantBoardRelation;
 import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.entity.ApplicantRoleRelation;
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.entity.ClipBoardRelation;
-import com.inProject.in.domain.Profile.entity.Certificate;
-import com.inProject.in.domain.Profile.entity.Education;
-import com.inProject.in.domain.Profile.entity.Job_ex;
-import com.inProject.in.domain.Profile.entity.Project_skill;
+import com.inProject.in.domain.Profile.entity.*;
 import com.inProject.in.domain.User.Dto.UpdateUserDto;
 import jakarta.persistence.*;
 import lombok.*;
@@ -87,6 +84,8 @@ public class User extends BaseEntity implements UserDetails{
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Certificate certificate;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private MyInfo myInfo;
 
 
 

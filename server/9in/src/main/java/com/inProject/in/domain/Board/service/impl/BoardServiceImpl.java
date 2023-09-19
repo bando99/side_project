@@ -76,6 +76,12 @@ public class BoardServiceImpl implements BoardService {
 
         List<TagBoardRelation> tagBoardRelationList = new ArrayList<>();
 
+        if(board.getTagBoardRelationList() != null){             //이미 태그가 들어있는 게시글 -> 업데이트를 한다는 것.
+            for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
+                tagBoardRelationRepository.delete(tagBoardRelation);
+            }
+        }
+
         for(RequestSkillTagDto requestSkillTagDto : requestSkillTagDtoList){   //받아온 태그 당 관계 데이터를 생성
 
             SkillTag skillTag = skilltagRepository.findTagByName(requestSkillTagDto.toEntity().getName())
@@ -95,6 +101,12 @@ public class BoardServiceImpl implements BoardService {
     public List<RoleBoardRelation> InsertRolePostRelation(Board board, List<RequestUsingInBoardDto> requestRoleNeededDtoList){
 
         List<RoleBoardRelation> roleBoardRelationList = new ArrayList<>();
+
+        if(board.getRoleBoardRelationList() != null){
+            for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
+                roleBoardRelationRepository.delete(roleBoardRelation);
+            }
+        }
 
         for(RequestUsingInBoardDto requestRoleNeededDto : requestRoleNeededDtoList){
 
@@ -184,6 +196,9 @@ public class BoardServiceImpl implements BoardService {
         if(board.getAuthor().getUsername() != user.getUsername()){
             throw new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.UNAUTHORIZED, "작성자만 게시글을 수정할 수 있습니다.");
         }
+
+        log.info("BoardService updateBoard ==> new role : " + requestUpdateBoardDto.getRequestUsingInBoardDtoList().toString());
+        log.info("BoardService updateBoard ==> new skill : " + requestUpdateBoardDto.getRequestSkillTagDtoList());
 
         List<RequestUsingInBoardDto> requestUsingInBoardDtoList = requestUpdateBoardDto.getRequestUsingInBoardDtoList();
         List<RequestSkillTagDto> requestSkillTagDtoList = requestUpdateBoardDto.getRequestSkillTagDtoList();

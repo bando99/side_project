@@ -6,6 +6,7 @@ import com.inProject.in.domain.MToNRelation.TagBoardRelation.entity.TagBoardRela
 import com.inProject.in.domain.RoleNeeded.Dto.ResponseRoleNeededDto;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,8 @@ public class ResponseBoardListDto {   //게시글 리스트를 리턴할 때 사
     private String title;
 //    private String text;               //게시글 내용은 보여줄 필요 x
     private String proceed_method;
-    private String period;
+    private LocalDateTime period;
+    private LocalDateTime createAt;
     private int comment_cnt;
     private List<String> tags = new ArrayList<>();
     private List<ResponseRoleNeededDto> roles = new ArrayList<>();
@@ -35,6 +37,7 @@ public class ResponseBoardListDto {   //게시글 리스트를 리턴할 때 사
         this.title = board.getTitle();
         this.proceed_method = board.getProceed_method();
         this.period = board.getPeriod();
+        this.createAt = board.getCreateAt();
         this.comment_cnt = board.getComment_cnt();
 
         for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){

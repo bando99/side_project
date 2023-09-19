@@ -17,7 +17,7 @@ public class RequestBoardDto {
     private String title;
     private String text;
     private String proceed_method;
-    private String period;
+    private LocalDateTime period;
     private int comment_cnt;
 
     public Board toEntity(){
