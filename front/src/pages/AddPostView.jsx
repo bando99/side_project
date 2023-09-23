@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 export default function AddPost() {
   const [formData, setFormData] = useState({
@@ -21,6 +22,8 @@ export default function AddPost() {
     projectBtn: false,
     studyBtn: false,
   });
+
+  const navigate = useNavigate();
 
   const handleProejectBtn = () => {
     setFormData((prevData) => ({
@@ -125,6 +128,8 @@ export default function AddPost() {
           },
         }
       );
+      alert('글 작성 성공');
+      navigate('/');
       console.log('글 작성 성공');
     } catch (error) {
       console.error('글 작성 실패', error);
@@ -142,7 +147,9 @@ export default function AddPost() {
 
           // 새로운 액세스 토큰 저장
           const newAccessToken = refreshResponse.data.accessToken;
+          const newRefreshToken = refreshResponse.data.refreshToken;
           localStorage.setItem('token', newAccessToken);
+          localStorage.setItem('refreshToken', newRefreshToken);
 
           // 새로운 액세스 토큰을 사용하여 원래의 요청 다시 보내기
           const retryResponse = await axios.post(
@@ -155,6 +162,8 @@ export default function AddPost() {
             }
           );
           console.log('글 작성 성공 (재시도)');
+          alert('글 작성 성공');
+          navigate('/');
         } catch (refreshError) {
           console.error('새로운 액세스 토큰 얻기 실패', refreshError);
         }
@@ -254,7 +263,6 @@ export default function AddPost() {
               }
             />
           </div>
-          <button>입력</button>
         </Playing>
         <People>
           <span>인원 모집</span>
@@ -479,7 +487,7 @@ const Playing = styled.div`
   padding-bottom: 40px;
 
   div {
-    width: 620px;
+    width: 700px;
     height: 42px;
     border-radius: 5px;
     border: 1px solid #d2e2ec;
