@@ -1,7 +1,9 @@
-package com.inProject.in.domain.Profile.Dto;
+package com.inProject.in.domain.Profile.Dto.response;
 
 import com.inProject.in.domain.Profile.entity.Certificate;
 import lombok.*;
+
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -10,7 +12,7 @@ import lombok.*;
 @ToString
 public class ResponseCertificateDto {
     private String certificate_name;  //자격증 이름
-    private String acquisition_date; //딴 날짜
+    private LocalDate acquisition_date; //딴 날짜
     private String link;
     private String explanation;
     private Long user_id;

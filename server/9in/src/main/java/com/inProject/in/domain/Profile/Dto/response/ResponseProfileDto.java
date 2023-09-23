@@ -1,4 +1,4 @@
-package com.inProject.in.domain.Profile.Dto;
+package com.inProject.in.domain.Profile.Dto.response;
 
 import lombok.*;
 
@@ -12,15 +12,18 @@ public class ResponseProfileDto {
     private ResponseProject_skillDto projectSkillDto;
     private ResponseEducationDto educationDto;
     private ResponseJob_exDto jobExDto;
+    private ResponseMyInfoDto myInfoDto;
 
     public ResponseProfileDto(ResponseCertificateDto responseCertificateDto,
                               ResponseProject_skillDto responseProjectSkillDto,
                               ResponseJob_exDto responseJobExDto,
-                              ResponseEducationDto responseEducationDto){
+                              ResponseEducationDto responseEducationDto,
+                              ResponseMyInfoDto responseMyInfoDto){
 
         this.certificateDto = responseCertificateDto;
         this.educationDto = responseEducationDto;
         this.projectSkillDto = responseProjectSkillDto;
         this.jobExDto = responseJobExDto;
+        this.myInfoDto = responseMyInfoDto;
     }
 }

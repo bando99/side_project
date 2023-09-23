@@ -1,4 +1,4 @@
-package com.inProject.in.domain.Profile.Dto;
+package com.inProject.in.domain.Profile.Dto.response;
 
 import com.inProject.in.domain.Profile.entity.Project_skill;
 import lombok.*;
@@ -18,7 +18,6 @@ public class ResponseProject_skillDto {
     private String github_link;
     private String skill_in_project;
     private String performance;
-    private Long user_id;
 
     public ResponseProject_skillDto(Project_skill projectSkill){
         this.project_name = projectSkill.getProject_name();
@@ -28,6 +27,6 @@ public class ResponseProject_skillDto {
         this.github_link = projectSkill.getGithub_link();
         this.skill_in_project = projectSkill.getSkill_in_project();
         this.performance = projectSkill.getPerformance();
-        this.user_id = projectSkill.getUser().getId();
+
     }
 }

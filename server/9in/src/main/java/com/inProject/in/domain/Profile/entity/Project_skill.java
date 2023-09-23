@@ -1,9 +1,11 @@
 package com.inProject.in.domain.Profile.entity;
 
 import com.inProject.in.Global.BaseEntity;
+import com.inProject.in.domain.Profile.Dto.request.RequestProject_skillDto;
 import com.inProject.in.domain.User.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
@@ -14,6 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
+@DynamicUpdate
 @Table(name = "project_skill")
 public class Project_skill extends BaseEntity {
     @Id
@@ -37,4 +40,14 @@ public class Project_skill extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public void updateProjectSkill(RequestProject_skillDto requestProjectSkillDto){
+        this.project_name = requestProjectSkillDto.getProject_name();
+        this.start_date = requestProjectSkillDto.getStart_date();
+        this.end_date = requestProjectSkillDto.getEnd_date();
+        this.brief_text = requestProjectSkillDto.getBrief_text();
+        this.github_link = requestProjectSkillDto.getGithub_link();
+        this.skill_in_project = requestProjectSkillDto.getSkill_in_project();
+        this.performance = requestProjectSkillDto.getPerformance();
+    }
 }

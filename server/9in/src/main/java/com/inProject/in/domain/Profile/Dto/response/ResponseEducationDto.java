@@ -1,4 +1,4 @@
-package com.inProject.in.domain.Profile.Dto;
+package com.inProject.in.domain.Profile.Dto.response;
 
 import com.inProject.in.domain.Profile.entity.Education;
 import lombok.*;

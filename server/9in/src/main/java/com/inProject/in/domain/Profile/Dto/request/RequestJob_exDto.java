@@ -1,4 +1,4 @@
-package com.inProject.in.domain.Profile.Dto;
+package com.inProject.in.domain.Profile.Dto.request;
 
 import com.inProject.in.domain.Profile.entity.Job_ex;
 import com.inProject.in.domain.User.entity.User;
@@ -25,7 +25,7 @@ public class RequestJob_exDto {
     private String job_explanation; //직무 설명
 
     private String skill_in_job; //직무 경험 시 경험한 기술 스택
-    private Long user_id;
+
 
     public Job_ex toEntity(User user){
         return Job_ex.builder()

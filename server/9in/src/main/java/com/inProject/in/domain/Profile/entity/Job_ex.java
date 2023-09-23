@@ -2,9 +2,11 @@ package com.inProject.in.domain.Profile.entity;
 
 import com.fasterxml.jackson.databind.ser.Serializers;
 import com.inProject.in.Global.BaseEntity;
+import com.inProject.in.domain.Profile.Dto.request.RequestJob_exDto;
 import com.inProject.in.domain.User.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
+@DynamicUpdate
 @Table(name = "job_ex")
 public class Job_ex extends BaseEntity {
     @Id
@@ -36,4 +39,11 @@ public class Job_ex extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public void updateJobEx(RequestJob_exDto requestJobExDto){
+        this.company_name = requestJobExDto.getCompany_name();
+        this.join_date = requestJobExDto.getJoin_date();
+        this.leave_date = requestJobExDto.getLeave_date();
+        this.job_explanation = requestJobExDto.getJob_explanation();
+        this.skill_in_job = requestJobExDto.getSkill_in_job();
+    }
 }

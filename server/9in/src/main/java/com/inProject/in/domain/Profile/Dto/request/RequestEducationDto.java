@@ -1,4 +1,4 @@
-package com.inProject.in.domain.Profile.Dto;
+package com.inProject.in.domain.Profile.Dto.request;
 
 import com.inProject.in.domain.Profile.entity.Education;
 import com.inProject.in.domain.User.entity.User;
@@ -26,7 +26,7 @@ public class RequestEducationDto {
     private LocalDateTime admission; //입학일
 
     private LocalDateTime graduated; //졸업일
-    private Long user_id;
+
 
     public Education toEntity(User user){
         return Education.builder()

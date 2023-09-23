@@ -72,26 +72,26 @@ public class User extends BaseEntity implements UserDetails{
     @ToString.Exclude
     private List<Comment> commentList;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Job_ex jobEx;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Education education;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Project_skill projectSkill;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user",fetch = FetchType.LAZY,  cascade = CascadeType.REMOVE)
     private Certificate certificate;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private MyInfo myInfo;
 
 
 
     //권한 인증
 
-    @ElementCollection(fetch = FetchType.EAGER)  //지연로딩을 통해 실제로 이 컬렉션을 사용할 때만 접근하도록 함
+    @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 

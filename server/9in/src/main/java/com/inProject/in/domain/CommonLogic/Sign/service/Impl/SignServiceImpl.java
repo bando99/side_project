@@ -125,8 +125,14 @@ public class SignServiceImpl implements SignService {
 
         refreshTokenRepository.getByUsername(username)         //위의 if문은 이렇게 간단하게도 만들 수 있다.
                 .ifPresentOrElse(
-                        token -> token.updateRefreshToken(refreshToken),
-                        () -> refreshTokenRepository.save(new RefreshToken(user, refreshToken))
+                        token -> {
+                            token.updateRefreshToken(refreshToken);
+                            log.info("updated refresh token : " + token.toString());
+                            },
+                        () -> {
+                            RefreshToken refreshToken1 = refreshTokenRepository.save(new RefreshToken(user, refreshToken));
+                            log.info("new refresh token : " + refreshToken1.toString());
+                        }
                         );
 
         ResponseSignInDto responseSignInDto = ResponseSignInDto.builder()
@@ -146,6 +152,7 @@ public class SignServiceImpl implements SignService {
     public ResponseRefreshDto reissue(RequestRefreshDto requestRefreshDto) {
 
         log.info("reissue ==> refresh 토큰 통한 토큰 재발급 시작");
+        log.info("get refreshtoken : " + requestRefreshDto.getRefreshToken());
         String refreshToken = requestRefreshDto.getRefreshToken();
 
 
