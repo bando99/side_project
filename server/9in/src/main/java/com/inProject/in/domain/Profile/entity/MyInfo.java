@@ -2,9 +2,11 @@ package com.inProject.in.domain.Profile.entity;
 
 import com.fasterxml.jackson.databind.ser.Serializers;
 import com.inProject.in.Global.BaseEntity;
+import com.inProject.in.domain.Profile.Dto.request.RequestMyInfoDto;
 import com.inProject.in.domain.User.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
@@ -12,6 +14,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
+@DynamicUpdate
 public class MyInfo extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +32,15 @@ public class MyInfo extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public void updateMyInfo(RequestMyInfoDto requestMyInfoDto){
+        this.nickname = requestMyInfoDto.getNickname();
+        this.role = requestMyInfoDto.getRole();
+        this.career = requestMyInfoDto.getCareer();
+        this.phone_num = requestMyInfoDto.getPhone_num();
+        this.school = requestMyInfoDto.getSchool();
+        this.major = requestMyInfoDto.getMajor();
+        this.graduated = requestMyInfoDto.getGraduated();
+    }
 
 }

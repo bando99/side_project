@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,9 +80,26 @@ public class BoardController {
         }catch (CustomException e){
             throw new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.BAD_REQUEST, "getBoards 페이징 오류");
         }
-
     }
 
+    @GetMapping("/cliped")
+    @Operation(summary = "즐겨찾기 리스트 조회", description = "클립 설정한 게시글들을 가져옵니다.",
+            responses = {
+            @ApiResponse(responseCode = "200", description = "즐겨찾기 게시글 조회 성공", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ResponseBoardListDto.class))
+            })
+    })
+    public ResponseEntity<List<ResponseBoardListDto>> getClipedBoards(@PageableDefault(size = 8) Pageable pageable,
+                                                                HttpServletRequest request){
+        try{
+            List<ResponseBoardListDto> boardListDtoList = boardService.getClipedBoards(pageable, request);
+
+            return ResponseEntity.status(HttpStatus.OK).body(boardListDtoList);
+        }catch (CustomException e){
+            throw e;
+        }
+    }
 
     @PostMapping()
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)   //swagger에서 헤더로 토큰을 전송하기 위해 입력창을 만든다.

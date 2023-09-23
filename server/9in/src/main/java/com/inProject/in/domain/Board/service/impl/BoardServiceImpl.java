@@ -5,6 +5,9 @@ import com.inProject.in.Global.exception.CustomException;
 import com.inProject.in.config.security.JwtTokenProvider;
 import com.inProject.in.domain.Board.Dto.*;
 import com.inProject.in.domain.Board.entity.Board;
+import com.inProject.in.domain.Comment.Dto.ResponseCommentDto;
+import com.inProject.in.domain.Comment.entity.Comment;
+import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.entity.ApplicantBoardRelation;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.repository.RoleBoardRelationRepository;
 import com.inProject.in.domain.MToNRelation.TagBoardRelation.entity.TagBoardRelation;
@@ -13,11 +16,13 @@ import com.inProject.in.domain.Board.repository.BoardRepository;
 import com.inProject.in.domain.Board.service.BoardService;
 import com.inProject.in.domain.RoleNeeded.Dto.RequestRoleNeededDto;
 import com.inProject.in.domain.RoleNeeded.Dto.RequestUsingInBoardDto;
+import com.inProject.in.domain.RoleNeeded.Dto.ResponseRoleNeededDto;
 import com.inProject.in.domain.RoleNeeded.entity.RoleNeeded;
 import com.inProject.in.domain.RoleNeeded.repository.RoleNeededRepository;
 import com.inProject.in.domain.SkillTag.Dto.RequestSkillTagDto;
 import com.inProject.in.domain.SkillTag.entity.SkillTag;
 import com.inProject.in.domain.SkillTag.repository.SkillTagRepository;
+import com.inProject.in.domain.User.Dto.ResponseInfoInBoardDto;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
 import jakarta.persistence.EntityManager;
@@ -132,6 +137,31 @@ public class BoardServiceImpl implements BoardService {
                 .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.BAD_REQUEST, id + "는 유효하지 않은 게시글 id입니다." ));
 
         ResponseBoardDto responseBoardDto = new ResponseBoardDto(board);
+
+//        for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
+//            responseBoardDto.getTags().add(tagBoardRelation.getSkillTag().getName());
+//        }
+//
+//        for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
+//            ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
+//            responseBoardDto.getRoles().add(responseRoleNeededDto);
+//        }
+//
+//        if(board.getCommentList() != null){
+//            for(Comment comment : board.getCommentList()){
+//                ResponseCommentDto responseCommentDto = new ResponseCommentDto(comment);
+//                this.commentList.add(responseCommentDto);
+//            }
+//        }
+//
+//        if(board.getApplicantBoardRelationList() != null){
+//            for(ApplicantBoardRelation applicantBoardRelation : board.getApplicantBoardRelationList()){
+//                ResponseInfoInBoardDto responseInfoInBoardDto = new ResponseInfoInBoardDto(applicantBoardRelation);
+//
+//                this.responseInfoInBoardDtoList.add(responseInfoInBoardDto);
+//            }
+//        }
+
 
         return responseBoardDto;
     }
@@ -249,7 +279,7 @@ public class BoardServiceImpl implements BoardService {
         Page<Board> boardPage = boardRepository.findBoards(pageable, username, title, type, tags);
         List<Board> boardList = boardPage.getContent();
         List<ResponseBoardListDto> responseBoardDtoList = new ArrayList<>();
-        log.info("Using BoardService getBoardList ==> filtering by username : " + username + " title : " + title + " type : " + type );
+        log.info("BoardService getBoardList ==> filtering by username : " + username + " title : " + title + " type : " + type );
         log.info("Tag filtering : " + tags.toString());
 
         for (Board board : boardList) {
@@ -259,6 +289,23 @@ public class BoardServiceImpl implements BoardService {
 
         return responseBoardDtoList;
     }
+
+    @Override
+    public List<ResponseBoardListDto> getClipedBoards(Pageable pageable,HttpServletRequest request) {
+        List<ResponseBoardListDto> responseBoardDtoList = new ArrayList<>();
+        User user = getUserFromRequest(request);
+        Page<Board> boardPage = boardRepository.searchPostsByCliped(pageable, user);
+        List<Board> boardList = boardPage.getContent();
+
+        log.info("BoardService getClipedBoards ==> username : " + user.getUsername());
+
+        for(Board board : boardList){
+            ResponseBoardListDto responseBoardListDto = new ResponseBoardListDto(board);
+            responseBoardDtoList.add(responseBoardListDto);
+        }
+        return responseBoardDtoList;
+    }
+
 
     private User getUserFromRequest(HttpServletRequest request){
         String token = jwtTokenProvider.resolveToken(request);

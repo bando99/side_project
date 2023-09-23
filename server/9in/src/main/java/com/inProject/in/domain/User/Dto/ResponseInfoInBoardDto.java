@@ -1,14 +1,13 @@
 package com.inProject.in.domain.User.Dto;
 
 import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.entity.ApplicantBoardRelation;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Data
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ResponseInfoInBoardDto {
     private String nickname;
@@ -19,6 +18,5 @@ public class ResponseInfoInBoardDto {
         this.nickname = applicantBoardRelation.getBoard_applicant().getMyInfo().getNickname();
         this.role = applicantBoardRelation.getBoard_applicant().getMyInfo().getRole();
         this.career = applicantBoardRelation.getBoard_applicant().getMyInfo().getCareer();
-
     }
 }

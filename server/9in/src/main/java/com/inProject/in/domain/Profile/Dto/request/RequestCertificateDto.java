@@ -1,4 +1,4 @@
-package com.inProject.in.domain.Profile.Dto;
+package com.inProject.in.domain.Profile.Dto.request;
 
 import com.inProject.in.domain.Profile.entity.Certificate;
 import com.inProject.in.domain.User.entity.User;
@@ -8,6 +8,8 @@ import jakarta.persistence.OneToOne;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,10 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class RequestCertificateDto {
 
     private String certificate_name;  //자격증 이름
-    private String acquisition_date; //딴 날짜
+    private LocalDate acquisition_date; //딴 날짜
     private String link;
     private String explanation;
-    private Long user_id;
 
     public Certificate toEntity(User user){
         return Certificate.builder()

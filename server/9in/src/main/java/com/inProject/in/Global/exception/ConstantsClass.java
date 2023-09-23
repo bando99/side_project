@@ -5,7 +5,8 @@ public class ConstantsClass{
         USER("User"),
         BOARD("Board"),
         COMMENT("Comment"),
-        APPLICATION("Application");
+        APPLICATION("Application"),
+        PROFILE("Profile");
         private String exceptionClass;
 
         ExceptionClass(String exceptionClass){

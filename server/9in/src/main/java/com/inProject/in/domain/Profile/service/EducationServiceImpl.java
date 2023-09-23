@@ -1,25 +1,35 @@
 package com.inProject.in.domain.Profile.service;
 
-import com.inProject.in.domain.Profile.Dto.RequestEducationDto;
-import com.inProject.in.domain.Profile.Dto.ResponseEducationDto;
+import com.inProject.in.Global.exception.ConstantsClass;
+import com.inProject.in.Global.exception.CustomException;
+import com.inProject.in.config.security.JwtTokenProvider;
+import com.inProject.in.domain.Profile.Dto.request.RequestEducationDto;
+import com.inProject.in.domain.Profile.Dto.response.ResponseEducationDto;
 import com.inProject.in.domain.Profile.entity.Education;
 import com.inProject.in.domain.Profile.repository.EducationRepository;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EducationServiceImpl {
     private UserRepository userRepository;
     private EducationRepository educationRepository;
-
-
+    private final JwtTokenProvider jwtTokenProvider;
+    private final Logger log = LoggerFactory.getLogger(EducationServiceImpl.class);
     @Autowired
     public EducationServiceImpl(UserRepository userRepository,
-                                  EducationRepository educationRepository){
+                                EducationRepository educationRepository,
+                                JwtTokenProvider jwtTokenProvider){
         this.userRepository = userRepository;
         this.educationRepository = educationRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     public ResponseEducationDto getEducation(Long user_id){
@@ -27,42 +37,71 @@ public class EducationServiceImpl {
                 .orElseThrow(() -> new IllegalArgumentException("EducationService getEducation 에서 유효하지 않은 user id : " + user_id));
 
         ResponseEducationDto responseEducationDto = new ResponseEducationDto(education);
+
+        log.info("EducationService getEducation ==> user id : " + user_id + " education : " + education.toString());
         return responseEducationDto;
     }
-
-    public ResponseEducationDto createEducation(RequestEducationDto requestEducationDto){
-        Long user_id = requestEducationDto.getUser_id();
-        User user = userRepository.findById(user_id)
-                .orElseThrow(() -> new IllegalArgumentException("EducationService getEducation 에서 유효하지 않은 user id : " + user_id));
+    @Transactional
+    public ResponseEducationDto createEducation(RequestEducationDto requestEducationDto, HttpServletRequest request){
+        User user = getUserFromRequest(request);
 
         Education education = requestEducationDto.toEntity(user);
-
         Education savedEducation = educationRepository.save(education);
+        user.setEducation(savedEducation);
 
         ResponseEducationDto responseEducationDto = new ResponseEducationDto(savedEducation);
 
+        log.info("EducationService createEducation ==> username : " + user.getUsername() + " education : " + savedEducation.toString());
         return responseEducationDto;
     }
+    @Transactional
+    public ResponseEducationDto updateEducation(RequestEducationDto requestEducationDto, HttpServletRequest request){
+        User user = getUserFromRequest(request);
 
-    public ResponseEducationDto updateEducation(RequestEducationDto requestEducationDto){
-        Long user_id = requestEducationDto.getUser_id();
+        Education education = educationRepository.findEducationByUserId(user.getId())
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.PROFILE, HttpStatus.BAD_REQUEST, user.getId() + "는 education을 생성하지 않음"));
 
-        User user = userRepository.findById(user_id)
-                .orElseThrow(() -> new IllegalArgumentException("EducationService getEducation 에서 유효하지 않은 user id : " + user_id));
+        if(!education.getUser().getId().equals(user.getId())){
+            throw new CustomException(ConstantsClass.ExceptionClass.PROFILE, HttpStatus.UNAUTHORIZED, user.getId() + "은 프로필 작성자가 아닙니다.");
+        }
 
-        Education education = requestEducationDto.toEntity(user);
+        log.info("EducationService updateEducation ==> 업데이트 전 : " + education.toString());
 
-        Education updatedEducation = educationRepository.save(education);
+        education.updateEducation(requestEducationDto);
+        ResponseEducationDto responseEducationDto = new ResponseEducationDto(education);
 
-        ResponseEducationDto responseEducationDto = new ResponseEducationDto(updatedEducation);
-
+        log.info("EducationService updateEducation ==> 업데이트 후 : " + education.toString());
         return responseEducationDto;
     }
+    @Transactional
+    public void deleteEducation(HttpServletRequest request){
+        User user = getUserFromRequest(request);
 
-    public void deleteEducation(Long user_id){
-        User user = userRepository.findById(user_id)
-                .orElseThrow(() -> new IllegalArgumentException("EducationService getEducation 에서 유효하지 않은 user id : " + user_id));
+        Education education = educationRepository.findEducationByUserId(user.getId())
+                        .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.PROFILE, HttpStatus.BAD_REQUEST, user.getId() + "는 education을 생성하지 않음"));
+
+        if(!education.getUser().getId().equals(user.getId())){
+            throw new CustomException(ConstantsClass.ExceptionClass.PROFILE, HttpStatus.UNAUTHORIZED, user.getId() + "은 프로필 작성자가 아닙니다.");
+        }
 
         educationRepository.deleteById(user.getEducation().getId());
+        log.info("EducationService deleteEducation ==> 삭제 완료");
+    }
+
+    private User getUserFromRequest(HttpServletRequest request){
+        String token = jwtTokenProvider.resolveToken(request);
+        User user;
+
+        if(token != null && jwtTokenProvider.validateToken(token)){
+            String username = jwtTokenProvider.getUsername(token);
+
+            return user = userRepository.getByUsername(username)
+                    .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.BAD_REQUEST, "BoardService ==> request로부터 user를 찾지 못함"));
+        }
+        else{
+            throw new CustomException(ConstantsClass.ExceptionClass.USER, HttpStatus.UNAUTHORIZED, "token이 없거나, 권한이 유효하지 않습니다.");
+        }
+
+
     }
 }

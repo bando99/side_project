@@ -1,4 +1,4 @@
-package com.inProject.in.domain.Profile.Dto;
+package com.inProject.in.domain.Profile.Dto.request;
 
 import com.inProject.in.domain.Profile.entity.Project_skill;
 import com.inProject.in.domain.User.entity.User;
@@ -23,7 +23,6 @@ public class RequestProject_skillDto {
     private String github_link;
     private String skill_in_project;
     private String performance;
-    private Long user_id;
 
     public Project_skill toEntity(User user){
         return Project_skill.builder()
