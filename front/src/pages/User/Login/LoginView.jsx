@@ -180,11 +180,13 @@ export default function LoginView() {
         userData
       );
       console.log('로그인 성공');
-      console.log(response.data.token);
-      const newToken = response.data.token;
-      login(newToken);
+      console.log(response.data);
+      const token = response.data.token;
+      const refreshToken = response.data.refreshToken;
+      login(token, refreshToken);
 
-      localStorage.setItem('token', newToken);
+      localStorage.setItem('token', token);
+      localStorage.setItem('refreshToken', refreshToken);
       navigate('/');
     } catch (error) {
       console.error('로그인 실패', error);
