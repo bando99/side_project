@@ -196,6 +196,37 @@ export default function ModifyPostView() {
       console.log('글 수정 성공');
     } catch (error) {
       console.error('글 수정 실패', error);
+      console.log(error.response.data);
+      if (error.response.data.msg == '인증이 실패했습니다.') {
+        console.log(error.response.data.msg);
+        const refreshData = {
+          refreshToken: localStorage.getItem('refreshToken'),
+        };
+        try {
+          const refreshResponse = await axios.post(
+            'http://1.246.104.170:8080/sign/reissue',
+            refreshData
+          );
+
+          // 새로운 액세스 토큰 저장
+          const newAccessToken = refreshResponse.data.accessToken;
+          localStorage.setItem('token', newAccessToken);
+
+          // 새로운 액세스 토큰을 사용하여 원래의 요청 다시 보내기
+          const retryResponse = await axios.post(
+            `http://1.246.104.170:8080/boards/${board_id}`,
+            modifyData,
+            {
+              headers: {
+                'X-AUTH-TOKEN': newAccessToken,
+              },
+            }
+          );
+          console.log('글 수정 성공 (재시도)');
+        } catch (refreshError) {
+          console.error('새로운 액세스 토큰 얻기 실패', refreshError);
+        }
+      }
     }
   };
 

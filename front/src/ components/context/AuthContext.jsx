@@ -1,23 +1,40 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
+  const [refreshToken, setRefreshToken] = useState(
+    localStorage.getItem('refreshToken') || null
+  );
 
   // 로그인
-  const login = (newToken) => {
-    setToken(newToken);
+  const login = (token, refreshToken) => {
+    setToken(token);
+    setRefreshToken(refreshToken);
   };
 
   // 로그아웃
   const logout = () => {
     setToken(null);
-    localStorage.setItem('token', null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
   };
 
+  // 초기 로딩 시 토큰 확인
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    const storedRefreshToken = localStorage.getItem('refreshToken');
+    if (storedToken) {
+      setToken(storedToken);
+    }
+    if (storedRefreshToken) {
+      setRefreshToken(storedRefreshToken);
+    }
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ token, login, logout }}>
+    <AuthContext.Provider value={{ token, refreshToken, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
