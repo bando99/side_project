@@ -11,12 +11,39 @@ export default function PostDetail() {
 
   const { title, type, proceed_method, period, roles, tags } = data;
   console.log(tags);
+  console.log(roles);
 
   const formattedPeriod = new Date(data.period).toLocaleDateString('ko-KR', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
   });
+
+  const handleApply = async (role_id, pre_cnt, want_cnt) => {
+    if (pre_cnt >= want_cnt) {
+      alert('모집 완료되었습니다.');
+    } else {
+      const applyData = {
+        board_id,
+        role_id,
+      };
+
+      try {
+        const response = await axios.put(
+          `http://1.246.104.170:8080/applications`,
+          applyData
+          // {
+          //   headers: {
+          //     'X-AUTH-TOKEN': localStorage.getItem('token'),
+          //   },
+          // }
+        );
+        console.log('게시글 지원 성공');
+      } catch (error) {
+        console.error('게시글 지원 실패', error);
+      }
+    }
+  };
 
   return (
     <Container>
@@ -86,7 +113,13 @@ export default function PostDetail() {
                 <span>{role.name}</span>
                 <div>
                   <p>{`${role.pre_cnt}/${role.want_cnt}`}</p>
-                  <button>
+                  <button
+                    onClick={handleApply(
+                      role.role_id,
+                      role.pre_cnt,
+                      role.want_cnt
+                    )}
+                  >
                     {role.pre_cnt >= role.want_cnt ? '모집완료' : '신청하기'}
                   </button>
                 </div>

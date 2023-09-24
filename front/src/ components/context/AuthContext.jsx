@@ -7,11 +7,13 @@ export function AuthProvider({ children }) {
   const [refreshToken, setRefreshToken] = useState(
     localStorage.getItem('refreshToken') || null
   );
+  const [user_id, setUser_id] = useState(0);
 
   // 로그인
-  const login = (token, refreshToken) => {
+  const login = (token, refreshToken, user_id) => {
     setToken(token);
     setRefreshToken(refreshToken);
+    setUser_id(user_id);
   };
 
   // 로그아웃
@@ -19,6 +21,7 @@ export function AuthProvider({ children }) {
     setToken(null);
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
+    setUser_id(0);
   };
 
   // 초기 로딩 시 토큰 확인
