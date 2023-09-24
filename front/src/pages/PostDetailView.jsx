@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import useFetchData from '../ components/hooks/getPostList';
+import { useAuth } from '../ components/context/AuthContext';
 
 export default function PostDetail() {
   const { board_id } = useParams();
+  const { user_id } = useAuth();
 
   const { data, loading, error } = useFetchData('/boards/' + board_id);
 
@@ -24,19 +26,20 @@ export default function PostDetail() {
       alert('모집 완료되었습니다.');
     } else {
       const applyData = {
-        board_id,
+        board_id: parseInt(board_id),
+        user_id,
         role_id,
       };
 
       try {
-        const response = await axios.put(
+        const response = await axios.post(
           `http://1.246.104.170:8080/applications`,
-          applyData
-          // {
-          //   headers: {
-          //     'X-AUTH-TOKEN': localStorage.getItem('token'),
-          //   },
-          // }
+          applyData,
+          {
+            headers: {
+              'X-AUTH-TOKEN': localStorage.getItem('token'),
+            },
+          }
         );
         console.log('게시글 지원 성공');
       } catch (error) {
@@ -114,11 +117,9 @@ export default function PostDetail() {
                 <div>
                   <p>{`${role.pre_cnt}/${role.want_cnt}`}</p>
                   <button
-                    onClick={handleApply(
-                      role.role_id,
-                      role.pre_cnt,
-                      role.want_cnt
-                    )}
+                    onClick={() =>
+                      handleApply(role.role_id, role.pre_cnt, role.want_cnt)
+                    }
                   >
                     {role.pre_cnt >= role.want_cnt ? '모집완료' : '신청하기'}
                   </button>
