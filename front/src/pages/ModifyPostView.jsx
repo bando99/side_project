@@ -210,10 +210,12 @@ export default function ModifyPostView() {
 
           // 새로운 액세스 토큰 저장
           const newAccessToken = refreshResponse.data.accessToken;
+          const newRefreshToken = refreshResponse.data.refreshToken;
           localStorage.setItem('token', newAccessToken);
+          localStorage.setItem('refreshToken', newRefreshToken);
 
           // 새로운 액세스 토큰을 사용하여 원래의 요청 다시 보내기
-          const retryResponse = await axios.post(
+          const retryResponse = await axios.put(
             `http://1.246.104.170:8080/boards/${board_id}`,
             modifyData,
             {

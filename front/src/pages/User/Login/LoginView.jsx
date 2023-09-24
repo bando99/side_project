@@ -183,7 +183,8 @@ export default function LoginView() {
       console.log(response.data);
       const token = response.data.token;
       const refreshToken = response.data.refreshToken;
-      login(token, refreshToken);
+      const user_id = response.data.user_id;
+      login(token, refreshToken, user_id);
 
       localStorage.setItem('token', token);
       localStorage.setItem('refreshToken', refreshToken);
