@@ -21,6 +21,8 @@ export default function PostDetail() {
     day: '2-digit',
   });
 
+  const [applyStatus, setApplyStatus] = useState({});
+
   const handleApply = async (role_id, pre_cnt, want_cnt) => {
     if (pre_cnt >= want_cnt) {
       alert('모집 완료되었습니다.');
@@ -42,8 +44,55 @@ export default function PostDetail() {
           }
         );
         console.log('게시글 지원 성공');
+        alert('지원이 완료되었습니다.');
+        console.log(response);
+
+        setApplyStatus({
+          ...applyStatus,
+          [role_id]: '신청중',
+        });
       } catch (error) {
         console.error('게시글 지원 실패', error);
+        console.log(error.response.data);
+        if (error.response.data.msg == '인증이 실패했습니다.') {
+          console.log(error.response.data.msg);
+          const refreshData = {
+            refreshToken: localStorage.getItem('refreshToken'),
+          };
+          try {
+            const refreshResponse = await axios.post(
+              'http://1.246.104.170:8080/sign/reissue',
+              refreshData
+            );
+
+            // 새로운 액세스 토큰 저장
+            const newAccessToken = refreshResponse.data.accessToken;
+            const newRefreshToken = refreshResponse.data.refreshToken;
+            localStorage.setItem('token', newAccessToken);
+            localStorage.setItem('refreshToken', newRefreshToken);
+
+            // 새로운 액세스 토큰을 사용하여 원래의 요청 다시 보내기
+            const retryResponse = await axios.put(
+              `http://1.246.104.170:8080/applications`,
+              applyData,
+              {
+                headers: {
+                  'X-AUTH-TOKEN': newAccessToken,
+                },
+              }
+            );
+            console.log('게시글 지원 성공 (재시도)');
+            alert('지원이 완료되었습니다.');
+            console.log(retryResponse);
+
+            setApplyStatus({
+              ...applyStatus,
+              [role_id]: '신청중',
+            });
+          } catch (refreshError) {
+            console.error('새로운 액세스 토큰 얻기 실패', refreshError);
+          }
+        }
       }
     }
   };
@@ -120,8 +169,13 @@ export default function PostDetail() {
                     onClick={() =>
                       handleApply(role.role_id, role.pre_cnt, role.want_cnt)
                     }
+                    className={`${
+                      role.pre_cnt >= role.want_cnt ? 'complete' : ''
+                    } ${applyStatus[role.role_id] ? 'applying' : ''}`}
                   >
-                    {role.pre_cnt >= role.want_cnt ? '모집완료' : '신청하기'}
+                    {role.pre_cnt >= role.want_cnt
+                      ? '모집완료'
+                      : applyStatus[role.role_id] || '신청하기'}
                   </button>
                 </div>
               </div>
@@ -316,6 +370,22 @@ const Section = styled.div`
         line-height: normal;
       }
 
+      .complete {
+        background: #1f7ceb;
+        color: white;
+      }
+
+      .applying {
+        color: #1f7ceb;
+        border: 1px solid #1f7ceb;
+        background: white;
+        width: 5rem;
+        height: 2.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
       button {
         display: flex;
         padding: 10px;
@@ -330,6 +400,11 @@ const Section = styled.div`
         font-weight: 400;
         line-height: normal;
         cursor: pointer;
+        width: 5rem;
+        height: 2.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .active_btn {
