@@ -40,13 +40,13 @@ public class ResponseBoardListDto {   //게시글 리스트를 리턴할 때 사
         this.createAt = board.getCreateAt();
         this.comment_cnt = board.getComment_cnt();
 
-        for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
-            this.tags.add(tagBoardRelation.getSkillTag().getName());
-        }
-        for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
-            ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
-            this.roles.add(responseRoleNeededDto);
-        }
+//        for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
+//            this.tags.add(tagBoardRelation.getSkillTag().getName());
+//        }
+//        for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
+//            ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
+//            this.roles.add(responseRoleNeededDto);
+//        }
 
     }
 }

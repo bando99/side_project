@@ -34,8 +34,9 @@ public class Education extends BaseEntity {
     private LocalDateTime admission; //입학일
     @Column
     private LocalDateTime graduated; //졸업일
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @ToString.Exclude
     private User user;
 
     public void updateEducation(RequestEducationDto requestEducationDto){

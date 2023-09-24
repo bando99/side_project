@@ -46,7 +46,6 @@ public class Board extends BaseEntity {
     private LocalDateTime period; //예상 기간
     @Column
     private int comment_cnt;  //댓글 개수
-
     @Column
     private boolean deleted = Boolean.FALSE;
 
@@ -70,7 +69,7 @@ public class Board extends BaseEntity {
     @ToString.Exclude
     private List<ClipBoardRelation> clipBoardRelationList; //관심 클립으로 지정한 유저들
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<RoleBoardRelation> roleBoardRelationList;   //직군
 

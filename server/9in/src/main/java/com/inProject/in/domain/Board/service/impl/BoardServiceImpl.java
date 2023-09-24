@@ -138,30 +138,29 @@ public class BoardServiceImpl implements BoardService {
 
         ResponseBoardDto responseBoardDto = new ResponseBoardDto(board);
 
-//        for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
-//            responseBoardDto.getTags().add(tagBoardRelation.getSkillTag().getName());
-//        }
-//
-//        for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
-//            ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
-//            responseBoardDto.getRoles().add(responseRoleNeededDto);
-//        }
-//
-//        if(board.getCommentList() != null){
-//            for(Comment comment : board.getCommentList()){
-//                ResponseCommentDto responseCommentDto = new ResponseCommentDto(comment);
-//                this.commentList.add(responseCommentDto);
-//            }
-//        }
-//
-//        if(board.getApplicantBoardRelationList() != null){
-//            for(ApplicantBoardRelation applicantBoardRelation : board.getApplicantBoardRelationList()){
-//                ResponseInfoInBoardDto responseInfoInBoardDto = new ResponseInfoInBoardDto(applicantBoardRelation);
-//
-//                this.responseInfoInBoardDtoList.add(responseInfoInBoardDto);
-//            }
-//        }
+        for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
+            responseBoardDto.getTags().add(tagBoardRelation.getSkillTag().getName());
+        }
 
+        for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
+            ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
+            responseBoardDto.getRoles().add(responseRoleNeededDto);
+        }
+
+        if(board.getCommentList() != null){
+            for(Comment comment : board.getCommentList()){
+                ResponseCommentDto responseCommentDto = new ResponseCommentDto(comment);
+                responseBoardDto.getCommentList().add(responseCommentDto);
+            }
+        }
+
+        if(board.getApplicantBoardRelationList() != null){
+            for(ApplicantBoardRelation applicantBoardRelation : board.getApplicantBoardRelationList()){
+                ResponseInfoInBoardDto responseInfoInBoardDto = new ResponseInfoInBoardDto(applicantBoardRelation);
+
+                responseBoardDto.getResponseInfoInBoardDtoList().add(responseInfoInBoardDto);
+            }
+        }
 
         return responseBoardDto;
     }
@@ -283,8 +282,17 @@ public class BoardServiceImpl implements BoardService {
         log.info("Tag filtering : " + tags.toString());
 
         for (Board board : boardList) {
-            ResponseBoardListDto responseBoardDto = new ResponseBoardListDto(board);
-            responseBoardDtoList.add(responseBoardDto);
+            ResponseBoardListDto responseBoardListDto = new ResponseBoardListDto(board);
+
+            for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
+                responseBoardListDto.getTags().add(tagBoardRelation.getSkillTag().getName());
+            }
+            for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
+                ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
+                responseBoardListDto.getRoles().add(responseRoleNeededDto);
+            }
+
+            responseBoardDtoList.add(responseBoardListDto);
         }
 
         return responseBoardDtoList;

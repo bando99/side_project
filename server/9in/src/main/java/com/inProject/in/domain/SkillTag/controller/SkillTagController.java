@@ -6,10 +6,9 @@ import com.inProject.in.domain.SkillTag.service.SkillTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/skillTag")
@@ -21,6 +20,12 @@ public class SkillTagController {
         this.skillTagService = skillTagService;
     }
 
+    @GetMapping()
+    public ResponseEntity<List<ResponseSkillTagDto>> getSkillTagList(){
+        List<ResponseSkillTagDto> responseSkillTagDtos = skillTagService.getSkillTagList();
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseSkillTagDtos);
+    }
     @PostMapping()
     public ResponseEntity<ResponseSkillTagDto> createSkillTag(@RequestBody RequestSkillTagDto requestSkillTagDto){
 
