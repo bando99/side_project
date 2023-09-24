@@ -29,8 +29,9 @@ public class MyInfo extends BaseEntity {
     private String graduated;  //졸업여부
 
     //기술 태그는 다대다관계를 설계해야 할 것 같음
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @ToString.Exclude
     private User user;
 
     public void updateMyInfo(RequestMyInfoDto requestMyInfoDto){

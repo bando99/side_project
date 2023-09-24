@@ -1,10 +1,16 @@
 package com.inProject.in.domain.CommonLogic.Application.controller;
 
 import com.inProject.in.Global.exception.CustomException;
+import com.inProject.in.domain.Board.Dto.ResponseBoardListDto;
 import com.inProject.in.domain.CommonLogic.Application.Dto.ResponseApplicationDto;
 import com.inProject.in.domain.CommonLogic.Application.Dto.ApplicationDto;
 import com.inProject.in.domain.CommonLogic.Application.service.ApplicationService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +29,14 @@ public class ApplicationController {
     }
 
     @PostMapping()
-    @Operation(summary = "지원하기", description = "게시글에 지원 버튼을 누르면 실행되는 api입니다.")
+    @Operation(summary = "지원하기", description = "게시글에 지원합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "지원 조회 성공", content = {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(implementation = ResponseApplicationDto.class))
+                    })
+    })
+    @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)
     public ResponseEntity<ResponseApplicationDto> createApplication(@RequestBody ApplicationDto applicationDto){
         try{
             ResponseApplicationDto responseApplicationDto = applicationService.createApplication(applicationDto);
@@ -37,6 +50,7 @@ public class ApplicationController {
 
     @DeleteMapping()
     @Operation(summary = "지원 취소", description = "게시글에 지원한 걸 취소합니다.")
+    @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)
     public ResponseEntity<String> deleteApplication(ApplicationDto applicationDto){
         try{
             applicationService.deleteApplication(applicationDto);

@@ -35,8 +35,9 @@ public class Job_ex extends BaseEntity {
     private String job_explanation; //직무 설명
     @Column
     private String skill_in_job; //직무 경험 시 경험한 기술 스택
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @ToString.Exclude
     private User user;
 
     public void updateJobEx(RequestJob_exDto requestJobExDto){

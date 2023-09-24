@@ -52,28 +52,28 @@ public class ResponseBoardDto {
         this.createAt = board.getCreateAt();
         this.comment_cnt = board.getComment_cnt();
 
-        for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
-            this.tags.add(tagBoardRelation.getSkillTag().getName());
-        }
-
-        for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
-            ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
-            this.roles.add(responseRoleNeededDto);
-        }
-
-        if(board.getCommentList() != null){
-            for(Comment comment : board.getCommentList()){
-                ResponseCommentDto responseCommentDto = new ResponseCommentDto(comment);
-                this.commentList.add(responseCommentDto);
-            }
-        }
-
-        if(board.getApplicantBoardRelationList() != null){
-            for(ApplicantBoardRelation applicantBoardRelation : board.getApplicantBoardRelationList()){
-                ResponseInfoInBoardDto responseInfoInBoardDto = new ResponseInfoInBoardDto(applicantBoardRelation);
-
-                this.responseInfoInBoardDtoList.add(responseInfoInBoardDto);
-            }
-        }
+//        for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
+//            this.tags.add(tagBoardRelation.getSkillTag().getName());
+//        }
+//
+//        for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
+//            ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
+//            this.roles.add(responseRoleNeededDto);
+//        }
+//
+//        if(board.getCommentList() != null){
+//            for(Comment comment : board.getCommentList()){
+//                ResponseCommentDto responseCommentDto = new ResponseCommentDto(comment);
+//                this.commentList.add(responseCommentDto);
+//            }
+//        }
+//
+//        if(board.getApplicantBoardRelationList() != null){
+//            for(ApplicantBoardRelation applicantBoardRelation : board.getApplicantBoardRelationList()){
+//                ResponseInfoInBoardDto responseInfoInBoardDto = new ResponseInfoInBoardDto(applicantBoardRelation);
+//
+//                this.responseInfoInBoardDtoList.add(responseInfoInBoardDto);
+//            }
+//        }
     }
 }
