@@ -1,29 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import MypageUser from '../../../ components/Mypage/MypageUser';
 import MypageSchool from '../../../ components/Mypage/MypageSchool';
 import MypageEtc from '../../../ components/Mypage/MypageEtc';
 import MypageLicese from '../../../ components/Mypage/MypageLicese';
 import MypageJob from '../../../ components/Mypage/MypageJob';
 import MypageProject from '../../../ components/Mypage/MypageProject';
+import useAxios from '../../../ components/hooks/useAxios';
 
 export default function MyPage() {
-  const navigate = useNavigate();
-
-  const handleRecruit = () => {
-    navigate('/mypage/recruit');
-  };
-
-  const handleClip = () => {
-    navigate('/mypage/clip');
-  };
+  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY5NTcwOTc1NSwiZXhwIjoxNjk1NzEwMDU1fQ.UXnHoLfmfeAEUQT9zeXUhywIHgTD1WKnmYqDth3BfXA'
+  const refreshToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY5NTcwOTc1NSwiZXhwIjoxNjk1NzE2OTU1fQ.0B7LwJSODTldg2blPwe-uy3Co3cX8KH4Hbik7GaXfHo'
+  const user_id = 7 // user_id
+  
+  const { response, error, loading } = useAxios({
+    method: 'GET',
+    url: `/profile/${user_id}`,
+  });
 
   return (
     <Mypage>
       <Section1>
-        <MypageUser />
-        <MypageSchool />
+        <MypageUser 
+          token={refreshToken}
+        />
+        <MypageSchool 
+          token={refreshToken}
+        />
         <MypageEtc />
       </Section1>
         <MypageLicese />
