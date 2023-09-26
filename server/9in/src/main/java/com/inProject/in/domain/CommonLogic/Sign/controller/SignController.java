@@ -33,7 +33,7 @@ public class SignController {
 
     @PostMapping("/sign-in")
     @Operation(summary = "로그인 시도", description = "생성되어있는 계정으로 로그인합니다.")
-    public ResponseSignInDto signIn(@Valid @RequestBody RequestSignInDto requestSignInDto) throws RuntimeException{
+    public ResponseSignInDto signIn( @RequestBody RequestSignInDto requestSignInDto) throws RuntimeException{
         log.info("SignController signIn ==> 로그인 시도   id : " + requestSignInDto.getUsername());
 
         ResponseSignInDto responseSignInDto = signService.signIn(requestSignInDto);
