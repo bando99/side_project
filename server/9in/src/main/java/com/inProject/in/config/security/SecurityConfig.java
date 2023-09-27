@@ -5,11 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
-import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -26,7 +21,19 @@ public class SecurityConfig  {   //WebSecurityConfigurerAdapter 상속받아서 
     //대신 개발자가 직접 component-based security 설정을 할 수 있도록 변경되었다. 즉 커스텀 할 설정들을 @Bean으로 등록하여 사용한다.
 
     private final JwtTokenProvider jwtTokenProvider;
-    private String[] allowUrl = {"/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/sign/**", "/profile/**", "**exception**", "/error", "/skillTag**", "/roleNeeded**"};
+    private String[] allowUrl = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-resources/**",
+            "/sign/**",
+            "/profile/**",
+            "**exception**",
+            "/error",
+            "/skillTag**",
+            "/roleNeeded**",
+            "/find/**",
+            "/users/**"
+    };
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
 

@@ -11,6 +11,17 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: "tlsdbstjd124@gmail.com"
+    password: 
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 logging:
   level:
     org:
@@ -27,3 +38,4 @@ server:
 springboot:
   jwt:
     secret: secretKey-for-authorization-jwtToken
+

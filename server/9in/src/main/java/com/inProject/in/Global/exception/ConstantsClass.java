@@ -6,7 +6,10 @@ public class ConstantsClass{
         BOARD("Board"),
         COMMENT("Comment"),
         APPLICATION("Application"),
-        PROFILE("Profile");
+        PROFILE("Profile"),
+        SIGN("Sign"),
+        FIND("Find"),
+        CHANGE("Change");
         private String exceptionClass;
 
         ExceptionClass(String exceptionClass){
