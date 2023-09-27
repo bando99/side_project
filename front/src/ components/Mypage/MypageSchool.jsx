@@ -1,11 +1,42 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
-const MypageSchool = () => {
+import axios from 'axios';
+
+const MypageSchool = ({token, user_id}) => {
   const [contact, setContact] = useState('');
   const [email, setEmail] = useState('');
   const [school, setSchool] = useState('');
   const [major, setMajor] = useState('');
   const [graduationStatus, setGraduationStatus] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handlePost = async () => {
+    try {
+      setIsLoading(true); 
+
+      const data = {
+        school,
+        major,
+        grades: 0,
+        max_grades: 0,
+        admission: "2023-09-26T06:15:03.843Z",
+        graduated: "2023-09-26T06:15:03.843Z"
+      };
+
+      const response = await axios.post('http://1.246.104.170:8080/profile/education', data, {
+        headers: {
+          'X-AUTH-TOKEN': token 
+      }});
+
+      console.log(response.data);
+
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false); 
+    }
+  };
+
 
   const handleContactChange = (e) => {
     setContact(e.target.value);
@@ -79,7 +110,7 @@ const MypageSchool = () => {
         />
       </div>
       <div className="section1_school_btn_flex">
-        <button className="section1_school_btn">
+        <button onClick={handlePost} className="section1_school_btn">
           수정하기
         </button>
       </div>
