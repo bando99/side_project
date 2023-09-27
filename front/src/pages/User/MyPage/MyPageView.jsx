@@ -22,7 +22,7 @@ export default function MyPage() {
     <Mypage>
       <Section1>
         <MypageUser 
-          token={refreshToken}
+          token={token}
         />
         <MypageSchool 
           token={refreshToken}
