@@ -1,17 +1,49 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import MypageModal from './MypageModal'
+import axios from 'axios';
 
-const MypageJob = () => {
+const MypageJob = ({token}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [jobFields, setJobFields] = useState([
     { id: 1, jobname: '', startDate: '', endDate: '', stack: [], description: '' },
   ]);
   const [selectedStack, setSelectedStack] = useState('');
-  
+  const [isLoading, setIsLoading] = useState(false);
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   
+  const handlePost = async () => {
+    try {
+      setIsLoading(true);
+  
+      const promises = jobFields.map(async (job) => {
+        const data = {
+          name: job.jobname,
+          startDate: job.startDate,
+          endDate: job.endDate,
+          description: job.description,
+          stack: job.stack
+        };
+  
+        const response = await axios.post('http://1.246.104.170:8080/profile/직업', data, {
+          headers: {
+            'X-AUTH-TOKEN': token
+          }
+        });
+  
+        console.log(response.data);
+      });
+  
+      await Promise.all(promises);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const skillImage = {
     react: 'React.png',
     Spring: 'Spring.png',
@@ -52,7 +84,6 @@ const MypageJob = () => {
     }
   };
   
-  console.log(jobFields)
 
   const titleContent = (
     <TitleContentStyled>
@@ -134,7 +165,7 @@ const MypageJob = () => {
         <button onClick={addJobField}>
           <img src='/icons/plus.png' alt='버튼' />
         </button>
-        <button className='add_btn'>
+        <button onClick={handlePost} className='add_btn'>
           추가
         </button>
       </div>

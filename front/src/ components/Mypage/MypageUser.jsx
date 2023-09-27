@@ -1,14 +1,45 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import styles from '../../pages/User/MyPage/MyPage.module.css'
+import axios from 'axios'
 
-const MypageUser = () => {
+const MypageUser = ({token, user_id}) => {
   const [nickname, setNickname] = useState('');
   const [selectedStack, setSelectedStack] = useState('');
   const [skills, setSkills] = useState([]);
   const [selectedRole, setSelectedRole] = useState('');
   const [experience, setExperience] = useState('');
-  
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handlePost = async () => {
+    if(!nickname || !selectedRole || !experience || skills.length < 1) {
+      return alert("빈칸을 채워주세요")
+    }
+    
+    try {
+      setIsLoading(true); 
+
+      const data = {
+        nickname,
+        role: selectedRole,
+        career: experience,
+        // stack 배열
+      };
+
+      const response = await axios.post('http://1.246.104.170:8080/profile/myinfo', data, {
+        headers: {
+          'X-AUTH-TOKEN': token 
+      }});
+
+      console.log(response.data);
+
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false); 
+    }
+  };
+
   const skillImage = {
     react: 'React.png',
     Spring: 'Spring.png',
@@ -106,7 +137,7 @@ const MypageUser = () => {
           />
         </div>
       </div>
-      <button className="section1_fix_btn" >
+      <button onClick={handlePost} className="section1_fix_btn" >
         수정하기
       </button>
     </UserEdit>

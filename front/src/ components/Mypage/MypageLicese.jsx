@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import MypageModal from './MypageModal'
+import axios from 'axios';
 
-const MypageLicese = () => {
+const MypageLicese = ({token}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [licenseFields, setLicenseFields] = useState([
     { id: 1, name: '', startDate: '', endDate: '', description: '' },
   ]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -22,6 +24,35 @@ const MypageLicese = () => {
     setLicenseFields([...licenseFields, newField]);
   };
   
+  const handlePost = async () => {
+    try {
+      setIsLoading(true);
+  
+      const promises = licenseFields.map(async (field) => {
+        const data = {
+          name: field.name,
+          startDate: field.startDate,
+          endDate: field.endDate,
+          description: field.description,
+        };
+  
+        const response = await axios.post('http://1.246.104.170:8080/profile/자격증', data, {
+          headers: {
+            'X-AUTH-TOKEN': token
+          }
+        });
+  
+        console.log(response.data);
+      });
+  
+      await Promise.all(promises);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const titleContent = (
     <TitleContentStyled>
       <p></p>
@@ -74,7 +105,7 @@ const MypageLicese = () => {
         <button onClick={addLicenseField}>
           <img src="/icons/plus.png" alt="버튼" />
         </button>
-        <button className='add_btn'>
+        <button onClick={handlePost} className='add_btn'>
           추가
         </button>
       </div>
