@@ -1,16 +1,51 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import MypageModal from './MypageModal'
+import axios from 'axios';
 
-const MypageProject = () => {
+const MypageProject = ({token}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [projectFields, setProjectFields] = useState([
     { id: 1, projectName: '', startDate: '', endDate: '', role: "", stack: [], description: '', file: "", link: "" },
   ]);
   const [selectedStack, setSelectedStack] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const handlePost = async () => {
+    try {
+      setIsLoading(true);
+  
+      const promises = projectFields.map(async (project) => {
+        const data = {
+          name: project.projectName,
+          startDate: project.startDate,
+          endDate: project.endDate,
+          role: project.role,
+          stack: project.stack,
+          description: project.description,
+          file: project.file,
+          link: project.link
+        };
+  
+        const response = await axios.post('http://1.246.104.170:8080/profile/프로젝트', data, {
+          headers: {
+            'X-AUTH-TOKEN': token
+          }
+        });
+  
+        console.log(response.data);
+      });
+  
+      await Promise.all(promises);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleFieldChange = (index, field, value) => {
     const updatedFields = [...projectFields];
@@ -68,7 +103,6 @@ const MypageProject = () => {
     </TitleContentStyled>
   );
 
-    console.log(projectFields)
 
     const bodyContent = (
     <BodyContentStyled>
@@ -178,7 +212,7 @@ const MypageProject = () => {
         <button onClick={addProjectField}>
           <img src="/icons/plus.png" alt="버튼" />
         </button>
-        <button className="add_btn">추가</button>
+        <button onClick={handlePost} className="add_btn">추가</button>
       </div>
     </BodyContentStyled>
   );
