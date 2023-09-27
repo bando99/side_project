@@ -1,16 +1,21 @@
 package com.inProject.in.domain.CommonLogic.Sign.service.Impl;
 
 import com.inProject.in.Global.CommonResponse;
+import com.inProject.in.Global.exception.ConstantsClass;
+import com.inProject.in.Global.exception.CustomException;
 import com.inProject.in.config.security.JwtTokenProvider;
+import com.inProject.in.domain.CommonLogic.Mail.service.MailService;
 import com.inProject.in.domain.CommonLogic.RefreshToken.entity.RefreshToken;
 import com.inProject.in.domain.CommonLogic.RefreshToken.repository.RefreshTokenRepository;
-import com.inProject.in.domain.CommonLogic.Sign.Dto.*;
+import com.inProject.in.domain.CommonLogic.Sign.Dto.request.*;
+import com.inProject.in.domain.CommonLogic.Sign.Dto.response.*;
 import com.inProject.in.domain.CommonLogic.Sign.service.SignService;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,15 +34,20 @@ public class SignServiceImpl implements SignService {
     private JwtTokenProvider jwtTokenProvider;
     private PasswordEncoder passwordEncoder;
     private RefreshTokenRepository refreshTokenRepository;
+    private final MailService mailService;
+
     @Autowired
     public SignServiceImpl(UserRepository userRepository,
                            JwtTokenProvider jwtTokenProvider,
                            PasswordEncoder passwordEncoder,
-                           RefreshTokenRepository refreshTokenRepository){
+                           RefreshTokenRepository refreshTokenRepository,
+                           MailService mailService){
+
         this.userRepository = userRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.passwordEncoder = passwordEncoder;
         this.refreshTokenRepository = refreshTokenRepository;
+        this.mailService = mailService;
     }
     @Override
     public ResponseSignUpDto signUp(RequestSignUpDto requestSignUpDto) {
@@ -50,7 +59,7 @@ public class SignServiceImpl implements SignService {
         String role = requestSignUpDto.getRole();
 
         if(userRepository.getByUsername(username).isPresent()){   //아이디 중복 확인
-            throw new RuntimeException("아이디 중복 발생");
+            throw new CustomException(ConstantsClass.ExceptionClass.APPLICATION, HttpStatus.CONFLICT, "아이디 중복");
         }
 
         if(role.equalsIgnoreCase("admin")){
@@ -94,12 +103,12 @@ public class SignServiceImpl implements SignService {
         String password = requestSignInDto.getPassword();
 
         User user = userRepository.getByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("SignIn ==> 유저 정보 찾지 못함"));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.BAD_REQUEST, "잘못된 id"));
 
         log.info("회원 id : " + username);
 
         if(!passwordEncoder.matches(password, user.getPassword())){
-            throw new RuntimeException("비밀번호 불일치");
+            throw new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.BAD_REQUEST, "비밀번호 불일치");
         }
 
         log.info("비밀번호 일치");
@@ -202,6 +211,7 @@ public class SignServiceImpl implements SignService {
 
         return responseRefreshDto;
     }
+
 
 
     private void setSuccess(ResponseSignUpDto responseSignUpDto){

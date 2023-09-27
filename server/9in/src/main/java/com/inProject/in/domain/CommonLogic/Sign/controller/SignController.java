@@ -1,6 +1,7 @@
 package com.inProject.in.domain.CommonLogic.Sign.controller;
 
-import com.inProject.in.domain.CommonLogic.Sign.Dto.*;
+import com.inProject.in.domain.CommonLogic.Sign.Dto.request.*;
+import com.inProject.in.domain.CommonLogic.Sign.Dto.response.*;
 import com.inProject.in.domain.CommonLogic.Sign.service.SignService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -65,19 +66,21 @@ public class SignController {
         throw new RuntimeException("접근이 금지되었습니다.");
     }
 
-    @ExceptionHandler(value = RuntimeException.class)
-    public ResponseEntity<Map<String, String>> ExceptionHandler(RuntimeException e){
-        HttpHeaders responseHeaders = new HttpHeaders();
-        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 
-        log.info("ExceptionHandler ==> " + e.getCause() + " " + e.getMessage());
 
-        Map<String, String> m = new HashMap<>();
-
-        m.put("error type", httpStatus.getReasonPhrase());
-        m.put("code", "400");
-        m.put("message", "에러 발생");
-
-        return new ResponseEntity<>(m, responseHeaders, httpStatus);
-    }
+//    @ExceptionHandler(value = RuntimeException.class)
+//    public ResponseEntity<Map<String, String>> ExceptionHandler(RuntimeException e){
+//        HttpHeaders responseHeaders = new HttpHeaders();
+//        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+//
+//        log.info("ExceptionHandler ==> " + e.getCause() + " " + e.getMessage());
+//
+//        Map<String, String> m = new HashMap<>();
+//
+//        m.put("error type", httpStatus.getReasonPhrase());
+//        m.put("code", "400");
+//        m.put("message", "에러 발생");
+//
+//        return new ResponseEntity<>(m, responseHeaders, httpStatus);
+//    }
 }

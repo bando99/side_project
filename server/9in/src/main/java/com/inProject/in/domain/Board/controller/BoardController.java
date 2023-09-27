@@ -104,7 +104,10 @@ public class BoardController {
     @PostMapping()
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)   //swagger에서 헤더로 토큰을 전송하기 위해 입력창을 만든다.
     @Operation(summary = "게시글 생성", description = "게시글 하나를 작성합니다.", responses = {
-            @ApiResponse
+            @ApiResponse(responseCode = "200", description = "게시글 생성 성공", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ResponseBoardDto.class))
+            })
     })
     public ResponseEntity<ResponseBoardDto> createBoard(@RequestBody RequestCreateBoardDto requestCreateBoardDto, HttpServletRequest request) throws CustomException{
 
@@ -128,7 +131,7 @@ public class BoardController {
     @PutMapping("/{board_id}")
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)
     @Parameter(name = "board_id", description = "게시글 ID", in = ParameterIn.PATH, schema = @Schema(type = "integer", format = "int64"))
-    @Operation(summary = "게시글 수정", description = "게시글 하나를 업데이트 합니다.")
+    @Operation(summary = "게시글 수정", description = "게시글 하나를 업데이트 합니다.", responses = {})
     public ResponseEntity<ResponseBoardDto> updateBoard(@PathVariable(name = "board_id") Long board_id,
                                                         @RequestBody RequestUpdateBoardDto requestUpdateBoardDto,
                                                         HttpServletRequest request

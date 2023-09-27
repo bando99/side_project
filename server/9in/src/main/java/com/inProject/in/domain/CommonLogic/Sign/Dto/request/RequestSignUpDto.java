@@ -1,4 +1,4 @@
-package com.inProject.in.domain.CommonLogic.Sign.Dto;
+package com.inProject.in.domain.CommonLogic.Sign.Dto.request;
 
 import lombok.*;
 
