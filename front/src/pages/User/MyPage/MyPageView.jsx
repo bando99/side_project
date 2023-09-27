@@ -29,7 +29,9 @@ export default function MyPage() {
         />
         <MypageEtc />
       </Section1>
-        <MypageLicese />
+        <MypageLicese 
+          token={refreshToken}
+        />
         <MypageJob />
         <MypageProject />
     </Mypage>
