@@ -22,7 +22,7 @@ export default function MyPage() {
     <Mypage>
       <Section1>
         <MypageUser 
-          token={token}
+          token={refreshToken}
         />
         <MypageSchool 
           token={refreshToken}
@@ -32,8 +32,12 @@ export default function MyPage() {
         <MypageLicese 
           token={refreshToken}
         />
-        <MypageJob />
-        <MypageProject />
+        <MypageJob 
+          token={refreshToken}
+        />
+        <MypageProject 
+          token={refreshToken}
+        />
     </Mypage>
   );
 }
