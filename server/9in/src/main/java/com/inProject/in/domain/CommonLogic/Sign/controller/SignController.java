@@ -4,6 +4,7 @@ import com.inProject.in.domain.CommonLogic.Sign.Dto.*;
 import com.inProject.in.domain.CommonLogic.Sign.service.SignService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,7 @@ public class SignController {
     @PostMapping("/sign-up")
     @Operation(summary = "회원가입", description = "회원가입을 시도합니다.")
     public ResponseEntity<ResponseSignUpDto> signUp(@RequestBody RequestSignUpDto requestSignUpDto){
+
         log.info("SignController signUp ==> 회원가입 시도   id : " + requestSignUpDto.getUsername() + " mail : " + requestSignUpDto.getMail() +
                 " role : " + requestSignUpDto.getRole());
         ResponseSignUpDto responseSignUpDto = signService.signUp(requestSignUpDto);

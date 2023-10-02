@@ -12,13 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/boards")
@@ -40,7 +40,6 @@ public class BoardController {
 
         ResponseBoardDto responseBoardDto = boardService.getBoard(board_id);
 
-
         return ResponseEntity.status(HttpStatus.OK).body(responseBoardDto);
     }
 
@@ -54,20 +53,10 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.OK).body(responseBoardDtoList);
     }
 
-
     @PostMapping()
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)   //swagger에서 헤더로 토큰을 전송하기 위해 입력창을 만든다.
     @Operation(summary = "게시글 생성", description = "게시글 하나를 작성합니다.")
     public ResponseEntity<ResponseBoardDto> createBoard(@RequestBody RequestCreateBoardDto requestCreateBoardDto, HttpServletRequest request){
-
-//        RequestBoardDto requestBoardDto = requestCreateBoardDto.toBoardDto();
-////        Long user_id = requestCreateBoardDto.getUser_id();
-////        List<RequestSkillTagDto> requestSkillTagDtoList = new ArrayList<>();        //requestCreateDto에 requestSkilltagDto를 포함할까 고민중..
-////        List<RequestUsingInBoardDto> requestRoleNeededDtoList = requestCreateBoardDto.getRoleNeededDtoList();
-////
-////        for(String tagName : requestCreateBoardDto.getTagNames()) {
-////            requestSkillTagDtoList.add(new RequestSkillTagDto(tagName));
-////        }
 
         ResponseBoardDto responseBoardDto = boardService.createBoard(requestCreateBoardDto, request);
 
@@ -96,6 +85,5 @@ public class BoardController {
         boardService.deleteBoard(board_id, request);
         return ResponseEntity.status(HttpStatus.OK).body("성공적으로 게시글 삭제");
     }
-
 
 }

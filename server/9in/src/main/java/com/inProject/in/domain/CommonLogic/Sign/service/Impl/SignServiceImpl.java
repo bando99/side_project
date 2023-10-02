@@ -43,6 +43,7 @@ public class SignServiceImpl implements SignService {
     public ResponseSignUpDto signUp(RequestSignUpDto requestSignUpDto) {
         log.info("SignService signup ==> 회원가입 정보 확인");
         User user;
+        //String userId = requestSignUpDto.getUserId();
         String username = requestSignUpDto.getUsername();
         String password = requestSignUpDto.getPassword();
         String mail = requestSignUpDto.getMail();
@@ -54,6 +55,7 @@ public class SignServiceImpl implements SignService {
 
         if(role.equalsIgnoreCase("admin")){
             user = User.builder()
+                    //.userId(userId)
                     .username(username)
                     .password(passwordEncoder.encode(password))
                     .mail(mail)
@@ -68,7 +70,7 @@ public class SignServiceImpl implements SignService {
                     .roles(Collections.singletonList("ROLE_USER"))
                     .build();
         }
-
+        // 여기서 오류 뜨는데 Error: 1364-HY000: Field 'user_id' doesn't have a default value
         User savedUser = userRepository.save(user);
         ResponseSignUpDto responseSignUpDto = new ResponseSignInDto();
 

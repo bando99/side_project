@@ -5,6 +5,7 @@ import com.inProject.in.domain.User.Dto.UpdateUserDto;
 import com.inProject.in.domain.User.Dto.RequestUserDto;
 import com.inProject.in.domain.User.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +22,13 @@ public class UserController {
         this.userService = userService;
     }
 
-
-
-    @PostMapping()
-    public ResponseEntity<ResponseUserDto> createUser(@RequestBody RequestUserDto requestUserDto){
-
-        ResponseUserDto responseUserDto = userService.createUser(requestUserDto);
-
-        return ResponseEntity.status(HttpStatus.OK).body(responseUserDto);
-    }
+//    @PostMapping()
+//    public ResponseEntity<ResponseUserDto> createUser(@Valid @RequestBody RequestUserDto requestUserDto){
+//
+//        ResponseUserDto responseUserDto = userService.createUser(requestUserDto);
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(responseUserDto);
+//    }
 
     @PatchMapping("/{user_id}")
     public ResponseEntity<ResponseUserDto> updateUser(@PathVariable Long user_id,

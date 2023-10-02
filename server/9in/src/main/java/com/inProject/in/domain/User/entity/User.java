@@ -42,10 +42,11 @@ public class User extends BaseEntity implements UserDetails{
     @Column
     private Long id;
 
+//    @Column(nullable = false)
+//    private String userId;
     @Column(nullable = false)
     private String username;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)       //JSON직렬화 (java 객체에서 json으로 변환) 때만 포함한다는 뜻.
-    @Column(nullable = false)                                    //역직렬화 (json에서 java객체로 변환) 시에는 무시된다.
+    @Column(nullable = false)
     private String password;
     @Column(nullable = false)
     private String mail;
@@ -126,16 +127,15 @@ public class User extends BaseEntity implements UserDetails{
         return true;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public void updateUser(UpdateUserDto updateUserDto){
         this.username = updateUserDto.getUsername();
         this.password = updateUserDto.getPassword();
         this.mail = updateUserDto.getMail();
-//        this.authoredBoardList = userDto.getAuthoredBoardList();
-//        this.applicantBoardRelationList = userDto.getApplicantBoardRelationList();
-//        this.applicantRoleRelationList = userDto.getApplicantRoleRelationList();
-//        this.clipBoardRelationList = userDto.getClipBoardRelationList();
-//        this.commentList = userDto.getCommentList();
+
     }
 
 }
