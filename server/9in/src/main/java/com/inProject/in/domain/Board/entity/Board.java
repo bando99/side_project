@@ -14,6 +14,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,8 +30,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "board") //테이블과 매핑
+@SQLDelete(sql = "UPDATE board SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Board extends BaseEntity {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
     @Column(nullable = false)
     private String type;
     @Column(nullable = false)
@@ -43,6 +50,9 @@ public class Board extends BaseEntity {
 
     @Column
     private int comment_cnt;  //댓글 개수
+
+    @Column
+    private boolean deleted = Boolean.FALSE;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

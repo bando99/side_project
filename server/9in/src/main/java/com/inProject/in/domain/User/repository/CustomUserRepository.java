@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 public interface CustomUserRepository {
+
     List<User> findSomeUser();
     User findByIdAndPassword(Long id, String password );
 }

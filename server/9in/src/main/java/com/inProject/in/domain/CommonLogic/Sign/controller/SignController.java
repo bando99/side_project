@@ -1,9 +1,6 @@
 package com.inProject.in.domain.CommonLogic.Sign.controller;
 
-import com.inProject.in.domain.CommonLogic.Sign.Dto.RequestSignInDto;
-import com.inProject.in.domain.CommonLogic.Sign.Dto.RequestSignUpDto;
-import com.inProject.in.domain.CommonLogic.Sign.Dto.ResponseSignInDto;
-import com.inProject.in.domain.CommonLogic.Sign.Dto.ResponseSignUpDto;
+import com.inProject.in.domain.CommonLogic.Sign.Dto.*;
 import com.inProject.in.domain.CommonLogic.Sign.service.SignService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,7 +30,7 @@ public class SignController {
 
     @PostMapping("/sign-in")
     @Operation(summary = "로그인 시도", description = "생성되어있는 계정으로 로그인합니다.")
-    public ResponseSignInDto signIn(@Valid @RequestBody RequestSignInDto requestSignInDto) throws RuntimeException{
+    public ResponseEntity<ResponseSignInDto> signIn(@RequestBody RequestSignInDto requestSignInDto) throws RuntimeException{
         log.info("SignController signIn ==> 로그인 시도   id : " + requestSignInDto.getUsername());
 
         ResponseSignInDto responseSignInDto = signService.signIn(requestSignInDto);
@@ -42,18 +39,27 @@ public class SignController {
             log.info("로그인 성공 ==> token : " + responseSignInDto.getToken());
         }
 
-        return responseSignInDto;
+        return ResponseEntity.status(HttpStatus.OK).body(responseSignInDto);
     }
 
     @PostMapping("/sign-up")
     @Operation(summary = "회원가입", description = "회원가입을 시도합니다.")
-    public ResponseSignUpDto signUp(@Valid @RequestBody RequestSignUpDto requestSignUpDto){
+    public ResponseEntity<ResponseSignUpDto> signUp(@RequestBody RequestSignUpDto requestSignUpDto){
+
         log.info("SignController signUp ==> 회원가입 시도   id : " + requestSignUpDto.getUsername() + " mail : " + requestSignUpDto.getMail() +
                 " role : " + requestSignUpDto.getRole());
         ResponseSignUpDto responseSignUpDto = signService.signUp(requestSignUpDto);
 
         log.info("회원가입 완료");
-        return responseSignUpDto;
+        return ResponseEntity.status(HttpStatus.OK).body(responseSignUpDto);
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<ResponseRefreshDto> reissue(@RequestBody RequestRefreshDto requestRefreshDto){
+        log.info("SignController reissue ==> 토큰 재발급 메서드");
+        ResponseRefreshDto responseRefreshDto = signService.reissue(requestRefreshDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseRefreshDto);
     }
 
     @GetMapping("/exception")

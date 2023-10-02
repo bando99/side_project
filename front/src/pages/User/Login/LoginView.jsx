@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../../../ components/context/AuthContext';
 
 const Container = styled.section`
   display: flex;
@@ -137,9 +138,11 @@ const JoinText = styled.p`
   }
 `;
 
-function LoginView() {
+export default function LoginView() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const { login } = useAuth();
 
   const navigate = useNavigate();
 
@@ -178,8 +181,10 @@ function LoginView() {
       );
       console.log('로그인 성공');
       console.log(response.data.token);
-      const token = response.data.token;
-      localStorage.setItem('token', token);
+      const newToken = response.data.token;
+      login(newToken);
+
+      localStorage.setItem('token', newToken);
       navigate('/');
     } catch (error) {
       console.error('로그인 실패', error);
@@ -238,5 +243,3 @@ function LoginView() {
     </Container>
   );
 }
-
-export default LoginView;
