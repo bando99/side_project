@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useFetchData from '../../ components/hooks/getPostList';
 import axios from 'axios';
 import Modal from '../../ components/Mypage/MypageModal';
+import { refreshTokenAndRetry } from '../../api/user';
 
 export default function RecruitStatusView() {
   const { data: postList, Loading, error } = useFetchData('/boards');
@@ -35,33 +36,19 @@ export default function RecruitStatusView() {
       console.log(error.response.data);
       if (error.response.data.msg == '인증이 실패했습니다.') {
         console.log(error.response.data.msg);
-        const refreshData = {
-          refreshToken: localStorage.getItem('refreshToken'),
-        };
+
         try {
-          const refreshResponse = await axios.post(
-            'http://1.246.104.170:8080/sign/reissue',
-            refreshData
-          );
-
-          // 새로운 액세스 토큰 저장
-          const newAccessToken = refreshResponse.data.accessToken;
-          const newRefreshToken = refreshResponse.data.refreshToken;
-          localStorage.setItem('token', newAccessToken);
-          localStorage.setItem('refreshToken', newRefreshToken);
-
-          // 새로운 액세스 토큰을 사용하여 원래의 요청 다시 보내기
-          const retryResponse = await axios.delete(
+          const retryResponse = await refreshTokenAndRetry(
+            'delete',
             `http://1.246.104.170:8080/boards/${board_id}`,
+            null,
             {
-              headers: {
-                'X-AUTH-TOKEN': newAccessToken,
-              },
+              'X-AUTH-TOKEN': localStorage.getItem('token'),
             }
           );
-          console.log('글 삭제 성공 (재시도)');
-        } catch (refreshError) {
-          console.error('새로운 액세스 토큰 얻기 실패', refreshError);
+          console.log(retryResponse);
+        } catch (retryError) {
+          console.log(retryError);
         }
       }
     }

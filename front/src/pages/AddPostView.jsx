@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { refreshTokenAndRetry } from '../api/user';
 
 export default function AddPost() {
   const [formData, setFormData] = useState({
@@ -136,36 +137,19 @@ export default function AddPost() {
       console.log(error.response.data);
       if (error.response.data.msg == '인증이 실패했습니다.') {
         console.log(error.response.data.msg);
-        const refreshData = {
-          refreshToken: localStorage.getItem('refreshToken'),
-        };
+
         try {
-          const refreshResponse = await axios.post(
-            'http://1.246.104.170:8080/sign/reissue',
-            refreshData
-          );
-
-          // 새로운 액세스 토큰 저장
-          const newAccessToken = refreshResponse.data.accessToken;
-          const newRefreshToken = refreshResponse.data.refreshToken;
-          localStorage.setItem('token', newAccessToken);
-          localStorage.setItem('refreshToken', newRefreshToken);
-
-          // 새로운 액세스 토큰을 사용하여 원래의 요청 다시 보내기
-          const retryResponse = await axios.post(
+          const retryResponse = await refreshTokenAndRetry(
+            'post',
             'http://1.246.104.170:8080/boards',
             postData,
             {
-              headers: {
-                'X-AUTH-TOKEN': newAccessToken,
-              },
+              'X-AUTH-TOKEN': localStorage.getItem('token'),
             }
           );
-          console.log('글 작성 성공 (재시도)');
-          alert('글 작성 성공');
-          navigate('/');
-        } catch (refreshError) {
-          console.error('새로운 액세스 토큰 얻기 실패', refreshError);
+          console.log(retryResponse);
+        } catch (retryError) {
+          console.log(retryError);
         }
       }
     }
