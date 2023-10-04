@@ -5,6 +5,7 @@ import com.inProject.in.domain.CommonLogic.Sign.Dto.response.*;
 import com.inProject.in.domain.CommonLogic.Sign.service.SignService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,9 +55,9 @@ public class SignController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<ResponseRefreshDto> reissue(@RequestBody RequestRefreshDto requestRefreshDto){
+    public ResponseEntity<ResponseRefreshDto> reissue(@RequestBody RequestRefreshDto requestRefreshDto, HttpServletRequest request){
         log.info("SignController reissue ==> 토큰 재발급 메서드");
-        ResponseRefreshDto responseRefreshDto = signService.reissue(requestRefreshDto);
+        ResponseRefreshDto responseRefreshDto = signService.reissue(requestRefreshDto, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseRefreshDto);
     }

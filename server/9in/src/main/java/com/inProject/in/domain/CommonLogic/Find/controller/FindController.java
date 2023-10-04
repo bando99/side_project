@@ -3,6 +3,7 @@ package com.inProject.in.domain.CommonLogic.Find.controller;
 import com.inProject.in.domain.CommonLogic.Change.Dto.response.ResponseChangeDto;
 import com.inProject.in.domain.CommonLogic.Find.Dto.request.RequestCheckIdDto;
 import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseCheckIdDto;
+import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseFindPwDto;
 import com.inProject.in.domain.CommonLogic.Find.service.FindService;
 import com.inProject.in.domain.CommonLogic.Find.Dto.request.RequestFindDto;
 import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseFindIdDto;
@@ -63,11 +64,11 @@ public class FindController {
                     }),
                     @ApiResponse(responseCode = "400", description = "비밀번호 찾기실패")
             })
-    public ResponseEntity<String> findPw(@RequestBody RequestFindDto requestFindDto){
+    public ResponseEntity<ResponseFindPwDto> findPw(@RequestBody RequestFindDto requestFindDto){
         log.info("SignController findPw ==> 비밀번호 찾기 시작");
         findService.findPw(requestFindDto);
         String message = "임시 비밀번호 생성 성공";
 
-        return ResponseEntity.status(HttpStatus.OK).body(message);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseFindPwDto(message, true));
     }
 }

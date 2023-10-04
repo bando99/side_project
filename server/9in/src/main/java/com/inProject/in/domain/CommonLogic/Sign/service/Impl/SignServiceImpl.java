@@ -6,12 +6,13 @@ import com.inProject.in.Global.exception.CustomException;
 import com.inProject.in.config.security.JwtTokenProvider;
 import com.inProject.in.domain.CommonLogic.Mail.service.MailService;
 import com.inProject.in.domain.CommonLogic.RefreshToken.entity.RefreshToken;
-import com.inProject.in.domain.CommonLogic.RefreshToken.repository.RefreshTokenRepository;
+import com.inProject.in.domain.CommonLogic.RefreshToken.repository.RefreshTokenRepository1;
 import com.inProject.in.domain.CommonLogic.Sign.Dto.request.*;
 import com.inProject.in.domain.CommonLogic.Sign.Dto.response.*;
 import com.inProject.in.domain.CommonLogic.Sign.service.SignService;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +34,14 @@ public class SignServiceImpl implements SignService {
     private UserRepository userRepository;
     private JwtTokenProvider jwtTokenProvider;
     private PasswordEncoder passwordEncoder;
-    private RefreshTokenRepository refreshTokenRepository;
+    private RefreshTokenRepository1 refreshTokenRepository;
     private final MailService mailService;
 
     @Autowired
     public SignServiceImpl(UserRepository userRepository,
                            JwtTokenProvider jwtTokenProvider,
                            PasswordEncoder passwordEncoder,
-                           RefreshTokenRepository refreshTokenRepository,
+                           RefreshTokenRepository1 refreshTokenRepository,
                            MailService mailService){
 
         this.userRepository = userRepository;
@@ -59,7 +60,7 @@ public class SignServiceImpl implements SignService {
         String role = requestSignUpDto.getRole();
 
         if(userRepository.getByUsername(username).isPresent()){   //아이디 중복 확인
-            throw new CustomException(ConstantsClass.ExceptionClass.APPLICATION, HttpStatus.CONFLICT, "아이디 중복");
+            throw new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.CONFLICT, "아이디 중복");
         }
 
         if(role.equalsIgnoreCase("admin")){
@@ -113,8 +114,8 @@ public class SignServiceImpl implements SignService {
 
         log.info("비밀번호 일치");
 
-        String accessToken = jwtTokenProvider.createToken(String.valueOf(user.getUsername()), user.getRoles());
-        String refreshToken = jwtTokenProvider.createRefreshToken(String.valueOf(user.getUsername()), user.getRoles());
+        String accessToken = jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
+        String refreshToken = jwtTokenProvider.createRefreshToken(user.getUsername());
 
        // Optional<RefreshToken> findRefreshToken = refreshTokenRepository.getByUsername(username);
 
@@ -132,15 +133,15 @@ public class SignServiceImpl implements SignService {
 //            RefreshToken savedRefreshToken = refreshTokenRepository.save(findRefreshToken.get());
 //        }
 
-        refreshTokenRepository.getByUsername(username)         //위의 if문은 이렇게 간단하게도 만들 수 있다.
+        refreshTokenRepository.findByUsername(username)         //위의 if문은 이렇게 간단하게도 만들 수 있다.
                 .ifPresentOrElse(
                         token -> {
                             token.updateRefreshToken(refreshToken);
                             log.info("updated refresh token : " + token.toString());
                             },
                         () -> {
-                            RefreshToken refreshToken1 = refreshTokenRepository.save(new RefreshToken(user, refreshToken));
-                            log.info("new refresh token : " + refreshToken1.toString());
+                            refreshTokenRepository.save(new RefreshToken(username, refreshToken));
+                            log.info("new refresh token " + username);
                         }
                         );
 
@@ -158,7 +159,7 @@ public class SignServiceImpl implements SignService {
     }
 
     @Override
-    public ResponseRefreshDto reissue(RequestRefreshDto requestRefreshDto) {
+    public ResponseRefreshDto reissue(RequestRefreshDto requestRefreshDto, HttpServletRequest request) {
 
         log.info("reissue ==> refresh 토큰 통한 토큰 재발급 시작");
         log.info("get refreshtoken : " + requestRefreshDto.getRefreshToken());
@@ -170,39 +171,44 @@ public class SignServiceImpl implements SignService {
         }
         log.info("reissue ==> refresh 토큰 검증 성공");
 
+//        Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
+//        String username = authentication.getName();
 
-        Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
-        String username = authentication.getName();
+        String username = jwtTokenProvider.getUsername(refreshToken);
 
-        RefreshToken findRefreshToken = refreshTokenRepository.getByUsername(username)    //DB에 실제로 그 유저에게 발급된 refresh토큰이 있는지 확인
-                .orElseThrow(() -> new RuntimeException("로그아웃된 사용자"));
+        RefreshToken findRefreshToken = refreshTokenRepository.findByUsername(username)    //DB에 실제로 그 유저에게 발급된 refresh토큰이 있는지 확인
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.BAD_REQUEST, "refresh토큰 만료. 로그아웃된 사용자"));
         log.info("reissue ==> DB에 사용자 이름과 refresh 토큰 존재 확인");
 
 
         if(!findRefreshToken.getRefreshToken().equals(refreshToken)){
-            throw new RuntimeException("토큰에 있는 정보와 일치하지 않음.");
+            throw new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.BAD_REQUEST, "DB의 refresh토큰과 일치하지 않음.");
         }
         log.info("reissue ==> DB refresh token과 일치 확인");
 
+        User user = userRepository.getByUsername(username)
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.BAD_REQUEST, username + " 은 없는 사용자 아이디입니다."));
 
 
         String newAccessToken = jwtTokenProvider.createToken(     //새로운 토큰 발급.
                 username,
-                authentication.getAuthorities()
+//                authentication.getAuthorities()
+//                        .stream()
+//                        .map(Objects::toString)
+//                        .collect(Collectors.toList())
+                user.getAuthorities()
                         .stream()
                         .map(Objects::toString)
                         .collect(Collectors.toList())
         );
 
         log.info("reissue ==> 새 토큰 발급 : " + newAccessToken);
+        log.info("토큰 authorities : " +  user.getAuthorities()
+                .stream()
+                .map(Objects::toString)
+                .collect(Collectors.toList()));        //잘 되는 지 확인용. 나중엔 지워야 함.
 
-        String newRefreshToken = jwtTokenProvider.createRefreshToken(
-                username,
-                authentication.getAuthorities()
-                        .stream()
-                        .map(Objects::toString)
-                        .collect(Collectors.toList())
-        );
+        String newRefreshToken = jwtTokenProvider.createRefreshToken(username);
 
         findRefreshToken.updateRefreshToken(newRefreshToken);    //refresh 토큰도 업데이트.
         refreshTokenRepository.save(findRefreshToken);
