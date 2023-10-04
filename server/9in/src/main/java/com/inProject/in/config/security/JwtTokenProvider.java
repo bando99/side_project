@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,13 +22,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor    //생성자로 의존성 주입받을 때 final 필드들은 이 어노테이션으로 주입 가능
 public class JwtTokenProvider {
     private final Logger log = LoggerFactory.getLogger(JwtTokenProvider.class);
     private final UserDetailsService userDetailsService;
-
+    private final RedisTemplate redisTemplate;
     @Value("${springboot.jwt.secret}")
     private String secretKey = "secretKey-for-authorization-jwtToken";
     private final long tokenValidMilliSecond = 1000L * 60 * 60;
@@ -103,6 +105,10 @@ public class JwtTokenProvider {
     public boolean validateToken(String token){
         log.info("JwtToken validateToken ==> 토큰 유효성 체크 시작");
         try{
+            if(!Objects.isNull(redisTemplate.opsForValue().get(token))){   //블랙리스트에 등록된 token -> 로그아웃한 유저.
+                return false;
+            }
+
             Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secretKey).build()  //jws = json web signature(서명)
                     .parseClaimsJws(token);  //header, payload 파싱해서 json 형태로 변환 -> 지정된 비밀키로 서명 검증.
 
@@ -125,9 +131,19 @@ public class JwtTokenProvider {
 
             return !claims.getBody().getExpiration().before(new Date());
         }catch (Exception e){
-            log.info("JwtToken validateRefreshToken ==> 예외 발생");
+            log.info("JwtToken validateRefreshToken ==> 예외 발생 : " + e.getMessage());
             return false;
         }
+    }
+
+    public Long getExpiration(String accessToken){
+        log.info("JwtToken getExpiration ==> 토큰의 만료 시간 반환 시작");
+        Date expire = Jwts.parserBuilder().setSigningKey(secretKey)
+                .build().parseClaimsJws(accessToken).getBody().getExpiration();
+
+        long now = new Date().getTime();
+
+        return (expire.getTime() - now);
     }
 
 }

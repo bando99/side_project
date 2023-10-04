@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,19 +38,22 @@ public class SignServiceImpl implements SignService {
     private PasswordEncoder passwordEncoder;
     private RefreshTokenRepository1 refreshTokenRepository;
     private final MailService mailService;
+    private RedisTemplate redisTemplate;
 
     @Autowired
     public SignServiceImpl(UserRepository userRepository,
                            JwtTokenProvider jwtTokenProvider,
                            PasswordEncoder passwordEncoder,
                            RefreshTokenRepository1 refreshTokenRepository,
-                           MailService mailService){
+                           MailService mailService,
+                           RedisTemplate redisTemplate){
 
         this.userRepository = userRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.passwordEncoder = passwordEncoder;
         this.refreshTokenRepository = refreshTokenRepository;
         this.mailService = mailService;
+        this.redisTemplate = redisTemplate;
     }
     @Override
     public ResponseSignUpDto signUp(RequestSignUpDto requestSignUpDto) {
@@ -171,9 +176,6 @@ public class SignServiceImpl implements SignService {
         }
         log.info("reissue ==> refresh 토큰 검증 성공");
 
-//        Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
-//        String username = authentication.getName();
-
         String username = jwtTokenProvider.getUsername(refreshToken);
 
         RefreshToken findRefreshToken = refreshTokenRepository.findByUsername(username)    //DB에 실제로 그 유저에게 발급된 refresh토큰이 있는지 확인
@@ -192,10 +194,6 @@ public class SignServiceImpl implements SignService {
 
         String newAccessToken = jwtTokenProvider.createToken(     //새로운 토큰 발급.
                 username,
-//                authentication.getAuthorities()
-//                        .stream()
-//                        .map(Objects::toString)
-//                        .collect(Collectors.toList())
                 user.getAuthorities()
                         .stream()
                         .map(Objects::toString)
@@ -218,7 +216,24 @@ public class SignServiceImpl implements SignService {
         return responseRefreshDto;
     }
 
+    public void logout(RequestLogoutDto requestLogoutDto){
+        String accessToken = requestLogoutDto.getAccessToken();
+        String refreshToken = requestLogoutDto.getRefreshToken();
 
+        if(!jwtTokenProvider.validateToken(accessToken)){   //access 토큰이 유효한 지 검사한다.
+            throw new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.BAD_REQUEST, "로그아웃에서 유효하지 않은 access 토큰");
+        }
+        log.info("logout 전 access 토큰 유효성 검사 완료");
+
+        String username = jwtTokenProvider.getUsername(accessToken);
+
+        if(!refreshTokenRepository.findByUsername(username).isEmpty()){  //redis 에 있는 유저의 refresh토큰을 삭제한다.
+            refreshTokenRepository.delete(username);
+        }
+
+        Long expiration = jwtTokenProvider.getExpiration(accessToken);
+        redisTemplate.opsForValue().set(accessToken, "blackListed", expiration, TimeUnit.MILLISECONDS);  //블랙리스트에 access토큰등록. 토큰이 만료될때까지, redis에 등록됨.
+    }
 
     private void setSuccess(ResponseSignUpDto responseSignUpDto){
         responseSignUpDto.setSuccess(true);

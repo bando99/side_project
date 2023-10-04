@@ -8,4 +8,5 @@ public interface SignService {
     ResponseSignUpDto signUp(RequestSignUpDto requestSignUpDto);
     ResponseSignInDto signIn(RequestSignInDto requestSignInDto);
     ResponseRefreshDto reissue(RequestRefreshDto requestRefreshDto, HttpServletRequest request);
+    void logout(RequestLogoutDto requestLogoutDto);
 }

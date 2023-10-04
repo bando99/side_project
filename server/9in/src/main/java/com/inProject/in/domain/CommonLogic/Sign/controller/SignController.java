@@ -62,6 +62,13 @@ public class SignController {
         return ResponseEntity.status(HttpStatus.OK).body(responseRefreshDto);
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestBody RequestLogoutDto requestLogoutDto){
+        log.info("SignController logout ==> 로그아웃 시작");
+        signService.logout(requestLogoutDto);
+        return ResponseEntity.ok("로그아웃 완료");
+    }
+
     @GetMapping("/exception")
     public void exception() throws RuntimeException{
         throw new RuntimeException("접근이 금지되었습니다.");
