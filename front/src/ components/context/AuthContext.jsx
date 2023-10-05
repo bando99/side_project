@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext();
@@ -17,8 +18,25 @@ export function AuthProvider({ children }) {
   };
 
   // 로그아웃
-  const logout = () => {
+  const logout = async () => {
     setToken(null);
+
+    // 서버로 로그아웃 전송
+    const userData = {
+      accessToken: localStorage.getItem('token'),
+      refreshToken: localStorage.getItem('refreshToken'),
+    };
+    try {
+      const response = await axios.post(
+        'http://1.246.104.170:8080/sign/logout',
+        userData
+      );
+      console.log('로그아웃 성공');
+      console.log(response.data);
+    } catch (error) {
+      console.error('로그아웃 실패', error);
+    }
+
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
     setUser_id(0);
