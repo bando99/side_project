@@ -130,11 +130,6 @@ public class User extends BaseEntity implements UserDetails{
         this.username = updateUserDto.getUsername();
         this.password = updateUserDto.getPassword();
         this.mail = updateUserDto.getMail();
-//        this.authoredBoardList = userDto.getAuthoredBoardList();
-//        this.applicantBoardRelationList = userDto.getApplicantBoardRelationList();
-//        this.applicantRoleRelationList = userDto.getApplicantRoleRelationList();
-//        this.clipBoardRelationList = userDto.getClipBoardRelationList();
-//        this.commentList = userDto.getCommentList();
     }
 
 }

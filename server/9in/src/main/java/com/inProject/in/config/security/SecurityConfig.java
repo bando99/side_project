@@ -32,6 +32,7 @@ public class SecurityConfig  {   //WebSecurityConfigurerAdapter 상속받아서 
             "/skillTag**",
             "/roleNeeded**",
             "/find/**",
+            "/change/**",
             "/users/**"
     };
     @Bean

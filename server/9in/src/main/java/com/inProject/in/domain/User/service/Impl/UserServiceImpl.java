@@ -1,5 +1,7 @@
 package com.inProject.in.domain.User.service.Impl;
 
+import com.inProject.in.Global.exception.ConstantsClass;
+import com.inProject.in.Global.exception.CustomException;
 import com.inProject.in.domain.User.Dto.ResponseUserDto;
 import com.inProject.in.domain.User.Dto.UpdateUserDto;
 import com.inProject.in.domain.User.Dto.RequestUserDto;
@@ -9,6 +11,7 @@ import com.inProject.in.domain.User.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -63,9 +66,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws CustomException {
         log.info("UserService loadUserByUsername ==> username : " + username);
         return userRepository.getByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("loadUserByUsername에서 username으로 user 찾지 못함"));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.USER, HttpStatus.BAD_REQUEST, "loadUserByUsername에서 username으로 user 찾지 못함"));
     }
 }
