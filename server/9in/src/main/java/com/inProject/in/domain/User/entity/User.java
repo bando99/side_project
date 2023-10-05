@@ -91,7 +91,7 @@ public class User extends BaseEntity implements UserDetails{
 
     //권한 인증
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 

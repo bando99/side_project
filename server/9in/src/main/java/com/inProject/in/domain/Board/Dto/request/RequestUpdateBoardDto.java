@@ -1,4 +1,4 @@
-package com.inProject.in.domain.Board.Dto;
+package com.inProject.in.domain.Board.Dto.request;
 
 
 import com.inProject.in.domain.RoleNeeded.Dto.RequestUsingInBoardDto;

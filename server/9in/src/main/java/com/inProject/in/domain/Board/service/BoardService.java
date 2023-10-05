@@ -1,9 +1,9 @@
 package com.inProject.in.domain.Board.service;
 
 import com.inProject.in.domain.Board.Dto.*;
-import com.inProject.in.domain.RoleNeeded.Dto.RequestRoleNeededDto;
-import com.inProject.in.domain.RoleNeeded.Dto.RequestUsingInBoardDto;
-import com.inProject.in.domain.SkillTag.Dto.RequestSkillTagDto;
+import com.inProject.in.domain.Board.Dto.request.RequestCreateBoardDto;
+import com.inProject.in.domain.Board.Dto.request.RequestSearchBoardDto;
+import com.inProject.in.domain.Board.Dto.request.RequestUpdateBoardDto;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Pageable;
 

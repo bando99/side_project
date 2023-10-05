@@ -1,12 +1,9 @@
-package com.inProject.in.domain.Board.Dto;
+package com.inProject.in.domain.Board.Dto.request;
 
-import com.inProject.in.domain.RoleNeeded.Dto.RequestRoleNeededDto;
 import com.inProject.in.domain.RoleNeeded.Dto.RequestUsingInBoardDto;
 import com.inProject.in.domain.SkillTag.Dto.RequestSkillTagDto;
 import lombok.*;
-import org.springframework.cglib.core.Local;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

@@ -5,5 +5,5 @@ import com.inProject.in.domain.CommonLogic.Application.Dto.ResponseApplicationDt
 
 public interface ApplicationService {
     ResponseApplicationDto createApplication(ApplicationDto applicationDto);
-    void deleteApplication(ApplicationDto applicationDto);
+    ResponseApplicationDto deleteApplication(ApplicationDto applicationDto);
 }

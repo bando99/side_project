@@ -172,7 +172,7 @@ public class SignServiceImpl implements SignService {
 
 
         if(!jwtTokenProvider.validateRefreshToken(refreshToken)){   //refresh 토큰이 유효기간이 지났는지 검증
-            throw new RuntimeException("refresh 토큰이 유효하지 않음.");
+            throw new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.BAD_REQUEST, "refresh 토큰이 유효하지 않음.");
         }
         log.info("reissue ==> refresh 토큰 검증 성공");
 

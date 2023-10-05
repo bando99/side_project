@@ -3,6 +3,9 @@ package com.inProject.in.domain.Board.controller;
 import com.inProject.in.Global.exception.ConstantsClass;
 import com.inProject.in.Global.exception.CustomException;
 import com.inProject.in.domain.Board.Dto.*;
+import com.inProject.in.domain.Board.Dto.request.RequestCreateBoardDto;
+import com.inProject.in.domain.Board.Dto.request.RequestSearchBoardDto;
+import com.inProject.in.domain.Board.Dto.request.RequestUpdateBoardDto;
 import com.inProject.in.domain.Board.service.BoardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,21 +15,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
