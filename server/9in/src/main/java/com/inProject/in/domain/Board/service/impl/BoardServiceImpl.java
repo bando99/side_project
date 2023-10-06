@@ -293,22 +293,6 @@ public class BoardServiceImpl implements BoardService {
         return responseBoardDtoList;
     }
 
-    @Override
-    public List<ResponseBoardListDto> getClipedBoards(Pageable pageable,HttpServletRequest request) {
-        List<ResponseBoardListDto> responseBoardDtoList = new ArrayList<>();
-        User user = getUserFromRequest(request);
-        Page<Board> boardPage = boardRepository.searchPostsByCliped(pageable, user);
-        List<Board> boardList = boardPage.getContent();
-
-        log.info("BoardService getClipedBoards ==> username : " + user.getUsername());
-
-        for(Board board : boardList){
-            ResponseBoardListDto responseBoardListDto = new ResponseBoardListDto(board);
-            responseBoardDtoList.add(responseBoardListDto);
-        }
-        return responseBoardDtoList;
-    }
-
 
     private User getUserFromRequest(HttpServletRequest request){
         String token = jwtTokenProvider.resolveToken(request);
@@ -323,7 +307,7 @@ public class BoardServiceImpl implements BoardService {
         else{
             throw new CustomException(ConstantsClass.ExceptionClass.USER, HttpStatus.UNAUTHORIZED, "token이 없거나, 권한이 유효하지 않습니다.");
         }
-
-
     }
+
+
 }

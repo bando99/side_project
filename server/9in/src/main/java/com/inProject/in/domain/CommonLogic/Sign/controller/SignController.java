@@ -1,9 +1,15 @@
 package com.inProject.in.domain.CommonLogic.Sign.controller;
 
+import com.inProject.in.Global.exception.ConstantsClass;
+import com.inProject.in.Global.exception.CustomException;
+import com.inProject.in.domain.Board.Dto.ResponseBoardDto;
 import com.inProject.in.domain.CommonLogic.Sign.Dto.request.*;
 import com.inProject.in.domain.CommonLogic.Sign.Dto.response.*;
 import com.inProject.in.domain.CommonLogic.Sign.service.SignService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -30,8 +36,14 @@ public class SignController {
     }
 
     @PostMapping("/sign-in")
-    @Operation(summary = "로그인 시도", description = "생성되어있는 계정으로 로그인합니다.")
-    public ResponseEntity<ResponseSignInDto> signIn(@RequestBody RequestSignInDto requestSignInDto) throws RuntimeException{
+    @Operation(summary = "로그인 시도", description = "생성되어있는 계정으로 로그인합니다.", responses = {
+            @ApiResponse(responseCode = "200", description = "로그인 성공", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ResponseSignInDto.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "로그인 실패")
+    })
+    public ResponseEntity<ResponseSignInDto> signIn(@RequestBody RequestSignInDto requestSignInDto) throws CustomException {
         log.info("SignController signIn ==> 로그인 시도   id : " + requestSignInDto.getUsername());
 
         ResponseSignInDto responseSignInDto = signService.signIn(requestSignInDto);
@@ -44,7 +56,13 @@ public class SignController {
     }
 
     @PostMapping("/sign-up")
-    @Operation(summary = "회원가입", description = "회원가입을 시도합니다.")
+    @Operation(summary = "회원가입", description = "회원가입을 시도합니다.", responses = {
+            @ApiResponse(responseCode = "200", description = "회원가입 성공", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ResponseSignUpDto.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "회원가입 실패")
+    })
     public ResponseEntity<ResponseSignUpDto> signUp(@RequestBody RequestSignUpDto requestSignUpDto){
         log.info("SignController signUp ==> 회원가입 시도   id : " + requestSignUpDto.getUsername() + " mail : " + requestSignUpDto.getMail() +
                 " role : " + requestSignUpDto.getRole());
@@ -55,6 +73,13 @@ public class SignController {
     }
 
     @PostMapping("/reissue")
+    @Operation(summary = "토큰 재발급", description = "refresh 토큰으로 access 토큰을 재발급합니다.", responses = {
+            @ApiResponse(responseCode = "200", description = "재발급 성공", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ResponseRefreshDto.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "재발급 실패")
+    })
     public ResponseEntity<ResponseRefreshDto> reissue(@RequestBody RequestRefreshDto requestRefreshDto, HttpServletRequest request){
         log.info("SignController reissue ==> 토큰 재발급 메서드");
         ResponseRefreshDto responseRefreshDto = signService.reissue(requestRefreshDto, request);
@@ -63,6 +88,13 @@ public class SignController {
     }
 
     @PostMapping("/logout")
+    @Operation(summary = "로그아웃", description = "로그아웃합니다.", responses = {
+            @ApiResponse(responseCode = "200", description = "로그아웃 성공", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = String.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "로그아웃 실패")
+    })
     public ResponseEntity<String> logout(@RequestBody RequestLogoutDto requestLogoutDto){
         log.info("SignController logout ==> 로그아웃 시작");
         signService.logout(requestLogoutDto);
@@ -70,8 +102,8 @@ public class SignController {
     }
 
     @GetMapping("/exception")
-    public void exception() throws RuntimeException{
-        throw new RuntimeException("접근이 금지되었습니다.");
+    public void exception() throws CustomException{
+        throw new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.UNAUTHORIZED, "접근이 금지되었습니다.");
     }
 
 

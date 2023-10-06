@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MailService {
@@ -16,6 +17,8 @@ public class MailService {
     public MailService(JavaMailSender javaMailSender){
         this.javaMailSender = javaMailSender;
     }
+
+    @Transactional
     public void sendMail(SendMailDto sendMailDto){
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo(sendMailDto.getAddress());
