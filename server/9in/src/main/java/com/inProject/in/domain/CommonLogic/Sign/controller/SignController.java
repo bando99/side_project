@@ -1,10 +1,11 @@
 package com.inProject.in.domain.CommonLogic.Sign.controller;
 
-import com.inProject.in.domain.CommonLogic.Sign.Dto.*;
+import com.inProject.in.domain.CommonLogic.Sign.Dto.request.*;
+import com.inProject.in.domain.CommonLogic.Sign.Dto.response.*;
 import com.inProject.in.domain.CommonLogic.Sign.service.SignService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,6 @@ public class SignController {
     @PostMapping("/sign-up")
     @Operation(summary = "회원가입", description = "회원가입을 시도합니다.")
     public ResponseEntity<ResponseSignUpDto> signUp(@RequestBody RequestSignUpDto requestSignUpDto){
-
         log.info("SignController signUp ==> 회원가입 시도   id : " + requestSignUpDto.getUsername() + " mail : " + requestSignUpDto.getMail() +
                 " role : " + requestSignUpDto.getRole());
         ResponseSignUpDto responseSignUpDto = signService.signUp(requestSignUpDto);
@@ -55,11 +55,18 @@ public class SignController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<ResponseRefreshDto> reissue(@RequestBody RequestRefreshDto requestRefreshDto){
+    public ResponseEntity<ResponseRefreshDto> reissue(@RequestBody RequestRefreshDto requestRefreshDto, HttpServletRequest request){
         log.info("SignController reissue ==> 토큰 재발급 메서드");
-        ResponseRefreshDto responseRefreshDto = signService.reissue(requestRefreshDto);
+        ResponseRefreshDto responseRefreshDto = signService.reissue(requestRefreshDto, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseRefreshDto);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestBody RequestLogoutDto requestLogoutDto){
+        log.info("SignController logout ==> 로그아웃 시작");
+        signService.logout(requestLogoutDto);
+        return ResponseEntity.ok("로그아웃 완료");
     }
 
     @GetMapping("/exception")
@@ -67,19 +74,21 @@ public class SignController {
         throw new RuntimeException("접근이 금지되었습니다.");
     }
 
-    @ExceptionHandler(value = RuntimeException.class)
-    public ResponseEntity<Map<String, String>> ExceptionHandler(RuntimeException e){
-        HttpHeaders responseHeaders = new HttpHeaders();
-        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 
-        log.info("ExceptionHandler ==> " + e.getCause() + " " + e.getMessage());
 
-        Map<String, String> m = new HashMap<>();
-
-        m.put("error type", httpStatus.getReasonPhrase());
-        m.put("code", "400");
-        m.put("message", "에러 발생");
-
-        return new ResponseEntity<>(m, responseHeaders, httpStatus);
-    }
+//    @ExceptionHandler(value = RuntimeException.class)
+//    public ResponseEntity<Map<String, String>> ExceptionHandler(RuntimeException e){
+//        HttpHeaders responseHeaders = new HttpHeaders();
+//        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+//
+//        log.info("ExceptionHandler ==> " + e.getCause() + " " + e.getMessage());
+//
+//        Map<String, String> m = new HashMap<>();
+//
+//        m.put("error type", httpStatus.getReasonPhrase());
+//        m.put("code", "400");
+//        m.put("message", "에러 발생");
+//
+//        return new ResponseEntity<>(m, responseHeaders, httpStatus);
+//    }
 }

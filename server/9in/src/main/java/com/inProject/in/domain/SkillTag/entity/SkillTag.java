@@ -22,7 +22,7 @@ public class SkillTag extends BaseEntity {
     private Long id;
     @Column(nullable = false)
     private String name;
-    @OneToMany(mappedBy = "skillTag", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "skillTag")
     @ToString.Exclude
     private List<TagBoardRelation> tagBoardRelationList;
 

@@ -24,7 +24,11 @@ export default function Post({
         {tags &&
           tags.length > 0 &&
           tags.map((tag) => (
-            <img className={styles.tagImg} src={`/tag/${tag}.png`} alt={tag} />
+            <img
+              className={styles.tagImg}
+              src={`/tag/${tag.charAt(0).toUpperCase()}${tag.slice(1)}.png`}
+              alt={tag}
+            />
           ))}
       </div>
       <div className={styles.role__container}>

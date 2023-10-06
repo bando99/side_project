@@ -1,5 +1,7 @@
 package com.inProject.in.domain.CommonLogic.Application.service.Impl;
 
+import com.inProject.in.Global.exception.ConstantsClass;
+import com.inProject.in.Global.exception.CustomException;
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.CommonLogic.Application.Dto.ApplicationDto;
 import com.inProject.in.domain.CommonLogic.Application.Dto.ResponseApplicationDto;
@@ -17,6 +19,7 @@ import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -52,13 +55,13 @@ public class ApplicationServiceImpl implements ApplicationService {
         Long role_id = applicationDto.getRole_id();
 
         User user = userRepository.findById(applicationDto.getUser_id())
-                .orElseThrow(() -> new IllegalArgumentException("applyToBoard 에서 유효하지 않은 user id : " + user_id));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.APPLICATION, HttpStatus.BAD_REQUEST, user_id + "는 applyToBoard 에서 유효하지 않은 user id"));
 
         Board board = boardRepository.findById(board_id)
-                .orElseThrow(() -> new IllegalArgumentException("applyToBoard 에서 유효하지 않은 post id : " + board_id));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.APPLICATION, HttpStatus.BAD_REQUEST, board_id + "는 applyToBoard 에서 유효하지 않은 board id"));
 
         RoleNeeded roleNeeded = roleNeededRepository.findById(role_id)
-                .orElseThrow(() -> new IllegalArgumentException("applyToBoard 에서 유효하지 않은 role id : " + role_id));
+                .orElseThrow(() -> new  CustomException(ConstantsClass.ExceptionClass.APPLICATION, HttpStatus.BAD_REQUEST, role_id + "는 applyToBoard 에서 유효하지 않은 role id"));
 
         if(applicantBoardRelationRepository.isExistApplicantBoard(user, board) == false) {  //이미 지원한 게시글에는 지원 불가
 
@@ -114,13 +117,13 @@ public class ApplicationServiceImpl implements ApplicationService {
         int want_cnt;
 
         User user = userRepository.findById(applicationDto.getUser_id())
-                .orElseThrow(() -> new IllegalArgumentException("applyToBoard 에서 유효하지 않은 user id : " + user_id));
+                .orElseThrow(() -> new  CustomException(ConstantsClass.ExceptionClass.APPLICATION, HttpStatus.BAD_REQUEST, user_id + "는 applyToBoard 에서 유효하지 않은 user id"));
 
         Board board = boardRepository.findById(board_id)
-                .orElseThrow(() -> new IllegalArgumentException("applyToBoard 에서 유효하지 않은 post id : " + board_id));
+                .orElseThrow(() -> new  CustomException(ConstantsClass.ExceptionClass.APPLICATION, HttpStatus.BAD_REQUEST, board_id + "는 applyToBoard 에서 유효하지 않은 board id"));
 
         RoleNeeded roleNeeded = roleNeededRepository.findById(role_id)
-                .orElseThrow(() -> new IllegalArgumentException("applyToBoard 에서 유효하지 않은 role id : " + role_id));
+                .orElseThrow(() -> new  CustomException(ConstantsClass.ExceptionClass.APPLICATION, HttpStatus.BAD_REQUEST, role_id + "는 applyToBoard 에서 유효하지 않은 role id"));
 
         if(applicantBoardRelationRepository.isExistApplicantBoard(user, board) == true){
 
@@ -145,11 +148,11 @@ public class ApplicationServiceImpl implements ApplicationService {
                         " relation pre_cnt : " + updateRoleBoard.getPre_cnt() + " relation want_cnt : " + updateRoleBoard.getWant_cnt());
             }
             else{
-                throw new IllegalArgumentException("delete application 에서 이미 인원 수가 0인 것 감소");
+                throw new CustomException(ConstantsClass.ExceptionClass.APPLICATION, HttpStatus.BAD_REQUEST, "delete application 에서 이미 인원 수가 0인 것 감소");
             }
         }
         else{
-            throw new IllegalArgumentException("cannot delete");
+            throw new  CustomException(ConstantsClass.ExceptionClass.APPLICATION, HttpStatus.BAD_REQUEST, "지원 기록이 없음.");
         }
     }
 }

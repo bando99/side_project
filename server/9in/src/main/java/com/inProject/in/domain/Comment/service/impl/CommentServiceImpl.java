@@ -1,5 +1,7 @@
 package com.inProject.in.domain.Comment.service.impl;
 
+import com.inProject.in.Global.exception.ConstantsClass;
+import com.inProject.in.Global.exception.CustomException;
 import com.inProject.in.config.security.JwtTokenProvider;
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.Board.repository.BoardRepository;
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -46,7 +49,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public ResponseCommentDto getComment(Long id) {
-        Comment comment = commentRepository.findById(id).get();
+        Comment comment = commentRepository.findById(id).
+                orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.BAD_REQUEST, id + "는 getComment에서 유효하지 않은 id값 입니다."));
 
         ResponseCommentDto responseCommentDto = ResponseCommentDto.builder()
                 .comment_id(comment.getId())
@@ -68,7 +72,7 @@ public class CommentServiceImpl implements CommentService {
         User user = getUserFromRequest(request);
 
         Board board = boardRepository.findById(board_id)
-                .orElseThrow(() -> new IllegalArgumentException("createComment에서 유효하지 않은 board id : " + board_id));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.BAD_REQUEST,  board_id + "는 createBoard에서 유효하지 않은 게시글 id값 입니다."));
 
         board.setComment_cnt(board.getComment_cnt() + 1);
 
@@ -96,10 +100,10 @@ public class CommentServiceImpl implements CommentService {
         User user = getUserFromRequest(request);
 
         Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("updqteComment에서 유효하지 않은 comment id : " + id));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.BAD_REQUEST, id + "는 updateComment에서 유효하지 않은 id값 입니다."));
 
         if(!user.getUsername().equals(comment.getUser().getUsername())){
-            throw new AccessDeniedException("권한이 없습니다.");
+            throw new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.UNAUTHORIZED, "작성자만 댓글을 수정할 수 있습니다. 권한이 없습니다.");
         }
 
         comment.updateComment(updateCommentDto);
@@ -133,10 +137,10 @@ public class CommentServiceImpl implements CommentService {
         User user = getUserFromRequest(request);
 
         Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("deleteComment에서 유효하지 않은 comment id : " + id));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.BAD_REQUEST, id + "는 deleteComment에서 유효하지 않은 id값 입니다."));
 
         if(!user.getUsername().equals(comment.getUser().getUsername()) && !request.isUserInRole("ROLE_ADMIN") ){
-            throw new AccessDeniedException("권한이 없습니다.");
+            throw new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.UNAUTHORIZED, "작성자만 댓글을 삭제할 수 있습니다. 권한이 없습니다.");
         }
         int cnt = comment.getBoard().getComment_cnt();
 
@@ -155,10 +159,10 @@ public class CommentServiceImpl implements CommentService {
             String username = jwtTokenProvider.getUsername(token);
 
             return user = userRepository.getByUsername(username)
-                    .orElseThrow(() -> new IllegalArgumentException("CommentService에서 user를 찾지 못함"));
+                    .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.USER, HttpStatus.BAD_REQUEST, username + "은 유효하지 않은 username 입니다."));
         }
         else{
-            throw new IllegalArgumentException("token이 없거나, 권한이 유효하지 않습니다.");
+            throw new CustomException(ConstantsClass.ExceptionClass.USER, HttpStatus.UNAUTHORIZED, "token이 없거나, 권한이 유효하지 않습니다.");
         }
 
 

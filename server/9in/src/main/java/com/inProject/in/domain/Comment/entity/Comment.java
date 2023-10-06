@@ -25,10 +25,10 @@ public class Comment extends BaseEntity {
     private Long id;
     @Column(nullable = false)
     private String text;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")       //N : 1
     private User user;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")       //N : 1
     private Board board;
 

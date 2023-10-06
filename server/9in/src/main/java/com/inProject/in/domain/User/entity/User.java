@@ -7,10 +7,7 @@ import com.inProject.in.domain.Comment.entity.Comment;
 import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.entity.ApplicantBoardRelation;
 import com.inProject.in.domain.MToNRelation.ApplicantRoleRelation.entity.ApplicantRoleRelation;
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.entity.ClipBoardRelation;
-import com.inProject.in.domain.Profile.entity.Certificate;
-import com.inProject.in.domain.Profile.entity.Education;
-import com.inProject.in.domain.Profile.entity.Job_ex;
-import com.inProject.in.domain.Profile.entity.Project_skill;
+import com.inProject.in.domain.Profile.entity.*;
 import com.inProject.in.domain.User.Dto.UpdateUserDto;
 import jakarta.persistence.*;
 import lombok.*;
@@ -42,11 +39,10 @@ public class User extends BaseEntity implements UserDetails{
     @Column
     private Long id;
 
-//    @Column(nullable = false)
-//    private String userId;
     @Column(nullable = false)
     private String username;
-    @Column(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)       //JSON직렬화 (java 객체에서 json으로 변환) 때만 포함한다는 뜻.
+    @Column(nullable = false)                                    //역직렬화 (json에서 java객체로 변환) 시에는 무시된다.
     private String password;
     @Column(nullable = false)
     private String mail;
@@ -76,24 +72,26 @@ public class User extends BaseEntity implements UserDetails{
     @ToString.Exclude
     private List<Comment> commentList;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Job_ex jobEx;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Education education;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Project_skill projectSkill;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user",fetch = FetchType.LAZY,  cascade = CascadeType.REMOVE)
     private Certificate certificate;
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private MyInfo myInfo;
 
 
 
     //권한 인증
 
-    @ElementCollection(fetch = FetchType.EAGER)  //지연로딩을 통해 실제로 이 컬렉션을 사용할 때만 접근하도록 함
+    @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
@@ -127,15 +125,11 @@ public class User extends BaseEntity implements UserDetails{
         return true;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public void updateUser(UpdateUserDto updateUserDto){
         this.username = updateUserDto.getUsername();
         this.password = updateUserDto.getPassword();
         this.mail = updateUserDto.getMail();
-
     }
 
 }

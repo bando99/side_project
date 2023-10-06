@@ -36,7 +36,7 @@ public class SseController {
     @GetMapping(value = "/apply", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribe(@PathVariable String id) {
         Long board_id_long = Long.parseLong(id);
-        return sseService.subscribe(id);
+        return sseService.subscribe(id,"test SSE op");
     }
 
 

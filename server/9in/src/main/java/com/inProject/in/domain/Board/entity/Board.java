@@ -50,11 +50,10 @@ public class Board extends BaseEntity {
 
     @Column
     private int comment_cnt;  //댓글 개수
-
     @Column
     private boolean deleted = Boolean.FALSE;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User author;               //작성자 정보 접근
 
@@ -62,11 +61,11 @@ public class Board extends BaseEntity {
     @ToString.Exclude
     private List<ApplicantBoardRelation> applicantBoardRelationList;     //게시글에 지원서를 제출한 유저에 대한 정보
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<Comment> commentList = new ArrayList<>();    //게시글에 작성된 댓글들
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<TagBoardRelation> tagBoardRelationList;   //태그
 
@@ -74,7 +73,7 @@ public class Board extends BaseEntity {
     @ToString.Exclude
     private List<ClipBoardRelation> clipBoardRelationList; //관심 클립으로 지정한 유저들
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<RoleBoardRelation> roleBoardRelationList;   //직군
 
@@ -84,6 +83,11 @@ public class Board extends BaseEntity {
         this.text = requestUpdateBoardDto.getText();
         this.proceed_method = requestUpdateBoardDto.getProceed_method();
         this.period = requestUpdateBoardDto.getPeriod();
+
+        this.roleBoardRelationList.clear();
+        this.tagBoardRelationList.clear();
+
+
 //        this.tagBoardRelationList = requestBoardDto.getTagBoardRelationList();
 //        this.roleBoardRelationList = requestBoardDto.getRoleBoardRelationList();
     }

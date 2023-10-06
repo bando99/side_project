@@ -8,7 +8,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import com.inProject.in.domain.SkillTag.Dto.RequestSkillTagDto;
 import lombok.*;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,9 +40,6 @@ public class RequestCreateBoardDto {
 //    @NotBlank(message = "날짜설정을 입력해 주세요.")
 //    @Future(message = "종료날짜는 미래의 시간으로 선택해야 합니다.") //미래의 시간으로 설정해야 된다.
     private LocalDateTime period;
-
-    //태그
-//    private List<String> tagNames;
 
     //직군
     private List<RequestUsingInBoardDto> roleNeededDtoList;

@@ -13,7 +13,7 @@ export default function JoinSuccessView() {
           프로필을 작성하여 나를 소개하면서 프로젝트와 스터디 구인 매칭률을
           높여보세요!
         </p>
-        <button onClick={() => navigate('/profile')} className={styles.btn}>
+        <button onClick={() => navigate('/mypage')} className={styles.btn}>
           프로필 작성하기
         </button>
       </div>
