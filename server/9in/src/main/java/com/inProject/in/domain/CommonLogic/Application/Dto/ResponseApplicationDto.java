@@ -8,9 +8,8 @@ import lombok.*;
 @ToString
 @Builder
 public class ResponseApplicationDto {
-    private Long applicant_id;
-    private Long author_id;
-    private Long board_id;
-    private Long role_id;
+    private String type;   //삭제인지 지원인지 구분
+    private String message;
+    private boolean success;
 
 }

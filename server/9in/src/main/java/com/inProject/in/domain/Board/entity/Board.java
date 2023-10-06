@@ -1,12 +1,11 @@
 package com.inProject.in.domain.Board.entity;
 
 import com.inProject.in.Global.BaseEntity;
-import com.inProject.in.domain.Board.Dto.RequestUpdateBoardDto;
+import com.inProject.in.domain.Board.Dto.request.RequestUpdateBoardDto;
 import com.inProject.in.domain.Comment.entity.Comment;
 import com.inProject.in.domain.MToNRelation.ApplicantBoardRelation.entity.ApplicantBoardRelation;
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.entity.ClipBoardRelation;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;
-import com.inProject.in.domain.Board.Dto.RequestBoardDto;
 import com.inProject.in.domain.MToNRelation.TagBoardRelation.entity.TagBoardRelation;
 import com.inProject.in.domain.User.entity.User;
 import jakarta.persistence.*;

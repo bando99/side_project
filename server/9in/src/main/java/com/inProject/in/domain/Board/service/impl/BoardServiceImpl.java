@@ -4,6 +4,9 @@ import com.inProject.in.Global.exception.ConstantsClass;
 import com.inProject.in.Global.exception.CustomException;
 import com.inProject.in.config.security.JwtTokenProvider;
 import com.inProject.in.domain.Board.Dto.*;
+import com.inProject.in.domain.Board.Dto.request.RequestCreateBoardDto;
+import com.inProject.in.domain.Board.Dto.request.RequestSearchBoardDto;
+import com.inProject.in.domain.Board.Dto.request.RequestUpdateBoardDto;
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.Comment.Dto.ResponseCommentDto;
 import com.inProject.in.domain.Comment.entity.Comment;
@@ -16,7 +19,6 @@ import com.inProject.in.domain.Board.Dto.RequestBoardDto;
 import com.inProject.in.domain.Board.Dto.ResponseBoardDto;
 import com.inProject.in.domain.Board.repository.BoardRepository;
 import com.inProject.in.domain.Board.service.BoardService;
-import com.inProject.in.domain.RoleNeeded.Dto.RequestRoleNeededDto;
 import com.inProject.in.domain.RoleNeeded.Dto.RequestUsingInBoardDto;
 import com.inProject.in.domain.RoleNeeded.Dto.ResponseRoleNeededDto;
 import com.inProject.in.domain.RoleNeeded.entity.RoleNeeded;
@@ -27,24 +29,16 @@ import com.inProject.in.domain.SkillTag.repository.SkillTagRepository;
 import com.inProject.in.domain.User.Dto.ResponseInfoInBoardDto;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpServletRequest;
-import org.hibernate.engine.spi.SessionLazyDelegator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +85,7 @@ public class BoardServiceImpl implements BoardService {
         for(RequestSkillTagDto requestSkillTagDto : requestSkillTagDtoList){   //받아온 태그 당 관계 데이터를 생성
 
             SkillTag skillTag = skilltagRepository.findTagByName(requestSkillTagDto.toEntity().getName())
-                    .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.BAD_REQUEST, requestSkillTagDto.getName() + "는 없는 태그명입니다."));    //태그 잘못 입력했으면 오류 반환
+                    .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.NOT_FOUND, requestSkillTagDto.getName() + "는 없는 태그명입니다."));    //태그 잘못 입력했으면 오류 반환
 
             TagBoardRelation tagBoardRelation = TagBoardRelation.builder()
                     .skillTag(skillTag)
@@ -117,7 +111,7 @@ public class BoardServiceImpl implements BoardService {
         for(RequestUsingInBoardDto requestRoleNeededDto : requestRoleNeededDtoList){
 
             RoleNeeded roleNeeded = roleNeededRepository.findRoleByName(requestRoleNeededDto.getName())
-                    .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.BAD_REQUEST, requestRoleNeededDto.getName() + "는 없는 직군명입니다."));  //직군이 DB에 이미 정해진 대로 저장되어있다는 점.
+                    .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.NOT_FOUND, requestRoleNeededDto.getName() + "는 없는 직군명입니다."));  //직군이 DB에 이미 정해진 대로 저장되어있다는 점.
 
             RoleBoardRelation roleBoardRelation = RoleBoardRelation.builder()
                     .pre_cnt(requestRoleNeededDto.getPre_cnt())
@@ -133,9 +127,10 @@ public class BoardServiceImpl implements BoardService {
 
 
     @Override
+    @Transactional
     public ResponseBoardDto getBoard(Long id) {
         Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.BAD_REQUEST, id + "는 유효하지 않은 게시글 id입니다." ));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.NOT_FOUND, id + "는 유효하지 않은 게시글 id입니다." ));
 
         ResponseBoardDto responseBoardDto = new ResponseBoardDto(board);
 
@@ -167,6 +162,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional
     public ResponseBoardDto createBoard(//Long user_id, 없애도 될 것 같다.
                                         RequestCreateBoardDto requestCreateBoardDto,
                                         HttpServletRequest request) throws CustomException {
@@ -189,8 +185,6 @@ public class BoardServiceImpl implements BoardService {
             List<RoleBoardRelation> roleBoardRelationList = InsertRolePostRelation(board, requestRoleNeededDtoList);  //DB에 연관 데이터인 태그, 직군 데이터 삽입
             board.setRoleBoardRelationList(roleBoardRelationList);
             board.setTagBoardRelationList(tagBoardRelationList);
-
-
 
             log.info("BoardService createPost : " + createBoard.getId() + " " + createBoard.getTitle());
 
@@ -215,11 +209,12 @@ public class BoardServiceImpl implements BoardService {
 
     }
     @Override
+    @Transactional
 //    @PreAuthorize("#board.author.username == authentication.principal.username")                                              //메서드 매개변수로 전달된 board를 참조한다. 여기서 #board는 SpEL(Spring Expression Language)을 통해
     public ResponseBoardDto updateBoard(Long id, RequestUpdateBoardDto requestUpdateBoardDto, HttpServletRequest request) {   //해당 메서드의 매개변수로 전달되지 않아도 메서드 내의 board를 참조한다.
 
         Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.BAD_REQUEST, id + "는 updateBoard에서 유효하지 않은 게시글 id"));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.NOT_FOUND, id + "는 updateBoard에서 유효하지 않은 게시글 id"));
 
         User user = getUserFromRequest(request);
 
@@ -254,7 +249,7 @@ public class BoardServiceImpl implements BoardService {
     public void deleteBoard(Long id, HttpServletRequest request) {                                                //권한을 확인하기에, 권한 계층을 고려하지 않음.
 
         Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.BAD_REQUEST, id + "는 deleteBoard에서 유효하지 않은 게시글 id" ));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.NOT_FOUND, id + "는 deleteBoard에서 유효하지 않은 게시글 id" ));
         User user = getUserFromRequest(request);
 
         if(!user.getUsername().equals(board.getAuthor().getUsername()) && !request.isUserInRole("ROLE_ADMIN")){
@@ -299,22 +294,6 @@ public class BoardServiceImpl implements BoardService {
         return responseBoardDtoList;
     }
 
-    @Override
-    public List<ResponseBoardListDto> getClipedBoards(Pageable pageable,HttpServletRequest request) {
-        List<ResponseBoardListDto> responseBoardDtoList = new ArrayList<>();
-        User user = getUserFromRequest(request);
-        Page<Board> boardPage = boardRepository.searchPostsByCliped(pageable, user);
-        List<Board> boardList = boardPage.getContent();
-
-        log.info("BoardService getClipedBoards ==> username : " + user.getUsername());
-
-        for(Board board : boardList){
-            ResponseBoardListDto responseBoardListDto = new ResponseBoardListDto(board);
-            responseBoardDtoList.add(responseBoardListDto);
-        }
-        return responseBoardDtoList;
-    }
-
 
     private User getUserFromRequest(HttpServletRequest request){
         String token = jwtTokenProvider.resolveToken(request);
@@ -324,12 +303,12 @@ public class BoardServiceImpl implements BoardService {
             String username = jwtTokenProvider.getUsername(token);
 
             return user = userRepository.getByUsername(username)
-                    .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.BAD_REQUEST, "BoardService ==> request로부터 user를 찾지 못함"));
+                    .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.NOT_FOUND, "BoardService ==> request로부터 user를 찾지 못함"));
         }
         else{
             throw new CustomException(ConstantsClass.ExceptionClass.USER, HttpStatus.UNAUTHORIZED, "token이 없거나, 권한이 유효하지 않습니다.");
         }
-
-
     }
+
+
 }

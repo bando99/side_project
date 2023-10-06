@@ -40,7 +40,7 @@ public class FindService {
         String mail = requestFindDto.getMail();
 
         User user = userRepository.getByMail(mail)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.BAD_REQUEST, mail + "은 없는 mail정보입니다."));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.NOT_FOUND, mail + "은 없는 mail정보입니다."));
 
         log.info("findId ==> user : " + user.getUsername() + " 찾음");
         ResponseFindIdDto responseFindIdDto = new ResponseFindIdDto(user.getUsername());
@@ -56,7 +56,7 @@ public class FindService {
 //                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.BAD_REQUEST, username + "는 없는 유저입니다."));
 
         User user = userRepository.getByMail(mail)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.BAD_REQUEST, mail + "은 등록되지 않은 mail입니다."));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.NOT_FOUND, mail + "은 등록되지 않은 mail입니다."));
 
         log.info("findPw ==> 유저 정보 확인 성공");
 

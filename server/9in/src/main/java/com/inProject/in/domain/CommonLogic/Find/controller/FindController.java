@@ -49,6 +49,14 @@ public class FindController {
     }
 
     @PostMapping("/checkId")
+    @Operation(summary = "아이디 체크", description = "아이디를 통해 유저가 맞는지 확인합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "아이디 체크 성공", content = {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(implementation = ResponseCheckIdDto.class))
+                    }),
+                    @ApiResponse(responseCode = "400", description = "아이디 체크 실패")
+            })
     public ResponseEntity<ResponseCheckIdDto> checkId(@RequestBody RequestCheckIdDto requestCheckIdDto){
         ResponseCheckIdDto responseCheckIdDto = findService.checkId(requestCheckIdDto);
 
@@ -60,7 +68,7 @@ public class FindController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "비밀번호 찾기 성공", content = {
                             @Content(mediaType = "application/json", schema =
-                            @Schema(implementation = ResponseChangeDto.class))
+                            @Schema(implementation = ResponseFindPwDto.class))
                     }),
                     @ApiResponse(responseCode = "400", description = "비밀번호 찾기실패")
             })

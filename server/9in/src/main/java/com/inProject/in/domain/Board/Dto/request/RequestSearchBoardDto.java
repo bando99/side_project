@@ -1,4 +1,4 @@
-package com.inProject.in.domain.Board.Dto;
+package com.inProject.in.domain.Board.Dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
