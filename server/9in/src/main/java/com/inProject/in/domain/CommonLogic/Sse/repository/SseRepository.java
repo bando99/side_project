@@ -1,3 +1,4 @@
+//sserepository
 package com.inProject.in.domain.CommonLogic.Sse.repository;
 
 
@@ -24,7 +25,7 @@ public class SseRepository {
     public void save(String id, SseEmitter emitter) {
         emitters.put(id, emitter);
     }
-
+    //(id , emitter<time_out>)
     /**
      * 주어진 아이디의 Emitter를 제거
      *

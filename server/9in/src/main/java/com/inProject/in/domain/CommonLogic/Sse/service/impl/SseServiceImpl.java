@@ -15,9 +15,10 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 
-//dd
+
 @Service
 public class SseServiceImpl implements SseService {
     // 기본 타임아웃 설정
@@ -43,23 +44,13 @@ public class SseServiceImpl implements SseService {
      * @return SseEmitter - 서버에서 보낸 이벤트 Emitter
      */
     //SseEmitter inputEmitter
-    public SseEmitter subscribe(String username) {
-        SseEmitter emitter =sseRepository.get(username);
-        sendToClient(username, "게시글에 지원자가 발생했습니다 확인해보세요.");
+    public SseEmitter subscribe(String username, String msg) {
+        SseEmitter emitter = sseRepository.get(username);
+        sendToClient(username,msg);
         return emitter;
     }
 
-    /**
-     * 서버의 이벤트를 클라이언트에게 보내는 메서드
-     * 다른 서비스 로직에서 이 메서드를 사용해 데이터를 Object event에 넣고 전송하면 된다.
-     *
-     * @param userId - 메세지를 전송할 사용자의 아이디.
-     * @param event  - 전송할 이벤트 객체.
-     */
-    // 서버 -> 클라이언트
-    public void notify(String userId, Object event) {
-        sendToClient(userId, event);
-    }
+
 
     /**
      * 클라이언트에게 데이터를 전송
@@ -84,7 +75,6 @@ public class SseServiceImpl implements SseService {
         else if(emitter == null){
             log.info("sseEmitter is null");
         }
-
     }
 
 
@@ -102,14 +92,18 @@ public class SseServiceImpl implements SseService {
         }
 
         String id =  user.getUsername();
+        //
         SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
 
         sseRepository.save(id, emitter);
 
         // Emitter가 완료될 때(모든 데이터가 성공적으로 전송된 상태) Emitter를 삭제한다.
         emitter.onCompletion(() -> sseRepository.deleteById(id));
+
         // Emitter가 타임아웃 되었을 때(지정된 시간동안 어떠한 이벤트도 전송되지 않았을 때) Emitter를 삭제한다.
         emitter.onTimeout(() -> sseRepository.deleteById(id));
+
         return emitter;
+
     }
 }
