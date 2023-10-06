@@ -2,35 +2,100 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import useFetchData from '../ components/hooks/getPostList';
+import { useAuth } from '../ components/context/AuthContext';
 
 export default function PostDetail() {
-  const [data, setData] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
   const { board_id } = useParams();
-  console.log(board_id);
+  const { user_id } = useAuth();
 
-  const baseURL = 'http://1.246.104.170:8080';
+  const { data, loading, error } = useFetchData('/boards/' + board_id);
+
   const { title, type, proceed_method, period, roles, tags } = data;
   console.log(tags);
+  console.log(roles);
 
-  useEffect(() => {
-    console.log(baseURL + '/boards/' + board_id);
-    const fetchData = async () => {
+  const formattedPeriod = new Date(data.period).toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+
+  const [applyStatus, setApplyStatus] = useState({});
+
+  const handleApply = async (role_id, pre_cnt, want_cnt) => {
+    if (pre_cnt >= want_cnt) {
+      alert('모집 완료되었습니다.');
+    } else {
+      const applyData = {
+        board_id: parseInt(board_id),
+        user_id,
+        role_id,
+      };
+
       try {
-        const response = await axios.get(baseURL + '/boards/' + board_id);
-        setData(response.data);
-        setLoading(false);
-        console.log('게시물 GET 성공!', response.data);
-      } catch (error) {
-        setError('네트워크 에러가 발생했습니다.');
-      }
-    };
+        const response = await axios.post(
+          `http://1.246.104.170:8080/applications`,
+          applyData,
+          {
+            headers: {
+              'X-AUTH-TOKEN': localStorage.getItem('token'),
+            },
+          }
+        );
+        console.log('게시글 지원 성공');
+        alert('지원이 완료되었습니다.');
+        console.log(response);
 
-    fetchData();
-  }, []);
-  // const formattedPeriod = new Date(data.period).toISOString().split('T')[0];
+        setApplyStatus({
+          ...applyStatus,
+          [role_id]: '신청중',
+        });
+      } catch (error) {
+        console.error('게시글 지원 실패', error);
+        console.log(error.response.data);
+        if (error.response.data.msg == '인증이 실패했습니다.') {
+          console.log(error.response.data.msg);
+          const refreshData = {
+            refreshToken: localStorage.getItem('refreshToken'),
+          };
+          try {
+            const refreshResponse = await axios.post(
+              'http://1.246.104.170:8080/sign/reissue',
+              refreshData
+            );
+
+            // 새로운 액세스 토큰 저장
+            const newAccessToken = refreshResponse.data.accessToken;
+            const newRefreshToken = refreshResponse.data.refreshToken;
+            localStorage.setItem('token', newAccessToken);
+            localStorage.setItem('refreshToken', newRefreshToken);
+
+            // 새로운 액세스 토큰을 사용하여 원래의 요청 다시 보내기
+            const retryResponse = await axios.put(
+              `http://1.246.104.170:8080/applications`,
+              applyData,
+              {
+                headers: {
+                  'X-AUTH-TOKEN': newAccessToken,
+                },
+              }
+            );
+            console.log('게시글 지원 성공 (재시도)');
+            alert('지원이 완료되었습니다.');
+            console.log(retryResponse);
+
+            setApplyStatus({
+              ...applyStatus,
+              [role_id]: '신청중',
+            });
+          } catch (refreshError) {
+            console.error('새로운 액세스 토큰 얻기 실패', refreshError);
+          }
+        }
+      }
+    }
+  };
 
   return (
     <Container>
@@ -38,7 +103,7 @@ export default function PostDetail() {
       <Content>
         <div className="content_flex">
           <span>게시 날짜</span>
-          <span></span>
+          <span>{formattedPeriod}</span>
         </div>
         <div className="content_flex">
           <svg
@@ -100,8 +165,17 @@ export default function PostDetail() {
                 <span>{role.name}</span>
                 <div>
                   <p>{`${role.pre_cnt}/${role.want_cnt}`}</p>
-                  <button>
-                    {role.pre_cnt >= role.want_cnt ? '모집완료' : '신청하기'}
+                  <button
+                    onClick={() =>
+                      handleApply(role.role_id, role.pre_cnt, role.want_cnt)
+                    }
+                    className={`${
+                      role.pre_cnt >= role.want_cnt ? 'complete' : ''
+                    } ${applyStatus[role.role_id] ? 'applying' : ''}`}
+                  >
+                    {role.pre_cnt >= role.want_cnt
+                      ? '모집완료'
+                      : applyStatus[role.role_id] || '신청하기'}
                   </button>
                 </div>
               </div>
@@ -296,6 +370,22 @@ const Section = styled.div`
         line-height: normal;
       }
 
+      .complete {
+        background: #1f7ceb;
+        color: white;
+      }
+
+      .applying {
+        color: #1f7ceb;
+        border: 1px solid #1f7ceb;
+        background: white;
+        width: 5rem;
+        height: 2.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
       button {
         display: flex;
         padding: 10px;
@@ -310,6 +400,11 @@ const Section = styled.div`
         font-weight: 400;
         line-height: normal;
         cursor: pointer;
+        width: 5rem;
+        height: 2.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .active_btn {

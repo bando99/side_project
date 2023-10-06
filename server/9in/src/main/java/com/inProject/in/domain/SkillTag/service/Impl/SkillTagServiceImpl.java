@@ -8,6 +8,9 @@ import com.inProject.in.domain.SkillTag.service.SkillTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class SkillTagServiceImpl implements SkillTagService {
 
@@ -18,15 +21,20 @@ public class SkillTagServiceImpl implements SkillTagService {
     }
 
     @Override
-    public ResponseSkillTagDto getSkillTag(Long skillTag_id) {
+    public List<ResponseSkillTagDto> getSkillTagList() {
 
-        SkillTag skillTag = skillTagRepository.findById(skillTag_id).get();
+        List<SkillTag> skillTagList = skillTagRepository.findAll();
+        List<ResponseSkillTagDto> responseSkillTagDtoList = new ArrayList<>();
 
-        ResponseSkillTagDto responseSkillTagDto = ResponseSkillTagDto.builder()
-                .name(skillTag.getName())
-                .build();
+        for(SkillTag skillTag : skillTagList){
+            ResponseSkillTagDto responseSkillTagDto = ResponseSkillTagDto.builder()
+                    .name(skillTag.getName())
+                    .build();
 
-        return responseSkillTagDto;
+            responseSkillTagDtoList.add(responseSkillTagDto);
+        }
+
+        return responseSkillTagDtoList;
     }
 
     @Override

@@ -14,7 +14,7 @@ function useFetchData(path) {
         const response = await axios.get(baseURL + path);
         setData(response.data);
         setLoading(false);
-        console.log('게시물 리스트 GET 성공!', response.data);
+        console.log('Data GET 성공!', response.data);
       } catch (error) {
         setError('네트워크 에러가 발생했습니다.');
       }

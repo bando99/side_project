@@ -77,7 +77,7 @@ export default function JoinView() {
         <div>
           <p className={styles.title__sub}>비밀번호 설정</p>
           <input
-            type="text"
+            type="password"
             name=""
             id=""
             placeholder="내용을 입력해 주세요."
@@ -87,7 +87,7 @@ export default function JoinView() {
         <div>
           <p className={styles.title__sub}>비밀번호 확인</p>
           <input
-            type="text"
+            type="password"
             name=""
             id=""
             placeholder="내용을 입력해 주세요."

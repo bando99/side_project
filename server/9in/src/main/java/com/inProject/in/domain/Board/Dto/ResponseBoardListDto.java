@@ -6,6 +6,7 @@ import com.inProject.in.domain.MToNRelation.TagBoardRelation.entity.TagBoardRela
 import com.inProject.in.domain.RoleNeeded.Dto.ResponseRoleNeededDto;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class ResponseBoardListDto {   //게시글 리스트를 리턴할 때 사
 //    private String text;               //게시글 내용은 보여줄 필요 x
     private String proceed_method;
     private LocalDateTime period;
+    private LocalDateTime createAt;
     private int comment_cnt;
     private List<String> tags = new ArrayList<>();
     private List<ResponseRoleNeededDto> roles = new ArrayList<>();
@@ -35,15 +37,16 @@ public class ResponseBoardListDto {   //게시글 리스트를 리턴할 때 사
         this.title = board.getTitle();
         this.proceed_method = board.getProceed_method();
         this.period = board.getPeriod();
+        this.createAt = board.getCreateAt();
         this.comment_cnt = board.getComment_cnt();
 
-        for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
-            this.tags.add(tagBoardRelation.getSkillTag().getName());
-        }
-        for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
-            ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
-            this.roles.add(responseRoleNeededDto);
-        }
+//        for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
+//            this.tags.add(tagBoardRelation.getSkillTag().getName());
+//        }
+//        for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
+//            ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
+//            this.roles.add(responseRoleNeededDto);
+//        }
 
     }
 }

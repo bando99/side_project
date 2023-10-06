@@ -1,131 +1,120 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { refreshTokenAndRetry } from '../api/user';
 
 export default function AddPost() {
-  const [title, setTitle] = useState('');
-  const [skill, setSkill] = useState('');
-  const [type, setType] = useState('');
-  const [text, setText] = useState('');
-  const [proceed_method, setProceed_method] = useState('');
-  const [period, setPeriod] = useState('');
-  const [tagDtoList, setTagDtoList] = useState([]);
+  const [formData, setFormData] = useState({
+    title: '',
+    skill: '',
+    type: '',
+    text: '',
+    proceed_method: '',
+    period: '',
+    tagDtoList: [],
+    pmCnt: 0,
+    mobileCnt: 0,
+    designerCnt: 0,
+    frontEndCnt: 0,
+    backEndCnt: 0,
+    etcCnt: 0,
 
-  const [pmCnt, setPmCnt] = useState(0);
-  const [mobileCnt, setMobileCnt] = useState(0);
-  const [designerCnt, setDesignerCnt] = useState(0);
-  const [frontEndCnt, setFrontEndCnt] = useState(0);
-  const [backEndCnt, setBackEndCnt] = useState(0);
-  const [etcCnt, setEtcCnt] = useState(0);
+    projectBtn: false,
+    studyBtn: false,
+  });
 
-  const [projectBtn, setProjectBtn] = useState('');
-  const [studyBtn, setStudyBtn] = useState('');
-
-  const roleNeededDtoList = [];
-
-  const token = localStorage.getItem('token');
-
-  const headers = {
-    'X-AUTH-TOKEN': token,
-  };
-
-  const handleTitle = (e) => {
-    setTitle(e.target.value);
-  };
-
-  const handleSkill = (e) => {
-    setSkill(e.target.value);
-  };
-
-  const handleText = (e) => {
-    setText(e.target.value);
-  };
-
-  const handleProceedMethod = (e) => {
-    setProceed_method(e.target.value);
-  };
+  const navigate = useNavigate();
 
   const handleProejectBtn = () => {
-    setType('프로젝트');
-    setProjectBtn(true);
-    setStudyBtn(false);
+    setFormData((prevData) => ({
+      ...prevData,
+      type: '프로젝트',
+      projectBtn: true,
+      studyBtn: false,
+    }));
   };
 
   const handleStudyBtn = () => {
-    setType('스터디');
-    setProjectBtn(false);
-    setStudyBtn(true);
+    setFormData((prevData) => ({
+      ...prevData,
+      type: '스터디',
+      projectBtn: false,
+      studyBtn: true,
+    }));
   };
 
   const handleAddTags = (e) => {
-    if (skill) {
-      setTagDtoList([...tagDtoList, skill]);
-      setSkill('');
+    if (formData.skill) {
+      setFormData((prevData) => ({
+        ...prevData,
+        tagDtoList: [...prevData.tagDtoList, formData.skill],
+        skill: '',
+      }));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (pmCnt > 0) {
+    const roleNeededDtoList = [];
+
+    if (formData.pmCnt > 0) {
       roleNeededDtoList.push({
         name: 'PM',
         pre_cnt: 0,
-        want_cnt: pmCnt,
+        want_cnt: formData.pmCnt,
       });
     }
 
-    if (mobileCnt > 0) {
+    if (formData.mobileCnt > 0) {
       roleNeededDtoList.push({
         name: '모바일',
         pre_cnt: 0,
-        want_cnt: mobileCnt,
+        want_cnt: formData.mobileCnt,
       });
     }
 
-    if (designerCnt > 0) {
+    if (formData.designerCnt > 0) {
       roleNeededDtoList.push({
         name: 'designer',
         pre_cnt: 0,
-        want_cnt: designerCnt,
+        want_cnt: formData.designerCnt,
       });
     }
 
-    if (frontEndCnt > 0) {
+    if (formData.frontEndCnt > 0) {
       roleNeededDtoList.push({
         name: 'frontend',
         pre_cnt: 0,
-        want_cnt: frontEndCnt,
+        want_cnt: formData.frontEndCnt,
       });
     }
 
-    if (backEndCnt > 0) {
+    if (formData.backEndCnt > 0) {
       roleNeededDtoList.push({
         name: 'backend',
         pre_cnt: 0,
-        want_cnt: backEndCnt,
+        want_cnt: formData.backEndCnt,
       });
     }
 
-    if (etcCnt > 0) {
+    if (formData.etcCnt > 0) {
       roleNeededDtoList.push({
         name: '기타',
         pre_cnt: 0,
-        want_cnt: etcCnt,
+        want_cnt: formData.etcCnt,
       });
     }
 
-    console.log();
-
     const postData = {
-      type,
-      title,
-      text,
-      proceed_method,
-      period: new Date(period).toISOString(),
-      tagDtoList,
+      type: formData.type,
+      title: formData.title,
+      text: formData.text,
+      proceed_method: formData.proceed_method,
+      period: new Date(formData.period).toISOString(),
+      tagDtoList: formData.tagDtoList,
       roleNeededDtoList,
-      user_id: 1,
     };
 
     console.log(postData);
@@ -136,14 +125,33 @@ export default function AddPost() {
         postData,
         {
           headers: {
-            'X-AUTH-TOKEN': token,
-            // 'Content-Type': 'application/json',
+            'X-AUTH-TOKEN': localStorage.getItem('token'),
           },
         }
       );
+      alert('글 작성 성공');
+      navigate('/');
       console.log('글 작성 성공');
     } catch (error) {
       console.error('글 작성 실패', error);
+      console.log(error.response.data);
+      if (error.response.data.msg == '인증이 실패했습니다.') {
+        console.log(error.response.data.msg);
+
+        try {
+          const retryResponse = await refreshTokenAndRetry(
+            'post',
+            'http://1.246.104.170:8080/boards',
+            postData,
+            {
+              'X-AUTH-TOKEN': localStorage.getItem('token'),
+            }
+          );
+          console.log(retryResponse);
+        } catch (retryError) {
+          console.log(retryError);
+        }
+      }
     }
   };
 
@@ -154,14 +162,14 @@ export default function AddPost() {
         <div>
           <button
             style={{ borderRadius: ' 8px 0px 0px 8px' }}
-            className={projectBtn ? 'btnActive' : 'btn'}
+            className={formData.projectBtn ? 'btnActive' : 'btn'}
             onClick={handleProejectBtn}
           >
             프로젝트
           </button>
           <button
             style={{ borderRadius: ' 0px 8px 8px 0px' }}
-            className={studyBtn ? 'btnActive' : 'btn'}
+            className={formData.studyBtn ? 'btnActive' : 'btn'}
             onClick={handleStudyBtn}
           >
             스터디
@@ -174,25 +182,41 @@ export default function AddPost() {
           <input
             placeholder="내용을 입력해 주세요."
             type="text"
-            value={title}
-            onChange={handleTitle}
+            value={formData.title}
+            onChange={(e) =>
+              setFormData((prevData) => ({
+                ...prevData,
+                title: e.target.value,
+              }))
+            }
           />
         </Title>
         <DateContainer>
-          <span>날짜 설정</span>
-          <input type="date" />
-          <span>시작 날짜</span>
-          <input type="date" />
           <span>마감 날짜</span>
           <input
-            value={period}
-            onChange={(e) => setPeriod(e.target.value)}
+            value={formData.period}
+            onChange={(e) =>
+              setFormData((prevData) => ({
+                ...prevData,
+                period: e.target.value,
+              }))
+            }
             type="date"
           />
         </DateContainer>
         <Skill>
           <span>사용 기술</span>
-          <select name="stack" id="" value={skill} onChange={handleSkill}>
+          <select
+            name="stack"
+            id=""
+            value={formData.skill}
+            onChange={(e) =>
+              setFormData((prevData) => ({
+                ...prevData,
+                skill: e.target.value,
+              }))
+            }
+          >
             <option value="">선택</option>
             <option value="react">react</option>
             <option value="Spring">spring</option>
@@ -201,7 +225,7 @@ export default function AddPost() {
           </select>
           <PlusBtn onClick={handleAddTags}></PlusBtn>
           <div className="tags">
-            {tagDtoList.map((tagName, index) => (
+            {formData.tagDtoList.map((tagName, index) => (
               <div key={index}>{tagName}</div>
             ))}
           </div>
@@ -214,11 +238,15 @@ export default function AddPost() {
               placeholder="내용을 입력해 주세요."
               name=""
               id=""
-              value={proceed_method}
-              onChange={handleProceedMethod}
+              value={formData.proceed_method}
+              onChange={(e) =>
+                setFormData((prevData) => ({
+                  ...prevData,
+                  proceed_method: e.target.value,
+                }))
+              }
             />
           </div>
-          <button>입력</button>
         </Playing>
         <People>
           <span>인원 모집</span>
@@ -228,8 +256,13 @@ export default function AddPost() {
               <select
                 name="pm"
                 id=""
-                value={pmCnt}
-                onChange={(e) => setPmCnt(e.target.value)}
+                value={formData.pmCnt}
+                onChange={(e) =>
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    pmCnt: e.target.value,
+                  }))
+                }
               >
                 <option value="">선택</option>
                 <option value="1">1</option>
@@ -242,8 +275,13 @@ export default function AddPost() {
               <div className="people_title">디자이너</div>
               <select
                 name="designer"
-                value={designerCnt}
-                onChange={(e) => setDesignerCnt(e.target.value)}
+                value={formData.designerCnt}
+                onChange={(e) =>
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    designerCnt: e.target.value,
+                  }))
+                }
               >
                 <option value="">선택</option>
                 <option value="1">1</option>
@@ -256,8 +294,13 @@ export default function AddPost() {
               <div className="people_title">프론트엔드</div>
               <select
                 name="frontEnd"
-                value={frontEndCnt}
-                onChange={(e) => setFrontEndCnt(e.target.value)}
+                value={formData.frontEndCnt}
+                onChange={(e) =>
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    frontEndCnt: e.target.value,
+                  }))
+                }
               >
                 <option value="">선택</option>
                 <option value="1">1</option>
@@ -270,8 +313,13 @@ export default function AddPost() {
               <div className="people_title">백엔드</div>
               <select
                 name="backEnd"
-                value={backEndCnt}
-                onChange={(e) => setBackEndCnt(e.target.value)}
+                value={formData.backEndCnt}
+                onChange={(e) =>
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    backEndCnt: e.target.value,
+                  }))
+                }
               >
                 <option value="">선택</option>
                 <option value="1">1</option>
@@ -284,8 +332,13 @@ export default function AddPost() {
               <div className="people_title">모바일</div>
               <select
                 name="mobile"
-                value={mobileCnt}
-                onChange={(e) => setMobileCnt(e.target.value)}
+                value={formData.mobileCnt}
+                onChange={(e) =>
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    mobileCnt: e.target.value,
+                  }))
+                }
               >
                 <option value="">선택</option>
                 <option value="1">1</option>
@@ -298,8 +351,13 @@ export default function AddPost() {
               <div className="people_title">기타</div>
               <select
                 name="etc"
-                value={etcCnt}
-                onChange={(e) => setEtcCnt(e.target.value)}
+                value={formData.etcCnt}
+                onChange={(e) =>
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    etcCnt: e.target.value,
+                  }))
+                }
               >
                 <option value="">선택</option>
                 <option value="1">1</option>
@@ -318,13 +376,17 @@ export default function AddPost() {
             cols="30"
             rows="10"
             placeholder="내용을 입력해 주세요."
-            value={text}
-            onChange={handleText}
+            value={formData.text}
+            onChange={(e) =>
+              setFormData((prevData) => ({
+                ...prevData,
+                text: e.target.value,
+              }))
+            }
           ></textarea>
         </TextArea>
         <Submit>
-          <button>수정하기</button>
-          <button>작성 완료</button>
+          <button>글 작성하기</button>
         </Submit>
       </form>
     </Section>
@@ -333,7 +395,8 @@ export default function AddPost() {
 
 const Section = styled.section`
   margin: auto;
-  width: 850px;
+  width: 100%;
+  max-width: 850px;
   margin-top: 70px;
   display: flex;
   flex-direction: column;
@@ -408,7 +471,7 @@ const Playing = styled.div`
   padding-bottom: 40px;
 
   div {
-    width: 620px;
+    width: 700px;
     height: 42px;
     border-radius: 5px;
     border: 1px solid #d2e2ec;
@@ -423,6 +486,7 @@ const Playing = styled.div`
       outline: none;
       background: none;
       flex: 0.95;
+      border: none;
     }
   }
   button {
@@ -452,8 +516,8 @@ const Skill = styled.div`
 
   .tags {
     display: flex;
-    gap: 5px;
-    margin-left: 10px;
+    gap: 0.8rem;
+    margin-left: 1rem;
   }
 `;
 

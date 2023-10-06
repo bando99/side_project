@@ -19,13 +19,12 @@ public class ResponseUserDto {
 
     private Long id;
     private String username;
-
     private String mail;
+
 
     public ResponseUserDto(User user){
         this.id = user.getId();
         this.username = user.getUsername();
         this.mail = user.getMail();
-
     }
 }

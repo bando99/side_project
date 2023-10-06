@@ -21,5 +21,6 @@ public interface BoardService {
     void deleteBoard(Long id, HttpServletRequest request);
 
     List<ResponseBoardListDto> getBoardList(Pageable pageable, RequestSearchBoardDto requestSearchBoardDto);
+    List<ResponseBoardListDto> getClipedBoards(Pageable pageable, HttpServletRequest request);
 
 }

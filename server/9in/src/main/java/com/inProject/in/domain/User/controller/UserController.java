@@ -4,6 +4,9 @@ import com.inProject.in.domain.User.Dto.ResponseUserDto;
 import com.inProject.in.domain.User.Dto.UpdateUserDto;
 import com.inProject.in.domain.User.Dto.RequestUserDto;
 import com.inProject.in.domain.User.service.UserService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +43,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{user_id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long user_id){
+    @Parameter(name = "user_id", description = "유저 ID", in = ParameterIn.PATH, schema = @Schema(type = "integer", format = "int64"))
+    public ResponseEntity<String> deleteUser(@PathVariable(name = "user_id") Long user_id){
 
         userService.deleteUser(user_id);
 

@@ -14,8 +14,6 @@ import java.util.List;
 @Builder
 public class ResponseSkillTagDto {
     private String name;
-    private List<TagBoardRelation> tagBoardRelationList;
-
     public ResponseSkillTagDto(SkillTag SkillTag){
         this.name = SkillTag.getName();
     }

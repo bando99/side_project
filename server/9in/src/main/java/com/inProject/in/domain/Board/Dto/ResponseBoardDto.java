@@ -11,9 +11,11 @@ import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.RoleNeeded.Dto.RequestRoleNeededDto;
 import com.inProject.in.domain.RoleNeeded.Dto.ResponseRoleNeededDto;
 import com.inProject.in.domain.RoleNeeded.entity.RoleNeeded;
+import com.inProject.in.domain.User.Dto.ResponseInfoInBoardDto;
 import com.inProject.in.domain.User.entity.User;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +35,12 @@ public class ResponseBoardDto {
     private String text;
     private String proceed_method;
     private LocalDateTime period;
+    private LocalDateTime createAt;
     private int comment_cnt;
     private List<String> tags = new ArrayList<>();
     private List<ResponseRoleNeededDto> roles = new ArrayList<>();
     private List<ResponseCommentDto> commentList = new ArrayList<>();
-
-
+    private List<ResponseInfoInBoardDto> responseInfoInBoardDtoList = new ArrayList<>();
     public ResponseBoardDto(Board board){
         this.board_id = board.getId();
         this.username = board.getAuthor().getUsername();
@@ -47,23 +49,31 @@ public class ResponseBoardDto {
         this.title = board.getTitle();
         this.proceed_method = board.getProceed_method();
         this.period = board.getPeriod();
+        this.createAt = board.getCreateAt();
         this.comment_cnt = board.getComment_cnt();
 
-        for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
-            this.tags.add(tagBoardRelation.getSkillTag().getName());
-        }
-
-        for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
-            ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
-            this.roles.add(responseRoleNeededDto);
-        }
-
-        if(board.getCommentList() != null){
-            for(Comment comment : board.getCommentList()){
-                ResponseCommentDto responseCommentDto = new ResponseCommentDto(comment);
-                this.commentList.add(responseCommentDto);
-            }
-        }
-
+//        for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
+//            this.tags.add(tagBoardRelation.getSkillTag().getName());
+//        }
+//
+//        for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
+//            ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
+//            this.roles.add(responseRoleNeededDto);
+//        }
+//
+//        if(board.getCommentList() != null){
+//            for(Comment comment : board.getCommentList()){
+//                ResponseCommentDto responseCommentDto = new ResponseCommentDto(comment);
+//                this.commentList.add(responseCommentDto);
+//            }
+//        }
+//
+//        if(board.getApplicantBoardRelationList() != null){
+//            for(ApplicantBoardRelation applicantBoardRelation : board.getApplicantBoardRelationList()){
+//                ResponseInfoInBoardDto responseInfoInBoardDto = new ResponseInfoInBoardDto(applicantBoardRelation);
+//
+//                this.responseInfoInBoardDtoList.add(responseInfoInBoardDto);
+//            }
+//        }
     }
 }
