@@ -5,6 +5,7 @@ import com.inProject.in.domain.Board.Dto.ResponseBoardListDto;
 import com.inProject.in.domain.CommonLogic.Application.Dto.ResponseApplicationDto;
 import com.inProject.in.domain.CommonLogic.Application.Dto.ApplicationDto;
 import com.inProject.in.domain.CommonLogic.Application.service.ApplicationService;
+import com.inProject.in.domain.CommonLogic.Sse.service.SseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -22,10 +23,11 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "application", description = "게시글에 지원하는 api")
 public class ApplicationController {
     private ApplicationService applicationService;
-
+    private  SseService sseService;
     @Autowired
-    public ApplicationController(ApplicationService applicationService){
+    public ApplicationController(ApplicationService applicationService, SseService sseService){
         this.applicationService = applicationService;
+        this.sseService = sseService;
     }
 
     @PostMapping()
@@ -40,12 +42,12 @@ public class ApplicationController {
     public ResponseEntity<ResponseApplicationDto> createApplication(@RequestBody ApplicationDto applicationDto){
         try{
             ResponseApplicationDto responseApplicationDto = applicationService.createApplication(applicationDto);
-
+            //sseEvent 게시자의 id 로 바꿔야됨.
+            //sseService.subscribe(String.valueOf(applicationDto.getAuther_id()),"지원자가 발생했습니다. 확인해보세요.");
             return ResponseEntity.status(HttpStatus.OK).body(responseApplicationDto);
         }catch (CustomException e){
             throw e;
         }
-
     }
 
     @DeleteMapping()

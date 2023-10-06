@@ -12,5 +12,5 @@ public class ApplicationDto {
     private Long board_id;
     private Long user_id;
     private Long role_id;
-
+    //private String auther_id;
 }

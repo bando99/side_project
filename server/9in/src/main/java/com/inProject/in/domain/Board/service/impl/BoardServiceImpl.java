@@ -15,6 +15,8 @@ import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRe
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.repository.RoleBoardRelationRepository;
 import com.inProject.in.domain.MToNRelation.TagBoardRelation.entity.TagBoardRelation;
 import com.inProject.in.domain.MToNRelation.TagBoardRelation.repository.TagBoardRelationRepository;
+import com.inProject.in.domain.Board.Dto.RequestBoardDto;
+import com.inProject.in.domain.Board.Dto.ResponseBoardDto;
 import com.inProject.in.domain.Board.repository.BoardRepository;
 import com.inProject.in.domain.Board.service.BoardService;
 import com.inProject.in.domain.RoleNeeded.Dto.RequestUsingInBoardDto;
@@ -51,7 +53,6 @@ public class BoardServiceImpl implements BoardService {
     private JwtTokenProvider jwtTokenProvider;
 
     private final Logger log = LoggerFactory.getLogger(BoardServiceImpl.class);
-
 
     @Autowired
     public BoardServiceImpl(BoardRepository boardRepository,
