@@ -28,9 +28,12 @@ public class CustomBoardRepositoryImpl implements CustomBoardRepository {
     private final JPAQueryFactory jpaQueryFactory;
     QBoard qBoard = QBoard.board;
     QSkillTag qSkillTag = QSkillTag.skillTag;
+
     QTagBoardRelation qTagBoardRelation = QTagBoardRelation.tagBoardRelation;
+
     QClipBoardRelation qClipBoardRelation = QClipBoardRelation.clipBoardRelation;
     QUser qUser = QUser.user;
+
 
     @Autowired
     public CustomBoardRepositoryImpl(JPAQueryFactory jpaQueryFactory){

@@ -1,5 +1,6 @@
 package com.inProject.in.domain.CommonLogic.Sign.Dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Data
@@ -8,7 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class RequestSignInDto {
+    @NotBlank
     String username;
+    @NotBlank
     String password;
 
 }

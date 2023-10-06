@@ -12,4 +12,5 @@ public class ResponseApplicationDto {
     private Long author_id;
     private Long board_id;
     private Long role_id;
+
 }
