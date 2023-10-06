@@ -7,7 +7,7 @@ export default function IDfoundView() {
   const navigate = useNavigate();
 
   const [mail, setMail] = useState('');
-  const [notMail, setNotMail] = useState(null);
+  const [isNotMail, setIsNotMail] = useState(false);
 
   const handlePW = () => {
     navigate('/user/pwFound');
@@ -32,6 +32,7 @@ export default function IDfoundView() {
         mailInfo
       );
       console.log(response.message);
+      setIsNotMail(false);
     } catch (error) {
       console.error('아이디 찾기 실패', error);
       console.log(error.response.data.message);
@@ -40,8 +41,12 @@ export default function IDfoundView() {
         `Sign Exception. ${mail}은 없는 mail정보입니다.`
       ) {
         console.log('들어옴');
-        setNotMail(`${mail}은 없는 mail정보입니다.`);
-        console.log(notMail);
+        setIsNotMail(true);
+        console.log(isNotMail);
+
+        setTimeout(() => {
+          setIsNotMail(false);
+        }, 3000);
       }
     }
   };
@@ -62,21 +67,9 @@ export default function IDfoundView() {
             인증 요청
           </button>
         </div>
-        <p>mail은 없는 mail정보입니다.</p>
-        {/* {notMail && <p>{notMail}</p>} */}
-        {/* <div className={styles.input__box}>
-          <input
-            className={styles.input__code}
-            type="text"
-            placeholder="내용을 입력해 주세요."
-          />
-          <button className={styles.check__btn}>인증 확인</button>
-        </div> */}
-        <div className={styles.ID__box}>
-          <p className={styles.ID__commnet}>회원님의 아이디는</p>
-          <p className={styles.ID__content}>abc1234</p>
-          <p className={styles.ID__commnet}>입니다</p>
-        </div>
+        {isNotMail && (
+          <p className={styles.isNotMail}>위 메일은 없는 메일정보입니다. </p>
+        )}
         <div className={styles.btn__container}>
           <button onClick={handleLogin} className={styles.btn__login}>
             로그인
