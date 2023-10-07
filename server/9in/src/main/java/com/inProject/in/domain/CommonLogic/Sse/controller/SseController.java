@@ -1,24 +1,18 @@
 package com.inProject.in.domain.CommonLogic.Sse.controller;
 
-import com.inProject.in.domain.Board.Dto.RequestUpdateBoardDto;
-import com.inProject.in.domain.Board.Dto.ResponseBoardDto;
+
 import com.inProject.in.domain.CommonLogic.Sse.service.SseService;
-import com.inProject.in.domain.User.entity.User;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController("/sse")
 public class SseController {
 
-    private SseService sseService;
+    private final SseService sseService;
     private SseController(SseService sseService){
         this.sseService = sseService;
     }

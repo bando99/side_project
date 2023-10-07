@@ -2,10 +2,11 @@ package com.inProject.in.domain.Board.controller;
 
 import com.inProject.in.Global.exception.ConstantsClass;
 import com.inProject.in.Global.exception.CustomException;
-import com.inProject.in.domain.Board.Dto.*;
 import com.inProject.in.domain.Board.Dto.request.RequestCreateBoardDto;
 import com.inProject.in.domain.Board.Dto.request.RequestSearchBoardDto;
 import com.inProject.in.domain.Board.Dto.request.RequestUpdateBoardDto;
+import com.inProject.in.domain.Board.Dto.response.ResponseBoardDto;
+import com.inProject.in.domain.Board.Dto.response.ResponseBoardListDto;
 import com.inProject.in.domain.Board.service.BoardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

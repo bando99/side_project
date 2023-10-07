@@ -43,6 +43,7 @@ public class FindService {
                 .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.NOT_FOUND, mail + "은 없는 mail정보입니다."));
 
         log.info("findId ==> user : " + user.getUsername() + " 찾음");
+        log.info("username : " + user.getUsername());
         ResponseFindIdDto responseFindIdDto = new ResponseFindIdDto(user.getUsername());
 
         return responseFindIdDto;
@@ -78,7 +79,9 @@ public class FindService {
     }
     @Transactional
     public ResponseCheckIdDto checkId(RequestCheckIdDto requestCheckIdDto){
-        User user = userRepository.getByUsername(requestCheckIdDto.getUsername()).get();
+        User user = userRepository.getByUsername(requestCheckIdDto.getUsername())
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.FIND, HttpStatus.NOT_FOUND, "find - checkId에서 username이 존재하지 않음 확인"));
+
         boolean success = false;
 
         if(user != null){

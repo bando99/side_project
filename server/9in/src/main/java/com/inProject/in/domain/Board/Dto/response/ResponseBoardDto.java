@@ -1,4 +1,4 @@
-package com.inProject.in.domain.Board.Dto;
+package com.inProject.in.domain.Board.Dto.response;
 
 import com.inProject.in.domain.Comment.Dto.ResponseCommentDto;
 import com.inProject.in.domain.Comment.entity.Comment;

@@ -3,7 +3,7 @@ package com.inProject.in.domain.MToNRelation.ClipBoardRelation.service.Impl;
 import com.inProject.in.Global.exception.ConstantsClass;
 import com.inProject.in.Global.exception.CustomException;
 import com.inProject.in.config.security.JwtTokenProvider;
-import com.inProject.in.domain.Board.Dto.ResponseBoardListDto;
+import com.inProject.in.domain.Board.Dto.response.ResponseBoardListDto;
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.Dto.ResponseClipBoardRelationDto;
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.entity.ClipBoardRelation;
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.repository.ClipBoardRelationRepository;
@@ -50,7 +50,7 @@ public class ClipBoardRelationServiceImpl implements ClipBoardRelationService {
     public List<ResponseBoardListDto> getClipedBoards(Pageable pageable, HttpServletRequest request) {
         List<ResponseBoardListDto> responseBoardDtoList = new ArrayList<>();
         User user = getUserFromRequest(request);
-        Page<Board> boardPage = boardRepository.searchPostsByCliped(pageable, user);
+        Page<Board> boardPage = boardRepository.searchBoardsByCliped(pageable, user);
         List<Board> boardList = boardPage.getContent();
 
         log.info("clipService getClipedBoards ==> username : " + user.getUsername());
@@ -67,10 +67,10 @@ public class ClipBoardRelationServiceImpl implements ClipBoardRelationService {
 
 
         User user = userRepository.findById(user_id)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.Clip, HttpStatus.NOT_FOUND, "insert Clip에서 유효하지 않은 user id : " + user_id));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.CLIP, HttpStatus.NOT_FOUND, "insert Clip에서 유효하지 않은 user id : " + user_id));
 
         Board board = boardRepository.findById(board_id)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.Clip, HttpStatus.NOT_FOUND, "insert Clip에서 유효하지 않은 post id : " + board_id));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.CLIP, HttpStatus.NOT_FOUND, "insert Clip에서 유효하지 않은 post id : " + board_id));
 
         log.info("Using insertClip in clip Service ==> board_id : " + board_id + " user_id : " + user_id);
 
@@ -97,13 +97,13 @@ public class ClipBoardRelationServiceImpl implements ClipBoardRelationService {
     public ResponseClipBoardRelationDto deleteClip(Long user_id, Long board_id) {
 
         User user = userRepository.findById(user_id)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.Clip, HttpStatus.NOT_FOUND, "delete Clip에서 유효하지 않은 user id : " + user_id));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.CLIP, HttpStatus.NOT_FOUND, "delete Clip에서 유효하지 않은 user id : " + user_id));
 
         Board board = boardRepository.findById(board_id)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.Clip, HttpStatus.NOT_FOUND, "delete Clip에서 유효하지 않은 post id : " + board_id));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.CLIP, HttpStatus.NOT_FOUND, "delete Clip에서 유효하지 않은 post id : " + board_id));
 
         ClipBoardRelation clipBoardRelation = clipBoardRelationRepository.getClipedBoard(user, board)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.Clip, HttpStatus.NOT_FOUND, "좋아요 등록이 되지 않은 게시글 ==> user id : " + user_id + " post id : " + board_id));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.CLIP, HttpStatus.NOT_FOUND, "좋아요 등록이 되지 않은 게시글 ==> user id : " + user_id + " post id : " + board_id));
 
         log.info("Using deleteClip in clip service ==> board_id " + board_id + " user_id " + user_id);
         log.info("delete Clip Post Relation ==> relation_id " + clipBoardRelation.getId());

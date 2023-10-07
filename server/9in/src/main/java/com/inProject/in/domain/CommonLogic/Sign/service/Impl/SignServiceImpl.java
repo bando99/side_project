@@ -69,6 +69,9 @@ public class SignServiceImpl implements SignService {
             throw new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.CONFLICT, "아이디 중복");
         }
 
+        if(userRepository.getByMail(mail).isPresent()){
+            throw new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.CONFLICT, "메일 중복");
+        }
         if(role.equalsIgnoreCase("admin")){
             user = User.builder()
                     //.userId(userId)

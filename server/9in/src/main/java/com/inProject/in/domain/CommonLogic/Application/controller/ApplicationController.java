@@ -1,9 +1,8 @@
 package com.inProject.in.domain.CommonLogic.Application.controller;
 
 import com.inProject.in.Global.exception.CustomException;
-import com.inProject.in.domain.Board.Dto.ResponseBoardListDto;
 import com.inProject.in.domain.CommonLogic.Application.Dto.ResponseApplicationDto;
-import com.inProject.in.domain.CommonLogic.Application.Dto.ApplicationDto;
+import com.inProject.in.domain.CommonLogic.Application.Dto.RequestApplicationDto;
 import com.inProject.in.domain.CommonLogic.Application.service.ApplicationService;
 import com.inProject.in.domain.CommonLogic.Sse.service.SseService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,11 +38,11 @@ public class ApplicationController {
                     })
     })
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)
-    public ResponseEntity<ResponseApplicationDto> createApplication(@RequestBody ApplicationDto applicationDto){
+    public ResponseEntity<ResponseApplicationDto> createApplication(@RequestBody RequestApplicationDto requestApplicationDto){
         try{
-            ResponseApplicationDto responseApplicationDto = applicationService.createApplication(applicationDto);
+            ResponseApplicationDto responseApplicationDto = applicationService.createApplication(requestApplicationDto);
             //sseEvent 게시자의 id 로 바꿔야됨.
-            //sseService.subscribe(String.valueOf(applicationDto.getAuther_id()),"지원자가 발생했습니다. 확인해보세요.");
+            sseService.subscribe(String.valueOf(requestApplicationDto.getAuthorName()),"지원자가 발생했습니다. 확인해보세요.");
             return ResponseEntity.status(HttpStatus.OK).body(responseApplicationDto);
         }catch (CustomException e){
             throw e;
@@ -53,9 +52,9 @@ public class ApplicationController {
     @DeleteMapping()
     @Operation(summary = "지원 취소", description = "게시글에 지원한 걸 취소합니다.")
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)
-    public ResponseEntity<String> deleteApplication(ApplicationDto applicationDto){
+    public ResponseEntity<String> deleteApplication(RequestApplicationDto requestApplicationDto){
         try{
-            applicationService.deleteApplication(applicationDto);
+            applicationService.deleteApplication(requestApplicationDto);
 
             return ResponseEntity.status(HttpStatus.OK).body("삭제 완료");
         }catch (CustomException e){

@@ -5,6 +5,7 @@ import com.inProject.in.domain.Profile.Dto.response.ResponseProject_skillDto;
 import com.inProject.in.domain.Profile.service.Project_skillServiceImpl;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/project_skill")
+@Tag(name = "project_skill", description = "프로젝트 경험 관련 api")
 public class ProjectController {
 
     private final Project_skillServiceImpl projectSkillService;

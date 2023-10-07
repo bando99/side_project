@@ -2,44 +2,44 @@ package com.inProject.in.domain.Profile.controller;
 
 import com.inProject.in.Global.exception.ConstantsClass;
 import com.inProject.in.Global.exception.CustomException;
+import com.inProject.in.domain.Board.Dto.response.ResponseBoardListDto;
+import com.inProject.in.domain.Board.service.BoardService;
 import com.inProject.in.domain.Profile.Dto.request.*;
 import com.inProject.in.domain.Profile.Dto.response.*;
 import com.inProject.in.domain.Profile.service.*;
+import com.inProject.in.domain.User.Dto.ResponseUserDto;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
+import com.inProject.in.domain.User.service.UserService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/profile")
+@Tag(name = "profile", description = "프로필 전체 관련 api")
 public class ProfileController {
-    private CertificateServiceImpl certificateService;
-    private Job_exServiceImpl jobExService;
-    private EducationServiceImpl educationService;
-    private Project_skillServiceImpl projectSkillService;
-    private MyInfoServiceImpl myInfoService;
-    private UserRepository userRepository;
+    private final ProfileService profileService;
+    private final BoardService boardService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public ProfileController(
-            CertificateServiceImpl certificateService,
-            Job_exServiceImpl jobExService,
-            EducationServiceImpl educationService,
-            Project_skillServiceImpl projectSkillService,
-            MyInfoServiceImpl myInfoService,
-            UserRepository userRepository){
+    public ProfileController(ProfileService profileService,
+                             BoardService boardService,
+                             UserRepository userRepository){
 
-        this.certificateService = certificateService;
-        this.educationService = educationService;
-        this.jobExService = jobExService;
-        this.projectSkillService = projectSkillService;
-        this.myInfoService = myInfoService;
+        this.profileService = profileService;
+        this.boardService = boardService;
         this.userRepository = userRepository;
     }
 
@@ -47,21 +47,18 @@ public class ProfileController {
     @Parameter(name = "username", description = "username 입력", in = ParameterIn.PATH)
     public ResponseEntity<ResponseProfileDto> getProfile(@PathVariable(name = "username") String username){
 
-        User user = userRepository.getByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("ProfileController getProfile에서 잘못된 username : " + username));
-
-        if(user.getCertificate() == null || user.getEducation() == null || user.getJobEx() == null || user.getProjectSkill() == null || user.getMyInfo() == null){
-            throw new CustomException(ConstantsClass.ExceptionClass.PROFILE, HttpStatus.BAD_REQUEST, username + "의 프로필작성이 완료되지 않았습니다.");
-        }
-
-        ResponseCertificateDto responseCertificateDto = new ResponseCertificateDto(user.getCertificate());
-        ResponseJob_exDto responseJobExDto = new ResponseJob_exDto(user.getJobEx());
-        ResponseEducationDto responseEducationDto = new ResponseEducationDto(user.getEducation());
-        ResponseProject_skillDto responseProjectSkillDto = new ResponseProject_skillDto(user.getProjectSkill());
-        ResponseMyInfoDto responseMyInfoDto = new ResponseMyInfoDto(user.getMyInfo());
-
-        ResponseProfileDto responseProfileDto = new ResponseProfileDto(responseCertificateDto, responseProjectSkillDto, responseJobExDto, responseEducationDto, responseMyInfoDto);
+        ResponseProfileDto responseProfileDto = profileService.getProfile(username);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseProfileDto);
+    }
+
+    @GetMapping("/myBoards/{username}")
+    public ResponseEntity<List<ResponseBoardListDto>> getMyProjectBoards(@PageableDefault(size = 5) Pageable pageable,
+                                                                         @RequestParam String type,
+                                                                         @PathVariable(name = "username") String username
+                                                                         ){
+        List<ResponseBoardListDto> responseBoardListDtoList = boardService.getBoardListForUserInfo(pageable, username, type);
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseBoardListDtoList);
     }
 }

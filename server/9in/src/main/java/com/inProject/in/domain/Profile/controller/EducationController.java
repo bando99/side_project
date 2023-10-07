@@ -5,6 +5,7 @@ import com.inProject.in.domain.Profile.Dto.response.ResponseEducationDto;
 import com.inProject.in.domain.Profile.service.EducationServiceImpl;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/education")
+@Tag(name = "education ", description = "학력 관련 api")
 public class EducationController {
 
     private final EducationServiceImpl educationService;

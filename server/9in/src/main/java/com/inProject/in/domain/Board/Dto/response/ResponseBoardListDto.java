@@ -1,4 +1,4 @@
-package com.inProject.in.domain.Board.Dto;
+package com.inProject.in.domain.Board.Dto.response;
 
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;

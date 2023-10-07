@@ -8,7 +8,7 @@
 //import com.inProject.in.domain.MToNRelation.TagBoardRelation.entity.TagBoardRelation;
 //import com.inProject.in.domain.MToNRelation.TagBoardRelation.repository.TagBoardRelationRepository;
 //import com.inProject.in.domain.Board.Dto.RequestBoardDto;
-//import com.inProject.in.domain.Board.Dto.ResponseBoardDto;
+//import com.inProject.in.domain.Board.Dto.response.ResponseBoardDto;
 //import com.inProject.in.domain.Board.repository.BoardRepository;
 //import com.inProject.in.domain.Board.service.BoardService;
 //import com.inProject.in.domain.RoleNeeded.Dto.RequestRoleNeededDto;
