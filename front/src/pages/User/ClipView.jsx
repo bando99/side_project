@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Project from '../../ components/Post';
+import Post from '../../ components/Post';
+import useFetchData from '../../ components/hooks/getPostList';
+import axios from 'axios';
 
 const HeaderBox = styled.div`
   display: flex;
@@ -76,7 +79,35 @@ const ProjectGrid = styled.div`
   padding: 3rem;
 `;
 
-const ClipView = () => {
+export default function ClipView() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const baseURL = 'http://1.246.104.170:8080';
+
+  console.log(localStorage.getItem('token'));
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(baseURL + '/cliped', {
+          headers: {
+            'X-AUTH-TOKEN': localStorage.getItem('token'),
+          },
+        });
+        setData(response.data);
+        setLoading(false);
+        console.log('Data GET 성공!', response.data);
+      } catch (error) {
+        setError('네트워크 에러가 발생했습니다.');
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(data);
+
   return (
     <section>
       <HeaderBox>
@@ -86,13 +117,9 @@ const ClipView = () => {
           <ToggleBtn role="switch" type="checkbox" />
         </ToggleBox>
       </HeaderBox>
-      <ProjectGrid>
-        <Project />
-        <Project />
-        <Project />
-      </ProjectGrid>
+      {/* <ProjectGrid>
+        <Post />
+      </ProjectGrid> */}
     </section>
   );
-};
-
-export default ClipView;
+}
