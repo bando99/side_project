@@ -4,6 +4,7 @@ import Project from '../../ components/Post';
 import Post from '../../ components/Post';
 import useFetchData from '../../ components/hooks/getPostList';
 import axios from 'axios';
+import { refreshTokenAndRetry } from '../../api/user';
 
 const HeaderBox = styled.div`
   display: flex;
@@ -81,12 +82,9 @@ const ProjectGrid = styled.div`
 
 export default function ClipView() {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const baseURL = 'http://1.246.104.170:8080';
 
-  console.log(localStorage.getItem('token'));
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -96,10 +94,26 @@ export default function ClipView() {
           },
         });
         setData(response.data);
-        setLoading(false);
-        console.log('Data GET 성공!', response.data);
+        console.log('clipList GET 성공', response.data);
       } catch (error) {
-        setError('네트워크 에러가 발생했습니다.');
+        console.error('clipList 조회 실패', error);
+
+        if (error.response.data.msg == '인증이 실패했습니다.') {
+          console.log(error.response.data.msg);
+          try {
+            const retryResponse = await refreshTokenAndRetry(
+              'get',
+              'http://1.246.104.170:8080/cliped',
+              null,
+              {
+                'X-AUTH-TOKEN': localStorage.getItem('token'),
+              }
+            );
+            console.log(retryResponse);
+          } catch (retryError) {
+            console.log(retryError);
+          }
+        }
       }
     };
 
