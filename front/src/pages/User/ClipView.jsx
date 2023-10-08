@@ -81,7 +81,7 @@ const ProjectGrid = styled.div`
 `;
 
 export default function ClipView() {
-  const [data, setData] = useState([]);
+  const [clipList, setClipList] = useState([]);
 
   const baseURL = 'http://1.246.104.170:8080';
 
@@ -93,7 +93,7 @@ export default function ClipView() {
             'X-AUTH-TOKEN': localStorage.getItem('token'),
           },
         });
-        setData(response.data);
+        setClipList(response.data);
         console.log('clipList GET 성공', response.data);
       } catch (error) {
         console.error('clipList 조회 실패', error);
@@ -120,7 +120,7 @@ export default function ClipView() {
     fetchData();
   }, []);
 
-  console.log(data);
+  console.log(clipList);
 
   return (
     <section>
@@ -131,9 +131,21 @@ export default function ClipView() {
           <ToggleBtn role="switch" type="checkbox" />
         </ToggleBox>
       </HeaderBox>
-      {/* <ProjectGrid>
-        <Post />
-      </ProjectGrid> */}
+      <ProjectGrid>
+        {clipList.map((clip) => (
+          <Post
+            key={clip.board_id}
+            title={clip.title}
+            type={clip.type}
+            roles={clip.roles}
+            period={clip.period}
+            proceed_method={clip.proceed_method}
+            username={clip.username}
+            tags={clip.tags}
+            board_id={clip.board_id}
+          />
+        ))}
+      </ProjectGrid>
     </section>
   );
 }

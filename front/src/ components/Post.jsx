@@ -18,7 +18,9 @@ export default function Post({
   const { user_id } = useAuth();
 
   const [isClip, setIsClip] = useState(false);
+
   console.log(board_id);
+  console.log(isClip);
 
   const handleClip = async (e) => {
     const clipInfo = {
@@ -37,22 +39,33 @@ export default function Post({
         }
       );
       console.log(response);
+      setIsClip(true);
       alert('게시글을 즐겨찾기에 등록했습니다.');
     } catch (error) {
       console.log('즐겨찾기 등록 실패', error);
       alert('게시글 즐겨찾기 등록에 실패했습니다.');
+      setIsClip(false);
     }
+    console.log(isClip);
     e.stopPropagation();
   };
 
   return (
     <div className={styles.container}>
-      <img
-        onClick={handleClip}
-        className={styles.clip}
-        src="/icons/isNotClip.png"
-        alt=""
-      />
+      {!isClip && (
+        <img
+          onClick={handleClip}
+          className={styles.clip}
+          src="/icons/isNotClip.png"
+        />
+      )}
+      {isClip && (
+        <img
+          onClick={handleClip}
+          className={styles.clip}
+          src="/icons/isClip.png"
+        />
+      )}
       <div className={styles.type__container}>
         <div className={styles.type__text}>{type}</div>
         <div className={styles.period__text}>{period}</div>
