@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Role from './Role';
 import styles from './Post.module.css';
+import axios from 'axios';
+import { useAuth } from './context/AuthContext';
 
 export default function Post({
   board_id,
@@ -13,8 +15,44 @@ export default function Post({
   roles,
   tags,
 }) {
+  const { user_id } = useAuth();
+
+  const [isClip, setIsClip] = useState(false);
+  console.log(board_id);
+
+  const handleClip = async (e) => {
+    const clipInfo = {
+      user_id,
+      board_id,
+    };
+
+    try {
+      const response = await axios.post(
+        'http://1.246.104.170:8080/cliped',
+        clipInfo,
+        {
+          headers: {
+            'X-AUTH-TOKEN': localStorage.getItem('token'),
+          },
+        }
+      );
+      console.log(response);
+      alert('게시글을 즐겨찾기에 등록했습니다.');
+    } catch (error) {
+      console.log('즐겨찾기 등록 실패', error);
+      alert('게시글 즐겨찾기 등록에 실패했습니다.');
+    }
+    e.stopPropagation();
+  };
+
   return (
     <div className={styles.container}>
+      <img
+        onClick={handleClip}
+        className={styles.clip}
+        src="/icons/isNotClip.png"
+        alt=""
+      />
       <div className={styles.type__container}>
         <div className={styles.type__text}>{type}</div>
         <div className={styles.period__text}>{period}</div>

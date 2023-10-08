@@ -33,6 +33,7 @@ export default function HomeView() {
               proceed_method={post.proceed_method}
               username={post.username}
               tags={post.tags}
+              board_id={post.board_id}
             />
           </div>
         ))}

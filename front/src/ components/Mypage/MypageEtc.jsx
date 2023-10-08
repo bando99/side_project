@@ -7,7 +7,10 @@ const MypageEtc = () => {
 
   return (
     <MyPageEtc>
-      <div className="section1_etc_clip">
+      <div
+        onClick={() => navigate('/mypage/clip')}
+        className="section1_etc_clip"
+      >
         <div>
           <img src="icons/clip.png" width="24" height="24" alt="clip icon" />
           <p>클립 해놓은 게시물 {'>'}</p>
