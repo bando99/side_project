@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +54,7 @@ public class ProfileController {
     }
 
     @GetMapping("/myBoards/{username}")
+    @Parameter(name = "username", description = "username 입력", in = ParameterIn.PATH)
     public ResponseEntity<List<ResponseBoardListDto>> getMyProjectBoards(@PageableDefault(size = 5) Pageable pageable,
                                                                          @RequestParam String type,
                                                                          @PathVariable(name = "username") String username

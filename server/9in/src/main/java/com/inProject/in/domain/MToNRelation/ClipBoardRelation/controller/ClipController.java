@@ -71,7 +71,7 @@ public class ClipController {
 
     @DeleteMapping()
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)
-    @Operation(summary = "즐겨찾기 등록", description = "게시글을 클립 설정합니다.", responses = {
+    @Operation(summary = "즐겨찾기 해제", description = "게시글을 클립 설정을 취소합니다.", responses = {
             @ApiResponse(responseCode = "200", description = "즐겨찾기 취소", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ResponseClipBoardRelationDto.class))
