@@ -32,7 +32,7 @@ public class Certificate extends BaseEntity {
     @Column
     private String explanation;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @ToString.Exclude
     private User user;

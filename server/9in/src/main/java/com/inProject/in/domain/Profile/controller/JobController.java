@@ -32,11 +32,20 @@ public class JobController {
         return ResponseEntity.status(HttpStatus.OK).body(responseJobExDto);
     }
 
-    @PutMapping()
+    @PutMapping("/{jobEx_id}")
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)
-    public ResponseEntity<ResponseJob_exDto> updateJob_ex(@RequestBody RequestJob_exDto requestJobExDto, HttpServletRequest request){
-        ResponseJob_exDto responseJobExDto = jobExService.updateJob_ex(requestJobExDto, request);
+    public ResponseEntity<ResponseJob_exDto> updateJob_ex(@RequestBody RequestJob_exDto requestJobExDto,
+                                                          @PathVariable(name = "jobEx_id") Long jobEx_id,
+                                                          HttpServletRequest request){
+        ResponseJob_exDto responseJobExDto = jobExService.updateJob_ex(jobEx_id,requestJobExDto, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseJobExDto);
+    }
+
+    @DeleteMapping("/{jobEx_id}")
+    public ResponseEntity<String> deleteJobEx(@PathVariable(name = "jobEx_id") Long jobEx_id, HttpServletRequest request){
+        jobExService.deleteJob_ex(jobEx_id, request);
+
+        return ResponseEntity.status(HttpStatus.OK).body("jobEx 삭제 성공");
     }
 }

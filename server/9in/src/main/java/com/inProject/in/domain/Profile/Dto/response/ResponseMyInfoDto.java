@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseMyInfoDto {
+    private Long myinfo_id;
     private String nickname;
     private String role;
     private String career;
@@ -19,6 +20,7 @@ public class ResponseMyInfoDto {
     private String graduated;
 
     public ResponseMyInfoDto(MyInfo myInfo){
+        this.myinfo_id = myInfo.getId();
         this.nickname = myInfo.getNickname();
         this.role = myInfo.getRole();
         this.career = myInfo.getCareer();

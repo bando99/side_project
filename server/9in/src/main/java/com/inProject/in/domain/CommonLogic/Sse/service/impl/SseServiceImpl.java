@@ -95,7 +95,7 @@ public class SseServiceImpl implements SseService {
         }
 
         String id =  user.getUsername();
-        //
+
         SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
 
         sseRepository.save(id, emitter);

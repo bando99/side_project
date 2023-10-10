@@ -37,7 +37,7 @@ public class Project_skill extends BaseEntity {
     private String skill_in_project;
     @Column
     private String performance;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @ToString.Exclude
     private User user;

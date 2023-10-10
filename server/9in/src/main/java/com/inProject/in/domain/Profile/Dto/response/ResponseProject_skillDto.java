@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class ResponseProject_skillDto {
+    private Long projectSkill_id;
     private String project_name;
     private LocalDateTime start_date;
     private LocalDateTime end_date;
@@ -20,6 +21,7 @@ public class ResponseProject_skillDto {
     private String performance;
 
     public ResponseProject_skillDto(Project_skill projectSkill){
+        this.projectSkill_id = projectSkill.getId();
         this.project_name = projectSkill.getProject_name();
         this.start_date = projectSkill.getStart_date();
         this.end_date = projectSkill.getEnd_date();

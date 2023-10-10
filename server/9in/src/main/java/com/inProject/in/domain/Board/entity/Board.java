@@ -48,7 +48,8 @@ public class Board extends BaseEntity {
     private LocalDateTime period; //예상 기간
 
     @Column
-    private int comment_cnt;  //댓글 개수
+    @Builder.Default
+    private int comment_cnt = 0;  //댓글 개수
     @Column
     private boolean deleted = Boolean.FALSE;
 

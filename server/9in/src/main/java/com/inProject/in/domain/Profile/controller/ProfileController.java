@@ -11,11 +11,16 @@ import com.inProject.in.domain.User.Dto.ResponseUserDto;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
 import com.inProject.in.domain.User.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
@@ -46,6 +51,12 @@ public class ProfileController {
 
     @GetMapping("/{username}")
     @Parameter(name = "username", description = "username 입력", in = ParameterIn.PATH)
+    @Operation(summary = "전체 프로필 가져오는 api", description = "한 유저의 모든 프로필 내용을 반환합니다.", responses = {
+            @ApiResponse(responseCode = "200", description = "프로필 가져오기 성공", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ResponseProfileDto.class))
+            })
+    })
     public ResponseEntity<ResponseProfileDto> getProfile(@PathVariable(name = "username") String username){
 
         ResponseProfileDto responseProfileDto = profileService.getProfile(username);
@@ -55,7 +66,13 @@ public class ProfileController {
 
     @GetMapping("/myBoards/{username}")
     @Parameter(name = "username", description = "username 입력", in = ParameterIn.PATH)
-    public ResponseEntity<List<ResponseBoardListDto>> getMyProjectBoards(@PageableDefault(size = 5) Pageable pageable,
+    @Operation(summary = "프로필에 내 게시글 가져오는 api", description = "한 유저가 작성한 글들을 반환합니다.", responses = {
+            @ApiResponse(responseCode = "200", description = "게시글 가져오기 성공", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ResponseProfileDto.class))
+            })
+    })
+    public ResponseEntity<List<ResponseBoardListDto>> getMyBoards(@PageableDefault(size = 5) Pageable pageable,
                                                                          @RequestParam String type,
                                                                          @PathVariable(name = "username") String username
                                                                          ){
@@ -64,3 +81,4 @@ public class ProfileController {
         return ResponseEntity.status(HttpStatus.OK).body(responseBoardListDtoList);
     }
 }
+

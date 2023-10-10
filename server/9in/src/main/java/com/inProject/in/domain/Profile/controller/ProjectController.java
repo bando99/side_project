@@ -31,11 +31,20 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.OK).body(responseProjectSkillDto);
     }
 
-    @PutMapping()
+    @PutMapping("/{projectSkill_id}")
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)
-    public ResponseEntity<ResponseProject_skillDto> updateProject_skill(@RequestBody RequestProject_skillDto requestProjectSkillDto, HttpServletRequest request){
-        ResponseProject_skillDto responseProjectSkillDto = projectSkillService.updateProject_skill(requestProjectSkillDto, request);
+    public ResponseEntity<ResponseProject_skillDto> updateProject_skill(@RequestBody RequestProject_skillDto requestProjectSkillDto,
+                                                                        @PathVariable(name = "projectSkill_id") Long projectSkill_id,
+                                                                        HttpServletRequest request){
+        ResponseProject_skillDto responseProjectSkillDto = projectSkillService.updateProject_skill(projectSkill_id, requestProjectSkillDto, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseProjectSkillDto);
+    }
+
+    @DeleteMapping("/{projectSkill_id}")
+    public ResponseEntity<String> deleteProjectSkill(@PathVariable(name = "projectSkill_id") Long projectSkill_id, HttpServletRequest request){
+        projectSkillService.deleteProject_skill(projectSkill_id, request);
+
+        return ResponseEntity.status(HttpStatus.OK).body("project skill 삭제 성공");
     }
 }

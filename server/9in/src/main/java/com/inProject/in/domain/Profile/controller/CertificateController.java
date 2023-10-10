@@ -33,11 +33,20 @@ public class CertificateController {
         return ResponseEntity.status(HttpStatus.OK).body(responseCertificateDto);
     }
 
-    @PutMapping()
+    @PutMapping("/{certificate_id}")
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)
-    public ResponseEntity<ResponseCertificateDto> updateCertificate(@RequestBody RequestCertificateDto requestCertificateDto, HttpServletRequest request){
-        ResponseCertificateDto responseCertificateDto = certificateService.updateCertificate(requestCertificateDto, request);
+    public ResponseEntity<ResponseCertificateDto> updateCertificate(@RequestBody RequestCertificateDto requestCertificateDto,
+                                                                    @PathVariable(name = "certificate_id") Long certificate_id,
+                                                                    HttpServletRequest request){
+        ResponseCertificateDto responseCertificateDto = certificateService.updateCertificate(certificate_id, requestCertificateDto, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseCertificateDto);
+    }
+
+    @DeleteMapping("/{certificate_id}")
+    public ResponseEntity<String> deleteCertificate(@PathVariable(name = "certificate_id") Long certificate_id, HttpServletRequest request){
+        certificateService.deleteCertificate(certificate_id, request);
+
+        return ResponseEntity.status(HttpStatus.OK).body("certificate 삭제 성공");
     }
 }

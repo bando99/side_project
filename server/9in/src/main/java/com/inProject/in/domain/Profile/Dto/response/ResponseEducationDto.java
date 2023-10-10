@@ -11,19 +11,17 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class ResponseEducationDto {
+    private Long education_id;
     private String school; //대학교
-
     private String major;  //전공
-
     private Float grades; //학점
     private Float max_grades; //최대 학점
-
     private LocalDateTime admission; //입학일
-
     private LocalDateTime graduated; //졸업일
     private Long user_id;
 
     public ResponseEducationDto(Education education){
+        this.education_id = education.getId();
         this.school = education.getSchool();
         this.major = education.getMajor();
         this.grades = education.getGrades();

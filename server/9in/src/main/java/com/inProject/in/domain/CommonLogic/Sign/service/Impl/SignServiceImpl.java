@@ -10,9 +10,13 @@ import com.inProject.in.domain.CommonLogic.RefreshToken.repository.RefreshTokenR
 import com.inProject.in.domain.CommonLogic.Sign.Dto.request.*;
 import com.inProject.in.domain.CommonLogic.Sign.Dto.response.*;
 import com.inProject.in.domain.CommonLogic.Sign.service.SignService;
+import com.inProject.in.domain.Profile.entity.*;
+import com.inProject.in.domain.Profile.repository.*;
+import com.inProject.in.domain.Profile.service.Project_skillServiceImpl;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,32 +33,37 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class SignServiceImpl implements SignService {
 
     private final Logger log = LoggerFactory.getLogger(SignServiceImpl.class);
-
-    private UserRepository userRepository;
-    private JwtTokenProvider jwtTokenProvider;
-    private PasswordEncoder passwordEncoder;
-    private RefreshTokenRepository1 refreshTokenRepository;
+    private final MyInfoRepository myInfoRepository;
+    private final CertificateRepository certificateRepository;
+    private final Job_exRepository jobExRepository;
+    private final EducationRepository educationRepository;
+    private final Project_skillRepository projectSkillRepository;
+    private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenRepository1 refreshTokenRepository;
     private final MailService mailService;
     private RedisTemplate redisTemplate;
 
-    @Autowired
-    public SignServiceImpl(UserRepository userRepository,
-                           JwtTokenProvider jwtTokenProvider,
-                           PasswordEncoder passwordEncoder,
-                           RefreshTokenRepository1 refreshTokenRepository,
-                           MailService mailService,
-                           RedisTemplate redisTemplate){
-
-        this.userRepository = userRepository;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.passwordEncoder = passwordEncoder;
-        this.refreshTokenRepository = refreshTokenRepository;
-        this.mailService = mailService;
-        this.redisTemplate = redisTemplate;
-    }
+//    @Autowired
+//    public SignServiceImpl(UserRepository userRepository,
+//                           JwtTokenProvider jwtTokenProvider,
+//                           PasswordEncoder passwordEncoder,
+//                           RefreshTokenRepository1 refreshTokenRepository,
+//                           MailService mailService,
+//                           RedisTemplate redisTemplate){
+//
+//        this.userRepository = userRepository;
+//        this.jwtTokenProvider = jwtTokenProvider;
+//        this.passwordEncoder = passwordEncoder;
+//        this.refreshTokenRepository = refreshTokenRepository;
+//        this.mailService = mailService;
+//        this.redisTemplate = redisTemplate;
+//    }
     @Override
     public ResponseSignUpDto signUp(RequestSignUpDto requestSignUpDto) {
         log.info("SignService signup ==> 회원가입 정보 확인");
@@ -91,6 +100,33 @@ public class SignServiceImpl implements SignService {
         }
         // 여기서 오류 뜨는데 Error: 1364-HY000: Field 'user_id' doesn't have a default value
         User savedUser = userRepository.save(user);
+
+        MyInfo myInfo = MyInfo.builder()
+                 .user(user)
+                 .build();
+
+        Certificate certificate = Certificate.builder()
+                .user(user)
+                .build();
+
+        Job_ex jobEx = Job_ex.builder()
+                .user(user)
+                .build();
+
+        Education education = Education.builder()
+                .user(user)
+                .build();
+
+        Project_skill project_skill = Project_skill.builder()
+                .user(user)
+                .build();
+
+        myInfoRepository.save(myInfo);
+        certificateRepository.save(certificate);
+        jobExRepository.save(jobEx);
+        educationRepository.save(education);
+        projectSkillRepository.save(project_skill);   //유저가 생성되면 그의 빈 프로필도 생성. null오류를 막기 위해서.
+
         ResponseSignUpDto responseSignUpDto = new ResponseSignInDto();
 
         log.info("SignService signup ==> user 저장");
