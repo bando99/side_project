@@ -8,10 +8,12 @@ const Container = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 2rem;
 `;
 
 const Title = styled.p`
   font-weight: 800;
+  margin: 1rem;
 `;
 
 const ContainerBox = styled.div`
@@ -23,7 +25,7 @@ const ContainerBox = styled.div`
 const InputContainer = styled.div`
   .input__text {
     font-weight: 700;
-    margin-top: 1rem;
+    margin-top: 1.3rem;
     margin-bottom: 0.4rem;
   }
 

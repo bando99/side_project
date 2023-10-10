@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './PWfound.module.css';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -96,55 +96,169 @@ export default function PWfoundView() {
   };
 
   return (
-    <section className={styles.container}>
-      <p className={styles.title}>비밀번호 찾기</p>
-      <div className={styles.container__box}>
-        <p className={styles.subTitle}>아이디</p>
-        <div className={styles.input__box}>
-          <input
+    <Container>
+      <Title>비밀번호 찾기</Title>
+      <ContainerBox>
+        <SubTitle>아이디</SubTitle>
+        <InputBox>
+          <StyledInput
             type="text"
             value={id}
             onChange={handleChangeId}
             placeholder="내용을 입력해 주세요."
           />
-          <button onClick={checkId} className={styles.check__btn}>
-            확인
-          </button>
-        </div>
-        {isId && <p className={styles.isId}>아이디를 확인했습니다</p>}
-        {isNotId && (
-          <p className={styles.isNotId}>아이디가 존재하지 않습니다.</p>
-        )}
-        <div className={styles.mail__container}>
-          <p className={styles.subTitle}>이메일 주소</p>
-          <div className={styles.input__box}>
-            <input
+          <CheckBtn onClick={checkId}>확인</CheckBtn>
+        </InputBox>
+        {isId && <IsId>아이디를 확인했습니다</IsId>}
+        {isNotId && <IsNotId>아이디가 존재하지 않습니다.</IsNotId>}
+        <MailContainer>
+          <SubTitle>이메일 주소</SubTitle>
+          <InputBox>
+            <StyledInput
               type="text"
               value={mail}
               onChange={handleChangeMail}
               placeholder="내용을 입력해 주세요."
             />
-            <button onClick={findPw} className={styles.check__btn}>
-              인증 요청
-            </button>
-          </div>
-          {isMail && (
-            <p className={styles.isMail}>임시 비밀번호를 생성했습니다.</p>
-          )}
-          {isNotMail && (
-            <p className={styles.isNotMail}>위 메일은 없는 메일정보입니다. </p>
-          )}
-        </div>
-        {/* <div className={styles.FoundBtn}>비밀번호 찾기</div> */}
-        {/* <div className={styles.PW__box}>
-          <p className={styles.PW__commnet}>회원님의 비밀번호는</p>
-          <p className={styles.PW__content}>123465678</p>
-          <p className={styles.PW__commnet}>입니다</p>
-        </div> */}
-        <div onClick={handleLogin} className={styles.loginBtn}>
-          로그인
-        </div>
-      </div>
-    </section>
+            <CheckBtn onClick={findPw}>인증 요청</CheckBtn>
+          </InputBox>
+          {isMail && <IsMail>임시 비밀번호를 생성했습니다.</IsMail>}
+          {isNotMail && <IsNotMail>위 메일은 없는 메일정보입니다.</IsNotMail>}
+        </MailContainer>
+        <StyledFoundBtn onClick={handleLogin}>로그인</StyledFoundBtn>
+      </ContainerBox>
+    </Container>
   );
 }
+
+const Container = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Title = styled.p`
+  margin-top: 5rem;
+  font-weight: 900;
+  margin-bottom: 1.2rem;
+`;
+
+const SubTitle = styled.p`
+  font-weight: 800;
+  margin: 0.5rem 0;
+`;
+
+const ContainerBox = styled.div`
+  border: 2px solid #d2e2ec;
+  border-radius: 20px;
+  padding: 3rem 8rem;
+`;
+
+const InputBox = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+`;
+
+const CheckBtn = styled.button`
+  color: #1f7ceb;
+  border: solid 1px #d2e2ec;
+  background-color: white;
+  width: 45%;
+
+  &:hover {
+    cursor: pointer;
+    margin: auto;
+  }
+`;
+
+const MailContainer = styled.div`
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  padding: 0.5rem 1rem;
+  margin-right: 1.5rem;
+  border: 1px solid #d2e2ec;
+`;
+
+const IsNotId = styled.p`
+  color: red;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.2rem;
+`;
+
+const IsId = styled.p`
+  color: #1f7ceb;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.2rem;
+`;
+
+const IsNotMail = styled.p`
+  color: red;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.2rem;
+`;
+
+const IsMail = styled.p`
+  color: #1f7ceb;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.2rem;
+`;
+
+const FoundBtn = styled.div`
+  background-color: #dae9fc;
+  text-align: center;
+  margin: 1rem;
+  padding: 0.3rem;
+  width: 50%;
+  margin: auto;
+  border-radius: 25px;
+`;
+
+const PWBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3.5rem;
+  margin-bottom: 4rem;
+`;
+
+const PWContent = styled.p`
+  color: #1f7ceb;
+  margin: 0;
+  font-weight: 700;
+`;
+
+const PWComment = styled.p`
+  margin: 0.1rem;
+`;
+
+const LoginBtn = styled.div`
+  background-color: #1f7ceb;
+  color: white;
+  border-radius: 25px;
+  width: 50%;
+  margin: auto;
+  text-align: center;
+  padding: 0.3rem;
+`;
+
+const StyledFoundBtn = styled(FoundBtn)`
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const StyledLoginBtn = styled(LoginBtn)`
+  &:hover {
+    cursor: pointer;
+  }
+`;
