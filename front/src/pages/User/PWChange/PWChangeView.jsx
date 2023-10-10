@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './PWChange.module.css';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -83,55 +83,123 @@ export default function PWChangeView() {
   };
 
   return (
-    <section className={styles.container}>
-      <p className={styles.title}>비밀번호 변경</p>
-      <div className={styles.container__box}>
-        <p className={styles.subTitle}>아이디</p>
-        <div className={styles.input__box}>
-          <input
+    <Container>
+      <Title>비밀번호 변경</Title>
+      <ContainerBox>
+        <SubTitle>아이디</SubTitle>
+        <InputBox>
+          <StyledInput
             value={id}
             onChange={handleChangeId}
             type="text"
             placeholder="내용을 입력해 주세요."
           />
-          <button onClick={checkId} className={styles.check__btn}>
-            확인
-          </button>
-        </div>
-        {isId && <p className={styles.isId}>아이디를 확인했습니다</p>}
-        {isNotId && (
-          <p className={styles.isNotId}>아이디가 존재하지 않습니다.</p>
-        )}
-        <p className={styles.subTitle}>기존 비밀번호</p>
-        <div className={styles.input__box}>
-          <input type="text" placeholder="내용을 입력해 주세요." />
-          <button className={styles.check__btn}>확인</button>
-        </div>
-        <p className={styles.subTitle}>새 비밀번호</p>
-        <div className={styles.input__box}>
-          <input
+          <CheckBtn onClick={checkId}>확인</CheckBtn>
+        </InputBox>
+        {isId && <IsId>아이디를 확인했습니다</IsId>}
+        {isNotId && <IsNotId>아이디가 존재하지 않습니다.</IsNotId>}
+        <SubTitle>기존 비밀번호</SubTitle>
+        <InputBox>
+          <StyledInput type="text" placeholder="내용을 입력해 주세요." />
+          <CheckBtn>확인</CheckBtn>
+        </InputBox>
+        <SubTitle>새 비밀번호</SubTitle>
+        <InputBox>
+          <StyledInput
             value={newPw}
             onChange={handleChangeNewPw}
             type="password"
             placeholder="내용을 입력해 주세요."
           />
-          <button className={styles.check__btn}>인증 요청</button>
-        </div>
-        <p className={styles.subTitle}>비밀번호 확인</p>
-        <div className={styles.input__box}>
-          <input
-            className={styles.input__code}
+          <CheckBtn>인증 요청</CheckBtn>
+        </InputBox>
+        <SubTitle>비밀번호 확인</SubTitle>
+        <InputBox>
+          <StyledInput
             type="password"
             placeholder="내용을 입력해 주세요."
             value={checkPw}
             onChange={handleChangeCheckPw}
           />
-          <button className={styles.check__btn}>인증 확인</button>
-        </div>
-        <div onClick={handleChangePw} className={styles.changeBtn}>
-          변경하기
-        </div>
-      </div>
-    </section>
+          <CheckBtn>인증 확인</CheckBtn>
+        </InputBox>
+        <ChangeBtn onClick={handleChangePw}>변경하기</ChangeBtn>
+      </ContainerBox>
+    </Container>
   );
 }
+
+const Container = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Title = styled.p`
+  margin-top: 5rem;
+  font-weight: 900;
+`;
+
+const SubTitle = styled.p`
+  font-weight: 800;
+  margin: 0.5rem 0;
+`;
+
+const ContainerBox = styled.div`
+  border: 2px solid #d2e2ec;
+  border-radius: 20px;
+  padding: 3rem 8rem;
+`;
+
+const InputBox = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  padding: 0.5rem 1rem;
+  margin-right: 1.5rem;
+  border: 1px solid #d2e2ec;
+`;
+
+const CheckBtn = styled.button`
+  color: #1f7ceb;
+  border: solid 1px #d2e2ec;
+  background-color: white;
+  width: 45%;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const IsId = styled.p`
+  color: #1f7ceb;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.2rem;
+`;
+
+const IsNotId = styled.p`
+  color: red;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.2rem;
+`;
+
+const ChangeBtn = styled.div`
+  background-color: #1f7ceb;
+  color: white;
+  border-radius: 25px;
+  width: 50%;
+  margin: auto;
+  text-align: center;
+  padding: 0.3rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
