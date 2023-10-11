@@ -309,6 +309,7 @@ const TitleContentStyled = styled.div`
     background-color: #B9BCC0;
     border-radius: 100%;
   }
+}
 `;
 
 const BodyContentStyled = styled.div`
@@ -666,6 +667,31 @@ const MyProject = styled.div`
       font-style: normal;
       font-weight: 400;
       line-height: normal;
+    }
+  }
+  
+  @media only screen and (min-width: 768px) and (max-width: 1325px) {
+    width: 750px;
+    justify-content: center;
+    margin: 20px;
+
+    .section3_container {
+      width: 680px;
+
+      .section3_container_left,
+      .section3_container_right {
+        width: 250px;
+
+        .section3_container_leftright_flex {
+          span {
+            width: 110px;
+          }
+          
+          p {
+            width: 110px;
+          }
+        }
+      }
     }
   }
 `;
