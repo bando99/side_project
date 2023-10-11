@@ -4,142 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../../ components/context/AuthContext';
 
-const Container = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 2rem;
-`;
-
-const Title = styled.p`
-  font-weight: 800;
-  margin: 1rem;
-`;
-
-const ContainerBox = styled.div`
-  border: 2px solid #d2e2ec;
-  border-radius: 20px;
-  padding: 3rem 8rem;
-`;
-
-const InputContainer = styled.div`
-  .input__text {
-    font-weight: 700;
-    margin-top: 1.3rem;
-    margin-bottom: 0.4rem;
-  }
-
-  input {
-    width: 100%;
-    border: 1px solid #d2e2ec;
-  }
-
-  .password__input {
-    background-color: #d2e2ec;
-    margin-bottom: 0.7rem;
-  }
-`;
-
-const LoginBtnContainer = styled.div`
-  margin-top: 2rem;
-  text-align: center;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  margin: auto;
-  width: 90%;
-`;
-
-const MenuText = styled.p`
-  font-size: 0.5rem;
-  margin: 0.2rem;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const LoginBtn = styled.button`
-  margin: auto;
-  background-color: #1f7ceb;
-  width: 70%;
-  border-radius: 25px;
-  color: #ffffff;
-  padding: 0.5rem 1rem;
-  border: none;
-  margin: 1rem;
-`;
-
-const LoginSNS = styled.p`
-  font-weight: 800;
-  margin: 2rem;
-`;
-
-const SNSContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const SNSIconContainer = styled.div`
-  margin: 0 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .kakao {
-    background-image: url('/sns/kakaoImage.png');
-    background-size: cover;
-    width: 3rem;
-    height: 3rem;
-    margin: 1rem 0;
-  }
-
-  .naver {
-    background-image: url('/sns/naverImage.png');
-    background-size: cover;
-    width: 3rem;
-    height: 3rem;
-    margin: 1rem 0;
-  }
-
-  .github {
-    background-image: url('/sns/githubImage.png');
-    background-size: cover;
-    width: 3rem;
-    height: 3rem;
-    margin: 1rem 0;
-  }
-`;
-
-const SNSText = styled.span`
-  font-size: 0.8rem;
-`;
-
-const JoinContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const JoinQA = styled.p`
-  font-size: 0.8rem;
-  margin-top: 2.4rem;
-  margin-bottom: 1rem;
-  font-weight: 400;
-`;
-
-const JoinText = styled.p`
-  font-weight: 900;
-  text-decoration: underline;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: none;
-  }
-`;
-
 export default function LoginView() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -248,3 +112,141 @@ export default function LoginView() {
     </Container>
   );
 }
+
+const Container = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+`;
+
+const Title = styled.p`
+  font-weight: 800;
+  margin: 1rem;
+`;
+
+const ContainerBox = styled.div`
+  border: 2px solid #d2e2ec;
+  border-radius: 20px;
+  padding: 3rem 8rem;
+`;
+
+const InputContainer = styled.div`
+  .input__text {
+    font-weight: 700;
+    margin-top: 1.3rem;
+    margin-bottom: 0.4rem;
+  }
+
+  input {
+    width: 100%;
+    border: 1px solid #d2e2ec;
+    padding: 0.5rem;
+    border-radius: 0.2rem;
+  }
+
+  .password__input {
+    background-color: #d2e2ec;
+    margin-bottom: 0.7rem;
+  }
+`;
+
+const LoginBtnContainer = styled.div`
+  margin-top: 2rem;
+  text-align: center;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  margin: auto;
+  width: 100%;
+`;
+
+const MenuText = styled.p`
+  font-size: 0.6rem;
+  margin: 0.2rem;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const LoginBtn = styled.button`
+  margin: auto;
+  background-color: #1f7ceb;
+  width: 70%;
+  border-radius: 25px;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border: none;
+  margin: 1rem;
+`;
+
+const LoginSNS = styled.p`
+  font-weight: 800;
+  margin: 2rem;
+`;
+
+const SNSContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const SNSIconContainer = styled.div`
+  margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .kakao {
+    background-image: url('/sns/kakaoImage.png');
+    background-size: cover;
+    width: 3rem;
+    height: 3rem;
+    margin: 1rem 0;
+  }
+
+  .naver {
+    background-image: url('/sns/naverImage.png');
+    background-size: cover;
+    width: 3rem;
+    height: 3rem;
+    margin: 1rem 0;
+  }
+
+  .github {
+    background-image: url('/sns/githubImage.png');
+    background-size: cover;
+    width: 3rem;
+    height: 3rem;
+    margin: 1rem 0;
+  }
+`;
+
+const SNSText = styled.span`
+  font-size: 0.8rem;
+`;
+
+const JoinContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const JoinQA = styled.p`
+  font-size: 0.8rem;
+  margin-top: 2.4rem;
+  margin-bottom: 1rem;
+  font-weight: 400;
+`;
+
+const JoinText = styled.p`
+  font-weight: 900;
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+  }
+`;

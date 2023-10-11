@@ -13,23 +13,27 @@
 .title {
   margin-top: 5rem;
   font-weight: 900;
+  margin-bottom: 1.3rem;
 }
 
 .title__sub {
   font-weight: 800;
+  margin-bottom: 0.2rem;
 }
 
 .input__box {
   display: flex;
   justify-content: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .check__btn {
   color: #1f7ceb;
   border: solid 1px #d2e2ec;
   background-color: white;
-  width: 45%;
+  width: 25%;
+  margin-left: 1.5rem;
+  border-radius: 1px;
 }
 
 .check__btn:hover {
@@ -46,10 +50,28 @@
   margin-top: 1rem;
   color: white;
   border-radius: 25px;
-  padding: 0.3rem 0.6rem;
+  padding: 0.4rem 0.6rem;
   border: none;
 }
 
 .btn__join:hover {
   cursor: pointer;
+}
+
+.input__content {
+  padding: 0.5rem;
+  width: 12rem;
+  border: 1px solid #d2e2ec;
+  border-radius: 1px;
+}
+
+.input__pw {
+  width: 93%;
+  padding: 0.5rem;
+  border: 1px solid #d2e2ec;
+  border-radius: 1px;
+}
+
+.pw__containter {
+  margin: 1rem 0;
 }
