@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Project from '../../ components/Post';
+import Post from '../../ components/Post';
+import useFetchData from '../../ components/hooks/getPostList';
+import axios from 'axios';
+import { refreshTokenAndRetry } from '../../api/user';
 
 const HeaderBox = styled.div`
   display: flex;
@@ -76,7 +80,48 @@ const ProjectGrid = styled.div`
   padding: 3rem;
 `;
 
-const ClipView = () => {
+export default function ClipView() {
+  const [clipList, setClipList] = useState([]);
+
+  const baseURL = 'http://1.246.104.170:8080';
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(baseURL + '/cliped', {
+          headers: {
+            'X-AUTH-TOKEN': localStorage.getItem('token'),
+          },
+        });
+        setClipList(response.data);
+        console.log('clipList GET 성공', response.data);
+      } catch (error) {
+        console.error('clipList 조회 실패', error);
+
+        if (error.response.data.msg == '인증이 실패했습니다.') {
+          console.log(error.response.data.msg);
+          try {
+            const retryResponse = await refreshTokenAndRetry(
+              'get',
+              'http://1.246.104.170:8080/cliped',
+              null,
+              {
+                'X-AUTH-TOKEN': localStorage.getItem('token'),
+              }
+            );
+            console.log(retryResponse);
+          } catch (retryError) {
+            console.log(retryError);
+          }
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(clipList);
+
   return (
     <section>
       <HeaderBox>
@@ -87,12 +132,20 @@ const ClipView = () => {
         </ToggleBox>
       </HeaderBox>
       <ProjectGrid>
-        <Project />
-        <Project />
-        <Project />
+        {clipList.map((clip) => (
+          <Post
+            key={clip.board_id}
+            title={clip.title}
+            type={clip.type}
+            roles={clip.roles}
+            period={clip.period}
+            proceed_method={clip.proceed_method}
+            username={clip.username}
+            tags={clip.tags}
+            board_id={clip.board_id}
+          />
+        ))}
       </ProjectGrid>
     </section>
   );
-};
-
-export default ClipView;
+}

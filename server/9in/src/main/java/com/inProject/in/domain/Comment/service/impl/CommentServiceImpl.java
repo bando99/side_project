@@ -50,7 +50,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public ResponseCommentDto getComment(Long id) {
         Comment comment = commentRepository.findById(id).
-                orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.BAD_REQUEST, id + "는 getComment에서 유효하지 않은 id값 입니다."));
+                orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.NOT_FOUND, id + "는 getComment에서 유효하지 않은 id값 입니다."));
 
         ResponseCommentDto responseCommentDto = ResponseCommentDto.builder()
                 .comment_id(comment.getId())
@@ -72,7 +72,7 @@ public class CommentServiceImpl implements CommentService {
         User user = getUserFromRequest(request);
 
         Board board = boardRepository.findById(board_id)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.BAD_REQUEST,  board_id + "는 createBoard에서 유효하지 않은 게시글 id값 입니다."));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.NOT_FOUND,  board_id + "는 createBoard에서 유효하지 않은 게시글 id값 입니다."));
 
         board.setComment_cnt(board.getComment_cnt() + 1);
 
@@ -100,7 +100,7 @@ public class CommentServiceImpl implements CommentService {
         User user = getUserFromRequest(request);
 
         Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.BAD_REQUEST, id + "는 updateComment에서 유효하지 않은 id값 입니다."));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.NOT_FOUND, id + "는 updateComment에서 유효하지 않은 id값 입니다."));
 
         if(!user.getUsername().equals(comment.getUser().getUsername())){
             throw new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.UNAUTHORIZED, "작성자만 댓글을 수정할 수 있습니다. 권한이 없습니다.");
@@ -137,7 +137,7 @@ public class CommentServiceImpl implements CommentService {
         User user = getUserFromRequest(request);
 
         Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.BAD_REQUEST, id + "는 deleteComment에서 유효하지 않은 id값 입니다."));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.NOT_FOUND, id + "는 deleteComment에서 유효하지 않은 id값 입니다."));
 
         if(!user.getUsername().equals(comment.getUser().getUsername()) && !request.isUserInRole("ROLE_ADMIN") ){
             throw new CustomException(ConstantsClass.ExceptionClass.COMMENT, HttpStatus.UNAUTHORIZED, "작성자만 댓글을 삭제할 수 있습니다. 권한이 없습니다.");
@@ -159,7 +159,7 @@ public class CommentServiceImpl implements CommentService {
             String username = jwtTokenProvider.getUsername(token);
 
             return user = userRepository.getByUsername(username)
-                    .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.USER, HttpStatus.BAD_REQUEST, username + "은 유효하지 않은 username 입니다."));
+                    .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.USER, HttpStatus.NOT_FOUND, username + "은 유효하지 않은 username 입니다."));
         }
         else{
             throw new CustomException(ConstantsClass.ExceptionClass.USER, HttpStatus.UNAUTHORIZED, "token이 없거나, 권한이 유효하지 않습니다.");

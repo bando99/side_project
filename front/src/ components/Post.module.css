@@ -3,6 +3,17 @@
   padding: 1rem;
   margin: 1rem;
   border-radius: 3rem;
+  position: relative;
+}
+
+.clip {
+  position: absolute;
+  top: 0;
+  right: 1.5rem;
+}
+
+.clip:hover {
+  cursor: pointer;
 }
 
 .type__container {

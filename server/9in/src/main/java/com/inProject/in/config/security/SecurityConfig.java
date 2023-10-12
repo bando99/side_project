@@ -81,10 +81,10 @@ public class SecurityConfig  {   //WebSecurityConfigurerAdapter 상속받아서 
 //        expressionHandler.setRoleHierarchy(roleHierarchy);                                                       //이후 보안 평가식을 평가, 실행한다.
 //        return expressionHandler;
 //    }
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer(){
-        return (web) -> web.ignoring().requestMatchers("/");    //인증, 인가를 무시하는 경로. 인증과 인가가 적용되지 않는 리소스를 대상으로 사용.
-    }
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer(){
+//        return (web) -> web.ignoring().requestMatchers("/");    //인증, 인가를 무시하는 경로. 인증과 인가가 적용되지 않는 리소스를 대상으로 사용.
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder(){

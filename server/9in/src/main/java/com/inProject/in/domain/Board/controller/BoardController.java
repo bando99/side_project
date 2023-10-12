@@ -3,6 +3,9 @@ package com.inProject.in.domain.Board.controller;
 import com.inProject.in.Global.exception.ConstantsClass;
 import com.inProject.in.Global.exception.CustomException;
 import com.inProject.in.domain.Board.Dto.*;
+import com.inProject.in.domain.Board.Dto.request.RequestCreateBoardDto;
+import com.inProject.in.domain.Board.Dto.request.RequestSearchBoardDto;
+import com.inProject.in.domain.Board.Dto.request.RequestUpdateBoardDto;
 import com.inProject.in.domain.Board.service.BoardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,21 +15,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -82,24 +80,6 @@ public class BoardController {
         }
     }
 
-    @GetMapping("/cliped")
-    @Operation(summary = "즐겨찾기 리스트 조회", description = "클립 설정한 게시글들을 가져옵니다.",
-            responses = {
-            @ApiResponse(responseCode = "200", description = "즐겨찾기 게시글 조회 성공", content = {
-                    @Content(mediaType = "application/json", schema =
-                    @Schema(implementation = ResponseBoardListDto.class))
-            })
-    })
-    public ResponseEntity<List<ResponseBoardListDto>> getClipedBoards(@PageableDefault(size = 8) Pageable pageable,
-                                                                HttpServletRequest request){
-        try{
-            List<ResponseBoardListDto> boardListDtoList = boardService.getClipedBoards(pageable, request);
-
-            return ResponseEntity.status(HttpStatus.OK).body(boardListDtoList);
-        }catch (CustomException e){
-            throw e;
-        }
-    }
 
     @PostMapping()
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)   //swagger에서 헤더로 토큰을 전송하기 위해 입력창을 만든다.
@@ -111,27 +91,20 @@ public class BoardController {
     })
     public ResponseEntity<ResponseBoardDto> createBoard(@RequestBody RequestCreateBoardDto requestCreateBoardDto, HttpServletRequest request) throws CustomException{
 
-//        RequestBoardDto requestBoardDto = requestCreateBoardDto.toBoardDto();
-////        Long user_id = requestCreateBoardDto.getUser_id();
-////        List<RequestSkillTagDto> requestSkillTagDtoList = new ArrayList<>();        //requestCreateDto에 requestSkilltagDto를 포함할까 고민중..
-////        List<RequestUsingInBoardDto> requestRoleNeededDtoList = requestCreateBoardDto.getRoleNeededDtoList();
-////
-////        for(String tagName : requestCreateBoardDto.getTagNames()) {
-////            requestSkillTagDtoList.add(new RequestSkillTagDto(tagName));
-////        }
-        try{
-            ResponseBoardDto responseBoardDto = boardService.createBoard(requestCreateBoardDto, request);
+        ResponseBoardDto responseBoardDto = boardService.createBoard(requestCreateBoardDto, request);
 
-            return ResponseEntity.status(HttpStatus.OK).body(responseBoardDto);
-        }catch(CustomException e){
-            throw e;
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(responseBoardDto);
     }
 
     @PutMapping("/{board_id}")
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)
     @Parameter(name = "board_id", description = "게시글 ID", in = ParameterIn.PATH, schema = @Schema(type = "integer", format = "int64"))
-    @Operation(summary = "게시글 수정", description = "게시글 하나를 업데이트 합니다.", responses = {})
+    @Operation(summary = "게시글 수정", description = "게시글 하나를 업데이트 합니다.", responses = {
+            @ApiResponse(responseCode = "200", description = "게시글 수정 성공", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ResponseBoardDto.class))
+            })
+    })
     public ResponseEntity<ResponseBoardDto> updateBoard(@PathVariable(name = "board_id") Long board_id,
                                                         @RequestBody RequestUpdateBoardDto requestUpdateBoardDto,
                                                         HttpServletRequest request
@@ -147,7 +120,12 @@ public class BoardController {
     @DeleteMapping("/{board_id}")
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)
     @Parameter(name = "board_id", description = "게시글 ID", in = ParameterIn.PATH, schema = @Schema(type = "integer", format = "int64"))
-    @Operation(summary = "게시글 삭제", description = "게시글 하나를 삭제합니다.")
+    @Operation(summary = "게시글 삭제", description = "게시글 하나를 삭제합니다.", responses = {
+            @ApiResponse(responseCode = "200", description = "게시글 삭제 성공", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = String.class))
+            })
+    })
     public ResponseEntity<String> deleteBoard(@PathVariable(name = "board_id") Long board_id, HttpServletRequest request){
         try{
             log.info("BoardController deleteBoard ==> header : " + request.getRequestURI());
@@ -157,5 +135,8 @@ public class BoardController {
             throw e;
         }
     }
+
+
+
 
 }
