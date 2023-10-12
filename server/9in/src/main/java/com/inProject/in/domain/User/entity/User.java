@@ -84,7 +84,7 @@ public class User extends BaseEntity implements UserDetails{
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Certificate> certificateList;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private MyInfo myInfo;
 
 

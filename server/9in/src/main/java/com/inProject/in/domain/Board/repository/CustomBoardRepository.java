@@ -15,5 +15,4 @@ public interface CustomBoardRepository {
     Long CountsClipedBoards(User user);
     Long CountsUserBoards(User userm, String type);
 
-
 }

@@ -40,7 +40,7 @@ public class ChangeService {
         log.info("ChangeService changePw ==> username : " + username + " 비밀번호 변경 시작");
 
         if(!newPw.equals(checkPw)){
-            throw new CustomException(ConstantsClass.ExceptionClass.CHANGE, HttpStatus.CONFLICT, "새 비밀번호와 확인 비밀번호가 다름");
+            throw new CustomException(ConstantsClass.ExceptionClass.CHANGE, HttpStatus.BAD_REQUEST, "새 비밀번호와 확인 비밀번호가 다름");
         }
 
         User user = userRepository.getByUsername(username)
@@ -60,7 +60,7 @@ public class ChangeService {
     @Transactional
     public ResponseCheckIdDto checkId(RequestCheckIdDto requestCheckIdDto){
         User user = userRepository.getByUsername(requestCheckIdDto.getUsername())
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.FIND, HttpStatus.NOT_FOUND, "Change - checkId에서 username이 존재하지 않음 확인"));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.FIND, HttpStatus.NOT_FOUND,"존재하지 않는 유저"));
         boolean success = false;
 
         if(user != null){

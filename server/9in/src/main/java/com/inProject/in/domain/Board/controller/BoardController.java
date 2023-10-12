@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,7 @@ public class BoardController {
 
     @GetMapping("/{board_id}")
     @Parameter(name = "board_id", description = "게시글 ID", in = ParameterIn.PATH, schema = @Schema(type = "integer", format = "int64"))
+    @Parameter(name = "X-AUTH-TOKEN", description = "토큰", in = ParameterIn.HEADER)
     @Operation(summary = "게시글 조회", description = "게시글 하나를 조회합니다.",
     responses = {
             @ApiResponse(responseCode = "200", description = "게시글 조회 성공", content = {
@@ -52,9 +54,9 @@ public class BoardController {
             @ApiResponse(responseCode = "400", description = "게시글 조회 실패")
     })
 
-    public ResponseEntity<ResponseBoardDto> getBoard(@PathVariable(name = "board_id") Long board_id) throws CustomException {
+    public ResponseEntity<ResponseBoardDto> getBoard(@PathVariable(name = "board_id") Long board_id, HttpServletRequest request) throws CustomException {
         try{
-            ResponseBoardDto responseBoardDto = boardService.getBoard(board_id);
+            ResponseBoardDto responseBoardDto = boardService.getBoard(board_id, request);
 
             return ResponseEntity.status(HttpStatus.OK).body(responseBoardDto);
         }catch (CustomException e){

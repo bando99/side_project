@@ -46,8 +46,10 @@ public class Board extends BaseEntity {
     private String proceed_method; //진행 방식
     @Column(nullable = false)
     private LocalDateTime period; //예상 기간
-
-    @Column
+    @Column(nullable = false)
+    @Builder.Default
+    private int view_cnt = 0;   //게시글 조회수
+    @Column(nullable = false)
     @Builder.Default
     private int comment_cnt = 0;  //댓글 개수
     @Column

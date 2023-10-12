@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public interface BoardService {
-    ResponseBoardDto getBoard(Long id);
+    ResponseBoardDto getBoard(Long id, HttpServletRequest request);
     ResponseBoardDto createBoard(RequestCreateBoardDto requestCreateBoardDto,
                                  HttpServletRequest request);
     ResponseBoardDto updateBoard(Long id, RequestUpdateBoardDto requestUpdateBoardDto, HttpServletRequest request);

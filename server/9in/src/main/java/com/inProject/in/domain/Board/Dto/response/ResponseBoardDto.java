@@ -36,6 +36,7 @@ public class ResponseBoardDto {
     private String proceed_method;
     private LocalDateTime period;
     private LocalDateTime createAt;
+    private int view_cnt;
     private int comment_cnt;
     private List<String> tags = new ArrayList<>();
     private List<ResponseRoleNeededDto> roles = new ArrayList<>();
@@ -50,30 +51,7 @@ public class ResponseBoardDto {
         this.proceed_method = board.getProceed_method();
         this.period = board.getPeriod();
         this.createAt = board.getCreateAt();
+        this.view_cnt = board.getView_cnt();
         this.comment_cnt = board.getComment_cnt();
-
-//        for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
-//            this.tags.add(tagBoardRelation.getSkillTag().getName());
-//        }
-//
-//        for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
-//            ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
-//            this.roles.add(responseRoleNeededDto);
-//        }
-//
-//        if(board.getCommentList() != null){
-//            for(Comment comment : board.getCommentList()){
-//                ResponseCommentDto responseCommentDto = new ResponseCommentDto(comment);
-//                this.commentList.add(responseCommentDto);
-//            }
-//        }
-//
-//        if(board.getApplicantBoardRelationList() != null){
-//            for(ApplicantBoardRelation applicantBoardRelation : board.getApplicantBoardRelationList()){
-//                ResponseInfoInBoardDto responseInfoInBoardDto = new ResponseInfoInBoardDto(applicantBoardRelation);
-//
-//                this.responseInfoInBoardDtoList.add(responseInfoInBoardDto);
-//            }
-//        }
     }
 }

@@ -57,7 +57,7 @@ public class FindService {
 //                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.BAD_REQUEST, username + "는 없는 유저입니다."));
 
         User user = userRepository.getByMail(mail)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.NOT_FOUND, mail + "은 등록되지 않은 mail입니다."));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.NOT_FOUND, "등록되지 않은 메일입니다."));
 
         log.info("findPw ==> 유저 정보 확인 성공");
 
@@ -80,7 +80,7 @@ public class FindService {
     @Transactional
     public ResponseCheckIdDto checkId(RequestCheckIdDto requestCheckIdDto){
         User user = userRepository.getByUsername(requestCheckIdDto.getUsername())
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.FIND, HttpStatus.NOT_FOUND, "find - checkId에서 username이 존재하지 않음 확인"));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.FIND, HttpStatus.NOT_FOUND, "존재하지 않는 유저"));
 
         boolean success = false;
 

@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 @Service
 public class MyInfoServiceImpl {
 
@@ -40,6 +42,13 @@ public class MyInfoServiceImpl {
     public ResponseMyInfoDto createMyInfo(RequestMyInfoDto requestMyInfoDto, HttpServletRequest request){
         User user = getUserFromRequest(request);
         MyInfo myInfo = requestMyInfoDto.toEntity(user);
+
+        MyInfo find = myInfoRepository.findMyInfoByUserId(user.getId()).get();
+
+        if(find != null){
+            throw new CustomException(ConstantsClass.ExceptionClass.PROFILE, HttpStatus.CONFLICT, "이미 내 정보 작성함");
+        }
+
 
         MyInfo savedMyInfo = myInfoRepository.save(myInfo);
 

@@ -10,6 +10,9 @@ import com.inProject.in.domain.MToNRelation.ClipBoardRelation.repository.ClipBoa
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.service.ClipBoardRelationService;
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.Board.repository.BoardRepository;
+import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;
+import com.inProject.in.domain.MToNRelation.TagBoardRelation.entity.TagBoardRelation;
+import com.inProject.in.domain.RoleNeeded.Dto.ResponseRoleNeededDto;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,13 +55,24 @@ public class ClipBoardRelationServiceImpl implements ClipBoardRelationService {
         User user = getUserFromRequest(request);
         Page<Board> boardPage = boardRepository.searchBoardsByCliped(pageable, user);
         List<Board> boardList = boardPage.getContent();
+        List<ResponseBoardListDto> responseBoardListDtoList = new ArrayList<>();
+
+        for (Board board : boardList) {
+            ResponseBoardListDto responseBoardListDto = new ResponseBoardListDto(board);
+
+            for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
+                responseBoardListDto.getTags().add(tagBoardRelation.getSkillTag().getName());
+            }
+            for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
+                ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
+                responseBoardListDto.getRoles().add(responseRoleNeededDto);
+            }
+
+            responseBoardDtoList.add(responseBoardListDto);
+        }
 
         log.info("clipService getClipedBoards ==> username : " + user.getUsername());
 
-        for(Board board : boardList){
-            ResponseBoardListDto responseBoardListDto = new ResponseBoardListDto(board);
-            responseBoardDtoList.add(responseBoardListDto);
-        }
         return responseBoardDtoList;
     }
 

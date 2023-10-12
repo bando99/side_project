@@ -150,7 +150,7 @@ public class SignServiceImpl implements SignService {
         String password = requestSignInDto.getPassword();
 
         User user = userRepository.getByUsername(username)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.BAD_REQUEST, "잘못된 id"));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.NOT_FOUND, "잘못된 id"));
 
         log.info("회원 id : " + username);
 
@@ -183,6 +183,7 @@ public class SignServiceImpl implements SignService {
                 .ifPresentOrElse(
                         token -> {
                             token.updateRefreshToken(refreshToken);
+                            refreshTokenRepository.save(token);       //영속화가 안 되는 것 같아 save추가.
                             log.info("updated refresh token : " + token.toString());
                             },
                         () -> {
@@ -213,14 +214,14 @@ public class SignServiceImpl implements SignService {
 
 
         if(!jwtTokenProvider.validateRefreshToken(refreshToken)){   //refresh 토큰이 유효기간이 지났는지 검증
-            throw new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.BAD_REQUEST, "refresh 토큰이 유효하지 않음.");
+            throw new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.UNAUTHORIZED, "재로그인 필요");
         }
         log.info("reissue ==> refresh 토큰 검증 성공");
 
         String username = jwtTokenProvider.getUsername(refreshToken);
 
         RefreshToken findRefreshToken = refreshTokenRepository.findByUsername(username)    //DB에 실제로 그 유저에게 발급된 refresh토큰이 있는지 확인
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.BAD_REQUEST, "refresh토큰 만료. 로그아웃된 사용자"));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.BAD_REQUEST, "로그아웃된 사용자"));
         log.info("reissue ==> DB에 사용자 이름과 refresh 토큰 존재 확인");
 
 
