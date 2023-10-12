@@ -34,6 +34,8 @@ export default function HomeView() {
               username={post.username}
               tags={post.tags}
               board_id={post.board_id}
+              view_cnt={post.view_cnt}
+              createAt={post.createAt}
             />
           </div>
         ))}

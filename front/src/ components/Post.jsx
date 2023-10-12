@@ -14,13 +14,21 @@ export default function Post({
   period,
   roles,
   tags,
+  view_cnt,
+  createAt,
 }) {
   const { user_id } = useAuth();
 
   const [isClip, setIsClip] = useState(false);
+  const currentDate = new Date();
+  const finalDate = new Date(period);
+  const createDate = new Date(createAt);
 
-  console.log(board_id);
-  console.log(isClip);
+  const monthDifference =
+    (currentDate.getFullYear() - finalDate.getFullYear()) * 12 +
+    (currentDate.getMonth() - finalDate.getMonth());
+  const timeDifference = currentDate - createDate;
+  const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
 
   const handleClip = async (e) => {
     const clipInfo = {
@@ -68,7 +76,9 @@ export default function Post({
       )}
       <div className={styles.type__container}>
         <div className={styles.type__text}>{type}</div>
-        <div className={styles.period__text}>{period}</div>
+        <div className={styles.period__text}>
+          {monthDifference === 0 ? '1개월 미만' : `${monthDifference}개월 이상`}
+        </div>
       </div>
       <p className={styles.title}>{title}</p>
       <div>
@@ -95,7 +105,20 @@ export default function Post({
           ))}
         </div>
       </div>
-      <p>{username}</p>
+      <div className={styles.bottom__box}>
+        <div className={styles.bottom__writer}>
+          <p>{username}</p>
+          <p>
+            {hoursDifference < 24
+              ? `${hoursDifference}시간 전`
+              : `${Math.floor(hoursDifference / 24)}일 전`}
+          </p>
+        </div>
+        <div className={styles.bottom__viewCnt}>
+          <img src="/icons/viewCnt.png" alt="" />
+          <p>{view_cnt}</p>
+        </div>
+      </div>
     </div>
   );
 }

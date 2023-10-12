@@ -56,3 +56,24 @@
   background-color: #dae9fc;
   padding: 1rem;
 }
+
+.bottom__box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.bottom__writer {
+  display: flex;
+}
+
+.bottom__writer p {
+  margin: 0 0.4rem;
+}
+
+.bottom__viewCnt {
+  display: flex;
+}
+
+.bottom__viewCnt p {
+  margin: 0 0.4rem;
+}
