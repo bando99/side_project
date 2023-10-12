@@ -24,11 +24,14 @@ export default function MyPage() {
         <MypageUser 
           token={refreshToken}
         />
-        <MypageSchool 
-          token={refreshToken}
-        />
-        <MypageEtc />
+        <div className='section1_flex'>
+          <MypageSchool 
+            token={refreshToken}
+          />
+          <MypageEtc />
+        </div>
       </Section1>
+      <Section2>
         <MypageLicese 
           token={refreshToken}
         />
@@ -38,6 +41,7 @@ export default function MyPage() {
         <MypageProject 
           token={refreshToken}
         />
+      </Section2>
     </Mypage>
   );
 }
@@ -46,13 +50,13 @@ const Mypage = styled.div`
   width: 1300px;
   padding-top: 50px;
   margin: auto;
-  height: 2000px;
-`;
+`
 
 const Section1 = styled.div`
   display: flex;
   justify-content: center;
   gap: 20px;
+
   .section1_profile {
     position: relative;
     width: 660px;
@@ -64,6 +68,11 @@ const Section1 = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .section1_flex {
+    display: flex;
+    gap: 20px;
   }
 
   .section1_etc {
@@ -155,6 +164,25 @@ const Section1 = styled.div`
       }
     }
   }
+
+  @media only screen and (min-width: 768px) and (max-width: 1325px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap:30px;
+    .section1_profile {
+      width: 750px;
+    }
+  }
 `;
 
-
+const Section2 = styled.div`
+  @media only screen and (min-width: 768px) and (max-width: 1325px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`
