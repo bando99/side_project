@@ -143,6 +143,8 @@ export default function ClipView() {
             username={clip.username}
             tags={clip.tags}
             board_id={clip.board_id}
+            createAt={clip.createAt}
+            view_cnt={clip.view_cnt}
           />
         ))}
       </ProjectGrid>

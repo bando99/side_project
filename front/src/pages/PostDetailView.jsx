@@ -23,6 +23,11 @@ export default function PostDetail() {
 
   const [applyStatus, setApplyStatus] = useState({});
 
+  console.log(applyStatus);
+  console.log(applyStatus[2]);
+  // 만약에 applyStatus[role_id]가 '신청중'인데 한 번 더 클릭하게 되면 지원취소 API 호출
+  // applyStatus는 다른화면에 들어가면 초기화됨 -> 전역상태관리 필요성 (redux)
+
   const handleApply = async (role_id, pre_cnt, want_cnt) => {
     if (pre_cnt >= want_cnt) {
       alert('모집 완료되었습니다.');

@@ -22,7 +22,7 @@
 }
 
 .title {
-  margin: 0.3rem;
+  margin: 0.5rem;
   font-weight: 500;
 }
 
@@ -60,6 +60,8 @@
 .bottom__box {
   display: flex;
   justify-content: space-between;
+  margin-top: 0.3rem;
+  margin-bottom: 0.7rem;
 }
 
 .bottom__writer {
