@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import styles from '../../pages/User/MyPage/MyPage.module.css'
-import axios from 'axios'
+import { getNewTokens } from '../../api/refreshToken';
+import { createAxiosInstance } from '../../api/instance';
 
 const MypageUser = ({token, user_id}) => {
   const [nickname, setNickname] = useState('');
@@ -10,35 +11,44 @@ const MypageUser = ({token, user_id}) => {
   const [selectedRole, setSelectedRole] = useState('');
   const [experience, setExperience] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  
+  const data = {
+    nickname,
+    role: selectedRole,
+    career: experience,
+    // stack 배열
+  };
+
 
   const handlePost = async () => {
-    if(!nickname || !selectedRole || !experience || skills.length < 1) {
-      return alert("빈칸을 채워주세요")
+    if (!nickname || !selectedRole || !experience || skills.length < 1) {
+      return alert('빈칸을 채워주세요');
     }
-    
+  
     try {
-      setIsLoading(true); 
-
-      const data = {
-        nickname,
-        role: selectedRole,
-        career: experience,
-        // stack 배열
-      };
-
-      const response = await axios.post('http://1.246.104.170:8080/profile/myinfo', data, {
-        headers: {
-          'X-AUTH-TOKEN': token 
-      }});
-
-      console.log(response.data);
-
+      setIsLoading(true);
+      let currentToken = token;
+  
+      const axiosInstance = createAxiosInstance(currentToken);
+      const response = await axiosInstance.post('/myinfo', data);
+  
+  
     } catch (error) {
       console.error(error);
+  
+      if (error.response && error.response.status === 401) {
+        const { accessToken, refreshToken } = await getNewTokens();
+
+        const axiosInstance = createAxiosInstance(refreshToken);
+        const response = await axiosInstance.post('/myinfo', data);
+  
+        console.log(response.data);
+      }
     } finally {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   };
+  
 
   const skillImage = {
     react: 'React.png',
