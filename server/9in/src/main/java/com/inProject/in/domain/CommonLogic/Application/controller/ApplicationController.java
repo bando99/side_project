@@ -42,7 +42,7 @@ public class ApplicationController {
         try{
             ResponseApplicationDto responseApplicationDto = applicationService.createApplication(applicationDto);
             //sseEvent 게시자의 id 로 바꿔야됨.
-            //sseService.subscribe(String.valueOf(applicationDto.getAuther_id()),"지원자가 발생했습니다. 확인해보세요.");
+            sseService.subscribe(String.valueOf(applicationDto.getUser_id()),applicationDto);
             return ResponseEntity.status(HttpStatus.OK).body(responseApplicationDto);
         }catch (CustomException e){
             throw e;
