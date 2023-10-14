@@ -1,17 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import styles from '../../pages/User/MyPage/MyPage.module.css'
 import { getNewTokens } from '../../api/refreshToken';
 import { createAxiosInstance } from '../../api/instance';
 
-const MypageUser = ({token, user_id}) => {
-  const [nickname, setNickname] = useState('');
+const MypageUser = ({token, myinfoData}) => {
+  const [nickname, setNickname] = useState("");
   const [selectedStack, setSelectedStack] = useState('');
   const [skills, setSkills] = useState([]);
-  const [selectedRole, setSelectedRole] = useState('');
-  const [experience, setExperience] = useState('');
+  const [selectedRole, setSelectedRole] = useState("");
+  const [experience, setExperience] = useState(myinfoData?.career || "");
   const [isLoading, setIsLoading] = useState(false);
-  
+   
+  useEffect(() => {
+    if (myinfoData) {
+      setNickname(myinfoData.nickname);
+      setSelectedRole(myinfoData.role);
+      setExperience(myinfoData.career);
+    }
+  }, [myinfoData]);
+
   const data = {
     nickname,
     role: selectedRole,
@@ -30,8 +38,12 @@ const MypageUser = ({token, user_id}) => {
       let currentToken = token;
   
       const axiosInstance = createAxiosInstance(currentToken);
-      const response = await axiosInstance.post('/myinfo', data);
-  
+
+      if (myinfoData) {
+        const response = await axiosInstance.put('/myinfo', data);
+      } else {
+        const response = await axiosInstance.post('/myinfo', data);
+      }
   
     } catch (error) {
       console.error(error);
@@ -40,12 +52,16 @@ const MypageUser = ({token, user_id}) => {
         const { accessToken, refreshToken } = await getNewTokens();
 
         const axiosInstance = createAxiosInstance(refreshToken);
-        const response = await axiosInstance.post('/myinfo', data);
-  
-        console.log(response.data);
+        if (myinfoData) {
+          const response = await axiosInstance.put('/myinfo', data);
+        } else {
+          const response = await axiosInstance.post('/myinfo', data);
+        }
+        
       }
     } finally {
       setIsLoading(false);
+      alert(myinfoData ? "수정하기 완료" : "등록하기 완료")
     }
   };
   
@@ -148,7 +164,7 @@ const MypageUser = ({token, user_id}) => {
         </div>
       </div>
       <button onClick={handlePost} className="section1_fix_btn" >
-        수정하기
+        {myinfoData ? "수정하기" : "등록하기"}
       </button>
     </UserEdit>
   );

@@ -51,6 +51,7 @@ export default function MyPage() {
       <Section1>
         <MypageUser 
           token={refreshToken}
+          myinfoData={data.myInfoDto}
         />
         <div className='section1_flex'>
           <MypageSchool 
