@@ -1,5 +1,9 @@
 package com.inProject.in.domain.MToNRelation.ClipBoardRelation.service.Impl;
 
+import com.inProject.in.Global.exception.ConstantsClass;
+import com.inProject.in.Global.exception.CustomException;
+import com.inProject.in.config.security.JwtTokenProvider;
+import com.inProject.in.domain.Board.Dto.ResponseBoardListDto;
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.Dto.ResponseClipBoardRelationDto;
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.entity.ClipBoardRelation;
 import com.inProject.in.domain.MToNRelation.ClipBoardRelation.repository.ClipBoardRelationRepository;
@@ -8,38 +12,65 @@ import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.Board.repository.BoardRepository;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
 public class ClipBoardRelationServiceImpl implements ClipBoardRelationService {
 
     private UserRepository userRepository;
     private BoardRepository boardRepository;
     private ClipBoardRelationRepository clipBoardRelationRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     private final Logger log = LoggerFactory.getLogger(ClipBoardRelationServiceImpl.class);
 
     @Autowired
     public ClipBoardRelationServiceImpl(UserRepository userRepository,
                                         BoardRepository boardRepository,
-                                        ClipBoardRelationRepository clipBoardRelationRepository){
+                                        ClipBoardRelationRepository clipBoardRelationRepository,
+                                        JwtTokenProvider jwtTokenProvider){
 
         this.boardRepository = boardRepository;
         this.userRepository = userRepository;
         this.clipBoardRelationRepository = clipBoardRelationRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    @Override
+    public List<ResponseBoardListDto> getClipedBoards(Pageable pageable, HttpServletRequest request) {
+        List<ResponseBoardListDto> responseBoardDtoList = new ArrayList<>();
+        User user = getUserFromRequest(request);
+        Page<Board> boardPage = boardRepository.searchPostsByCliped(pageable, user);
+        List<Board> boardList = boardPage.getContent();
+
+        log.info("clipService getClipedBoards ==> username : " + user.getUsername());
+
+        for(Board board : boardList){
+            ResponseBoardListDto responseBoardListDto = new ResponseBoardListDto(board);
+            responseBoardDtoList.add(responseBoardListDto);
+        }
+        return responseBoardDtoList;
+    }
 
     @Override
     public ResponseClipBoardRelationDto insertClip(Long user_id, Long board_id){
 
 
         User user = userRepository.findById(user_id)
-                .orElseThrow(() -> new IllegalArgumentException("insert Clip에서 유효하지 않은 user id : " + user_id));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.Clip, HttpStatus.NOT_FOUND, "insert Clip에서 유효하지 않은 user id : " + user_id));
 
         Board board = boardRepository.findById(board_id)
-                .orElseThrow(() -> new IllegalArgumentException("insert Clip에서 유효하지 않은 post id : " + board_id));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.Clip, HttpStatus.NOT_FOUND, "insert Clip에서 유효하지 않은 post id : " + board_id));
 
         log.info("Using insertClip in clip Service ==> board_id : " + board_id + " user_id : " + user_id);
 
@@ -52,34 +83,48 @@ public class ClipBoardRelationServiceImpl implements ClipBoardRelationService {
                     .build();
 
             ClipBoardRelation createRelation = clipBoardRelationRepository.save(clipBoardRelation);
-            ResponseClipBoardRelationDto responseClipBoardRelationDto = new ResponseClipBoardRelationDto(createRelation);
+            ResponseClipBoardRelationDto responseClipBoardRelationDto = new ResponseClipBoardRelationDto("success", true);
 
-            log.info("Insert Clip Post Relation ==> relation_id " + responseClipBoardRelationDto.getId());
+            log.info("Insert Clip Post Relation ==> relation_id " + createRelation.getClipUser().getUsername());
 
             return responseClipBoardRelationDto;
         }
 
-        return null;  //유저가 누른 적 있는 경우 null.
+        return new ResponseClipBoardRelationDto("failed", false);  //유저가 누른 적 있는 경우 실패
     }
 
     @Override
     public ResponseClipBoardRelationDto deleteClip(Long user_id, Long board_id) {
 
         User user = userRepository.findById(user_id)
-                .orElseThrow(() -> new IllegalArgumentException("delete Clip에서 유효하지 않은 user id : " + user_id));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.Clip, HttpStatus.NOT_FOUND, "delete Clip에서 유효하지 않은 user id : " + user_id));
 
         Board board = boardRepository.findById(board_id)
-                .orElseThrow(() -> new IllegalArgumentException("delete Clip에서 유효하지 않은 post id : " + board_id));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.Clip, HttpStatus.NOT_FOUND, "delete Clip에서 유효하지 않은 post id : " + board_id));
 
         ClipBoardRelation clipBoardRelation = clipBoardRelationRepository.getClipedBoard(user, board)
-                .orElseThrow(() -> new IllegalArgumentException("좋아요 등록이 되지 않은 게시글 ==> user id : " + user_id + " post id : " + board_id));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.Clip, HttpStatus.NOT_FOUND, "좋아요 등록이 되지 않은 게시글 ==> user id : " + user_id + " post id : " + board_id));
 
         log.info("Using deleteClip in clip service ==> board_id " + board_id + " user_id " + user_id);
         log.info("delete Clip Post Relation ==> relation_id " + clipBoardRelation.getId());
 
         clipBoardRelationRepository.delete(clipBoardRelation);
-        return null;
+        return new ResponseClipBoardRelationDto("success", true);
     }
 
+    private User getUserFromRequest(HttpServletRequest request){
+        String token = jwtTokenProvider.resolveToken(request);
+        User user;
+
+        if(token != null && jwtTokenProvider.validateToken(token)){
+            String username = jwtTokenProvider.getUsername(token);
+
+            return user = userRepository.getByUsername(username)
+                    .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.BOARD, HttpStatus.NOT_FOUND, "BoardService ==> request로부터 user를 찾지 못함"));
+        }
+        else{
+            throw new CustomException(ConstantsClass.ExceptionClass.USER, HttpStatus.UNAUTHORIZED, "token이 없거나, 권한이 유효하지 않습니다.");
+        }
+    }
 
 }

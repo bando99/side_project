@@ -219,6 +219,12 @@ const Licese = styled.div`
     font-size: 30px;
     color: #1f7ceb;
   }
+
+  @media only screen and (min-width: 768px) and (max-width: 1325px) {
+    width: 750px;
+    justify-content: center;
+    margin: 20px;
+  }
 `;
 
 const TitleContentStyled = styled.div`
@@ -238,7 +244,6 @@ const TitleContentStyled = styled.div`
 `;
 
 const BodyContentStyled = styled.div`
- 
   display: flex;
   flex-direction: column;
   padding-left: 50px;
@@ -343,6 +348,23 @@ const BodyContentStyled = styled.div`
       height: 30px;
       border-radius: 20px;
       color:white;
+    }
+  }
+
+  @media only screen and (min-width: 768px) and (max-width: 1325px) {
+  
+    .section1{
+      div:first-child {
+        input {
+          width: 150px;
+        }
+      }
+    }
+
+    .section2{
+      textarea {
+        width: 620px;
+      }
     }
   }
 `

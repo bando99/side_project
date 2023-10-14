@@ -9,7 +9,9 @@ public class ConstantsClass{
         PROFILE("Profile"),
         SIGN("Sign"),
         FIND("Find"),
-        CHANGE("Change");
+        CHANGE("Change"),
+        Clip("Clip");
+
         private String exceptionClass;
 
         ExceptionClass(String exceptionClass){

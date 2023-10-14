@@ -11,13 +11,8 @@ import lombok.*;
 @ToString
 @Builder
 public class ResponseClipBoardRelationDto {
-    private Long id;
-    private User clipUser;
-    private Board clipBoard;
+    private String message;
+    private boolean success;
 
-    public ResponseClipBoardRelationDto(ClipBoardRelation clipBoardRelation){
-        this.id = clipBoardRelation.getId();
-        this.clipUser = clipBoardRelation.getClipUser();
-        this.clipBoard = clipBoardRelation.getClipedBoard();
-    }
+
 }

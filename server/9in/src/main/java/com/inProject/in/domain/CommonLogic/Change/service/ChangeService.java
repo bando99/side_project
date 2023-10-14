@@ -38,11 +38,11 @@ public class ChangeService {
         log.info("ChangeService changePw ==> username : " + username + " 비밀번호 변경 시작");
 
         if(!newPw.equals(checkPw)){
-            throw new CustomException(ConstantsClass.ExceptionClass.CHANGE, HttpStatus.BAD_REQUEST, "새 비밀번호와 확인 비밀번호가 다름");
+            throw new CustomException(ConstantsClass.ExceptionClass.CHANGE, HttpStatus.UNAUTHORIZED, "새 비밀번호와 확인 비밀번호가 다름");
         }
 
         User user = userRepository.getByUsername(username)
-                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.CHANGE, HttpStatus.BAD_REQUEST, username + "은 없는 유저입니다."));
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.CHANGE, HttpStatus.NOT_FOUND, username + "은 없는 유저입니다."));
         log.info("changePw ==> DB에 유저 확인");
 
         user.setPassword(passwordEncoder.encode(newPw));
