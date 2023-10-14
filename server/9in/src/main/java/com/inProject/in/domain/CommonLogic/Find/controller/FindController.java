@@ -3,6 +3,7 @@ package com.inProject.in.domain.CommonLogic.Find.controller;
 import com.inProject.in.domain.CommonLogic.Change.Dto.response.ResponseChangeDto;
 import com.inProject.in.domain.CommonLogic.Find.Dto.request.RequestCheckIdDto;
 import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseCheckIdDto;
+import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseCheckMailDto;
 import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseFindPwDto;
 import com.inProject.in.domain.CommonLogic.Find.service.FindService;
 import com.inProject.in.domain.CommonLogic.Find.Dto.request.RequestFindDto;
@@ -50,6 +51,21 @@ public class FindController {
         return ResponseEntity.status(HttpStatus.OK).body(responseFindIdDto);
     }
 
+    @PostMapping("/validMail")
+    @Operation(summary = "메일 인증 체크", description = "아이디를 통해 유저가 맞는지 확인합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "아이디 체크 성공", content = {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(implementation = ResponseCheckIdDto.class))
+                    }),
+                    @ApiResponse(responseCode = "400", description = "아이디 체크 실패")
+            })
+    public ResponseEntity<ResponseCheckMailDto> validMail(@RequestBody RequestFindDto requestFindDto){
+        ResponseCheckMailDto responseCheckMailDto = findService.validMail(requestFindDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseCheckMailDto);
+    }
+
     @PostMapping("/checkId")
     @Operation(summary = "아이디 체크", description = "아이디를 통해 유저가 맞는지 확인합니다.",
             responses = {
@@ -81,4 +97,7 @@ public class FindController {
 
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseFindPwDto(message, true));
     }
+
+
+
 }

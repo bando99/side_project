@@ -6,6 +6,7 @@ import com.inProject.in.domain.CommonLogic.Find.Dto.request.RequestCheckIdDto;
 import com.inProject.in.domain.CommonLogic.Find.Dto.request.RequestFindDto;
 
 import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseCheckIdDto;
+import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseCheckMailDto;
 import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseFindIdDto;
 import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseFindPwDto;
 import com.inProject.in.domain.CommonLogic.Mail.Dto.SendMailDto;
@@ -26,6 +27,9 @@ public class FindService {
     private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
     private final Logger log = LoggerFactory.getLogger(FindService.class);
+
+    char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+            'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
     @Autowired
     public FindService(UserRepository userRepository,
                        MailService mailService,
@@ -33,6 +37,28 @@ public class FindService {
         this.userRepository = userRepository;
         this.mailService = mailService;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    @Transactional
+    public ResponseCheckMailDto validMail(RequestFindDto requestFindDto){    //메일로 인증번호 전송하는 것.
+        log.info("mail 인증 시작");
+        String mail = requestFindDto.getMail();
+
+        User user = userRepository.getByMail(mail)
+                .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.NOT_FOUND, "등록되지 않은 메일입니다."));
+
+        log.info("mail이 등록된 것 확인");
+
+        String validNum = MakeValidNum();
+
+        SendMailDto sendMailDto = new SendMailDto();
+
+        sendMailDto.setAddress(user.getMail());
+        sendMailDto.setSubject(user.getUsername() + "님, 인증번호가 전송되었습니다.");
+        sendMailDto.setText("인증번호는 " + validNum + " 입니다.");
+
+        log.info("mail 전송 완료");
+        return new ResponseCheckMailDto(validNum);
     }
 
     @Transactional
@@ -48,6 +74,7 @@ public class FindService {
 
         return responseFindIdDto;
     }
+
     @Transactional
     public ResponseFindPwDto findPw(RequestFindDto requestFindPwDto){
 
@@ -93,9 +120,9 @@ public class FindService {
         return responseCheckIdDto;
     }
 
+
+
     public String MakeTempPw(){
-        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
-                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
         String str = "";
 
         int idx = 0;
@@ -106,6 +133,18 @@ public class FindService {
         }
         return str;
 
+    }
+
+    public String MakeValidNum(){
+        String str = "";
+
+        int idx = 0;
+
+        for (int i=0; i<6; i++) {
+            idx = (int) (charSet.length * Math.random());   //random을 통해 0 ~ 1 사이의 double형 값 반환.
+            str += charSet[idx];
+        }
+        return str;
     }
 
 }

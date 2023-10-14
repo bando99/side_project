@@ -197,6 +197,30 @@ public class BoardServiceImpl implements BoardService {
 
             ResponseBoardDto responseBoardDto = new ResponseBoardDto(createBoard );
 
+            for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
+                responseBoardDto.getTags().add(tagBoardRelation.getSkillTag().getName());
+            }
+
+            for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
+                ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
+                responseBoardDto.getRoles().add(responseRoleNeededDto);
+            }
+
+            if(board.getCommentList() != null){
+                for(Comment comment : board.getCommentList()){
+                    ResponseCommentDto responseCommentDto = new ResponseCommentDto(comment);
+                    responseBoardDto.getCommentList().add(responseCommentDto);
+                }
+            }
+
+            if(board.getApplicantBoardRelationList() != null){
+                for(ApplicantBoardRelation applicantBoardRelation : board.getApplicantBoardRelationList()){
+                    ResponseInfoInBoardDto responseInfoInBoardDto = new ResponseInfoInBoardDto(applicantBoardRelation);
+
+                    responseBoardDto.getResponseInfoInBoardDtoList().add(responseInfoInBoardDto);
+                }
+            }
+
             return responseBoardDto;
         }catch (CustomException e){
             throw e;
