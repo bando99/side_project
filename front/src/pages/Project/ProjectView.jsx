@@ -85,6 +85,8 @@ export default function ProjectView() {
                   proceed_method={post.proceed_method}
                   username={post.username}
                   tags={post.tags}
+                  createAt={post.createAt}
+                  view_cnt={post.view_cnt}
                 />
               </div>
             ))
