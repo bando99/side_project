@@ -3,12 +3,15 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../../ components/context/AuthContext';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../modules/auth';
 
 export default function LoginView() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const { login } = useAuth();
+  // const { login } = useAuth();
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -50,7 +53,8 @@ export default function LoginView() {
       const token = response.data.token;
       const refreshToken = response.data.refreshToken;
       const user_id = response.data.user_id;
-      login(token, refreshToken, user_id);
+      // login(token, refreshToken, user_id);
+      dispatch(login(token, refreshToken, user_id));
 
       localStorage.setItem('token', token);
       localStorage.setItem('refreshToken', refreshToken);
