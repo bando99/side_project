@@ -12,10 +12,8 @@ export default function IDfoundView() {
 
   const [validation, setValidation] = useState('');
   const [isNotValid, setIsNotValid] = useState(false);
-  const [isValid, setisValid] = useState(false);
 
-  // 임시 인증번호
-  const [validNum, setValidNum] = useState('');
+  const [userId, setUserId] = useState('');
 
   const handlePW = () => {
     navigate('/user/pwFound');
@@ -29,20 +27,19 @@ export default function IDfoundView() {
     setMail(e.target.value);
   };
 
-  const checkValidation = async () => {
+  const sendValidMail = async () => {
     const mailInfo = {
       mail,
     };
 
     try {
       const response = await axios.post(
-        'http://1.246.104.170:8080/find/validMail',
+        'http://1.246.104.170:8080/find/validCodeSend',
         mailInfo
       );
       console.log(response);
       setIsNotMail(false);
       setIsMail(true);
-      setValidNum(response.data.validNumCheck);
       setTimeout(() => {
         setIsMail(false);
       }, 3000);
@@ -69,16 +66,37 @@ export default function IDfoundView() {
     setValidation(e.target.value);
   };
 
-  const findId = async () => {
-    if (validNum !== validation) {
-      setIsNotValid(true);
+  const checkValidation = async () => {
+    const validInfo = {
+      mail,
+      validCode: validation,
+    };
 
-      setTimeout(() => {
-        setIsNotValid(false);
-      }, 3000);
-      return;
+    console.log(validInfo);
+
+    try {
+      const res = await axios.post(
+        'http://1.246.104.170:8080/find/validMail',
+        validInfo
+      );
+
+      console.log(res);
+      if (res.data.success === true) {
+        findId();
+      } else {
+        // 메일의 인증번호와 입력한 인증번호가 일치하지 않음
+        setIsNotValid(true);
+
+        setTimeout(() => {
+          setIsNotValid(false);
+        }, 3000);
+      }
+    } catch (error) {
+      console.error('네트워크 에러 발생', error);
     }
+  };
 
+  const findId = async () => {
     const mailInfo = {
       mail,
     };
@@ -88,29 +106,11 @@ export default function IDfoundView() {
         'http://1.246.104.170:8080/find/findId',
         mailInfo
       );
-      console.log(response.message);
+      console.log(response);
+      setUserId(response.data.userId);
       setIsNotValid(false);
-      setisValid(true);
-
-      setTimeout(() => {
-        setisValid(false);
-      }, 3000);
     } catch (error) {
-      console.error('아이디 찾기 실패', error);
-      console.log(error.response.data.message);
-      if (
-        error.response.data.message ===
-        `Sign Exception. ${mail}은 없는 mail정보입니다.`
-      ) {
-        console.log('들어옴');
-        setIsNotValid(true);
-        setisValid(false);
-        console.log(isNotMail);
-
-        setTimeout(() => {
-          setIsNotValid(false);
-        }, 3000);
-      }
+      console.error('아이디 찾기 실패- 네트워크에러', error);
     }
   };
 
@@ -126,7 +126,7 @@ export default function IDfoundView() {
             onChange={handleChangeMail}
             placeholder="내용을 입력해 주세요."
           />
-          <CheckBtn onClick={checkValidation}>인증 요청</CheckBtn>
+          <CheckBtn onClick={sendValidMail}>인증 요청</CheckBtn>
         </InputBox>
         {isNotMail && <IsNotMail>등록되지 않은 메일입니다.</IsNotMail>}
         {isMail && <IsMail>메일로 인증번호를 전송했습니다.</IsMail>}
@@ -137,13 +137,13 @@ export default function IDfoundView() {
             onChange={handleChangeValidation}
             placeholder="내용을 입력해 주세요."
           />
-          <CheckBtn onClick={findId}>인증 확인</CheckBtn>
+          <CheckBtn onClick={checkValidation}>인증 확인</CheckBtn>
         </InputBox>
         {isNotValid && <IsNotMail>입력 내용이 올바르지 않습니다.</IsNotMail>}
-        {isValid && (
+        {userId && (
           <IdBox>
             <p>회원님의 아이디는</p>
-            <IdText>abc1234</IdText>
+            <IdText>{userId}</IdText>
             <p>입니다</p>
           </IdBox>
         )}
