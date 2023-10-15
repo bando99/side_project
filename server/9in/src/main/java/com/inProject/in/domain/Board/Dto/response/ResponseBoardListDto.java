@@ -1,4 +1,4 @@
-package com.inProject.in.domain.Board.Dto;
+package com.inProject.in.domain.Board.Dto.response;
 
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.MToNRelation.RoleBoardRelation.entity.RoleBoardRelation;
@@ -26,6 +26,7 @@ public class ResponseBoardListDto {   //게시글 리스트를 리턴할 때 사
     private LocalDateTime period;
     private LocalDateTime createAt;
     private int comment_cnt;
+    private int view_cnt;
     private List<String> tags = new ArrayList<>();
     private List<ResponseRoleNeededDto> roles = new ArrayList<>();
 
@@ -38,15 +39,7 @@ public class ResponseBoardListDto {   //게시글 리스트를 리턴할 때 사
         this.proceed_method = board.getProceed_method();
         this.period = board.getPeriod();
         this.createAt = board.getCreateAt();
+        this.view_cnt = board.getView_cnt();
         this.comment_cnt = board.getComment_cnt();
-
-//        for(TagBoardRelation tagBoardRelation : board.getTagBoardRelationList()){
-//            this.tags.add(tagBoardRelation.getSkillTag().getName());
-//        }
-//        for(RoleBoardRelation roleBoardRelation : board.getRoleBoardRelationList()){
-//            ResponseRoleNeededDto responseRoleNeededDto = new ResponseRoleNeededDto(roleBoardRelation);
-//            this.roles.add(responseRoleNeededDto);
-//        }
-
     }
 }

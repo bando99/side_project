@@ -3,7 +3,7 @@ package com.inProject.in.domain.CommonLogic.service.Impl;
 import com.inProject.in.domain.Board.Dto.RequestBoardDto;
 import com.inProject.in.domain.Board.entity.Board;
 import com.inProject.in.domain.Board.repository.BoardRepository;
-import com.inProject.in.domain.CommonLogic.Application.Dto.ApplicationDto;
+import com.inProject.in.domain.CommonLogic.Application.Dto.RequestApplicationDto;
 import com.inProject.in.domain.CommonLogic.Application.Dto.ResponseApplicationDto;
 import com.inProject.in.domain.CommonLogic.Application.service.ApplicationService;
 import com.inProject.in.domain.CommonLogic.Application.service.Impl.ApplicationServiceImpl;
@@ -27,7 +27,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -113,7 +112,7 @@ class ApplicationServiceImplTest {
                 .board(board)
                 .build();
 
-        ApplicationDto applicationDto = ApplicationDto.builder()
+        RequestApplicationDto requestApplicationDto = RequestApplicationDto.builder()
                 .board_id(id)
                 .user_id(id)
                 .role_id(id)
@@ -128,7 +127,7 @@ class ApplicationServiceImplTest {
         given(applicantRoleRelationRepository.save(any(ApplicantRoleRelation.class))).willReturn(applicantRoleRelation);
 
         //when
-        ResponseApplicationDto responseApplicationDto =  applicationService.createApplication(applicationDto);
+        ResponseApplicationDto responseApplicationDto =  applicationService.createApplication(requestApplicationDto);
 
 
         //then

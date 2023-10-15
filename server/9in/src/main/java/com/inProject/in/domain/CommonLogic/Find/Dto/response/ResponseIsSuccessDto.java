@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ResponseFindPwDto {
+public class ResponseIsSuccessDto {
     private String message;
     private boolean success;
 }
