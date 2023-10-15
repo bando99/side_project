@@ -38,11 +38,14 @@ public class ApplicationController {
                     })
     })
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)
+
     public ResponseEntity<ResponseApplicationDto> createApplication(@RequestBody RequestApplicationDto requestApplicationDto){
+
         try{
             ResponseApplicationDto responseApplicationDto = applicationService.createApplication(requestApplicationDto);
             //sseEvent 게시자의 id 로 바꿔야됨.
-            sseService.subscribe(String.valueOf(requestApplicationDto.getAuthorName()),"지원자가 발생했습니다. 확인해보세요.");
+
+            sseService.subscribe(String.valueOf(applicationDto.getUser_id()),requestApplicationDto);
             return ResponseEntity.status(HttpStatus.OK).body(responseApplicationDto);
         }catch (CustomException e){
             throw e;
@@ -52,6 +55,7 @@ public class ApplicationController {
     @DeleteMapping()
     @Operation(summary = "지원 취소", description = "게시글에 지원한 걸 취소합니다.")
     @Parameter(name = "X-AUTH-TOKEN", description = "토큰을 전송합니다.", in = ParameterIn.HEADER)
+
     public ResponseEntity<String> deleteApplication(RequestApplicationDto requestApplicationDto){
         try{
             applicationService.deleteApplication(requestApplicationDto);

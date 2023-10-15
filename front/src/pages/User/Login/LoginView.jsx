@@ -2,16 +2,131 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../../../ components/context/AuthContext';
+// import { useAuth } from '../../../ components/context/AuthContext';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../modules/auth';
+
+export default function LoginView() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  // const { login } = useAuth();
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleIdFound = () => {
+    navigate('/user/idFound');
+  };
+
+  const handlePwFound = () => {
+    navigate('/user/pwFound');
+  };
+
+  const handlePwChange = () => {
+    navigate('/user/pwChange');
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    console.log('로그인 정보:', {
+      username,
+      password,
+    });
+    const userData = { username, password };
+
+    try {
+      const response = await axios.post(
+        'http://1.246.104.170:8080/sign/sign-in',
+        userData
+      );
+      console.log('로그인 성공');
+      console.log(response.data);
+      const token = response.data.token;
+      const refreshToken = response.data.refreshToken;
+      const user_id = response.data.user_id;
+      // login(token, refreshToken, user_id);
+      dispatch(login(token, refreshToken, user_id));
+
+      localStorage.setItem('token', token);
+      localStorage.setItem('refreshToken', refreshToken);
+      navigate('/');
+    } catch (error) {
+      console.error('로그인 실패', error);
+    }
+  };
+
+  return (
+    <Container>
+      <Title>로그인</Title>
+      <ContainerBox>
+        <form onSubmit={handleLogin}>
+          <InputContainer>
+            <p className="input__text">아이디</p>
+            <input
+              type="text"
+              onChange={handleUsernameChange}
+              placeholder="내용을 입력해 주세요."
+            />
+            <p className="input__text">비밀번호</p>
+            <input
+              className="password__input"
+              type="password"
+              onChange={handlePasswordChange}
+              placeholder="내용을 입력해 주세요."
+            />
+            <LoginBtnContainer>
+              <LoginBtn>로그인</LoginBtn>
+            </LoginBtnContainer>
+          </InputContainer>
+        </form>
+        <ButtonContainer>
+          <MenuText onClick={handleIdFound}>아이디 찾기</MenuText>
+          <MenuText onClick={handlePwFound}>비밀번호 찾기</MenuText>
+          <MenuText onClick={handlePwChange}>비밀번호 변경</MenuText>
+        </ButtonContainer>
+      </ContainerBox>
+      <LoginSNS>SNS로 로그인 하기</LoginSNS>
+      <SNSContainer>
+        <SNSIconContainer>
+          <div className="kakao"></div>
+          <SNSText>Kakao로 로그인 하기</SNSText>
+        </SNSIconContainer>
+        <SNSIconContainer>
+          <div className="naver"></div>
+          <SNSText>Naver로 로그인 하기</SNSText>
+        </SNSIconContainer>
+        <SNSIconContainer>
+          <div className="github"></div>
+          <SNSText>Github로 로그인 하기</SNSText>
+        </SNSIconContainer>
+      </SNSContainer>
+      <JoinContainer>
+        <JoinQA>아직 회원이 아니세요?</JoinQA>
+        <JoinText onClick={() => navigate('/join')}>회원가입하기</JoinText>
+      </JoinContainer>
+    </Container>
+  );
+}
 
 const Container = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 2rem;
 `;
 
 const Title = styled.p`
   font-weight: 800;
+  margin: 1rem;
 `;
 
 const ContainerBox = styled.div`
@@ -23,13 +138,15 @@ const ContainerBox = styled.div`
 const InputContainer = styled.div`
   .input__text {
     font-weight: 700;
-    margin-top: 1rem;
+    margin-top: 1.3rem;
     margin-bottom: 0.4rem;
   }
 
   input {
     width: 100%;
     border: 1px solid #d2e2ec;
+    padding: 0.5rem;
+    border-radius: 0.2rem;
   }
 
   .password__input {
@@ -46,11 +163,11 @@ const LoginBtnContainer = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   margin: auto;
-  width: 90%;
+  width: 100%;
 `;
 
 const MenuText = styled.p`
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   margin: 0.2rem;
   cursor: pointer;
 
@@ -137,112 +254,3 @@ const JoinText = styled.p`
     text-decoration: none;
   }
 `;
-
-export default function LoginView() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  const { login } = useAuth();
-
-  const navigate = useNavigate();
-
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleIdFound = () => {
-    navigate('/user/idFound');
-  };
-
-  const handlePwFound = () => {
-    navigate('/user/pwFound');
-  };
-
-  const handlePwChange = () => {
-    navigate('/user/pwChange');
-  };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    console.log('로그인 정보:', {
-      username,
-      password,
-    });
-    const userData = { username, password };
-
-    try {
-      const response = await axios.post(
-        'http://1.246.104.170:8080/sign/sign-in',
-        userData
-      );
-      console.log('로그인 성공');
-      console.log(response.data);
-      const token = response.data.token;
-      const refreshToken = response.data.refreshToken;
-      const user_id = response.data.user_id;
-      login(token, refreshToken, user_id);
-
-      localStorage.setItem('token', token);
-      localStorage.setItem('refreshToken', refreshToken);
-      navigate('/');
-    } catch (error) {
-      console.error('로그인 실패', error);
-    }
-  };
-
-  return (
-    <Container>
-      <Title>로그인</Title>
-      <ContainerBox>
-        <form onSubmit={handleLogin}>
-          <InputContainer>
-            <p className="input__text">아이디</p>
-            <input
-              type="text"
-              onChange={handleUsernameChange}
-              placeholder="내용을 입력해 주세요."
-            />
-            <p className="input__text">비밀번호</p>
-            <input
-              className="password__input"
-              type="password"
-              onChange={handlePasswordChange}
-              placeholder="내용을 입력해 주세요."
-            />
-            <LoginBtnContainer>
-              <LoginBtn>로그인</LoginBtn>
-            </LoginBtnContainer>
-          </InputContainer>
-        </form>
-        <ButtonContainer>
-          <MenuText onClick={handleIdFound}>아이디 찾기</MenuText>
-          <MenuText onClick={handlePwFound}>비밀번호 찾기</MenuText>
-          <MenuText onClick={handlePwChange}>비밀번호 변경</MenuText>
-        </ButtonContainer>
-      </ContainerBox>
-      <LoginSNS>SNS로 로그인 하기</LoginSNS>
-      <SNSContainer>
-        <SNSIconContainer>
-          <div className="kakao"></div>
-          <SNSText>Kakao로 로그인 하기</SNSText>
-        </SNSIconContainer>
-        <SNSIconContainer>
-          <div className="naver"></div>
-          <SNSText>Naver로 로그인 하기</SNSText>
-        </SNSIconContainer>
-        <SNSIconContainer>
-          <div className="github"></div>
-          <SNSText>Github로 로그인 하기</SNSText>
-        </SNSIconContainer>
-      </SNSContainer>
-      <JoinContainer>
-        <JoinQA>아직 회원이 아니세요?</JoinQA>
-        <JoinText onClick={() => navigate('/join')}>회원가입하기</JoinText>
-      </JoinContainer>
-    </Container>
-  );
-}
