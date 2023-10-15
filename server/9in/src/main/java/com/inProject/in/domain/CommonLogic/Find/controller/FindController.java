@@ -1,10 +1,10 @@
 package com.inProject.in.domain.CommonLogic.Find.controller;
 
-import com.inProject.in.domain.CommonLogic.Change.Dto.response.ResponseChangeDto;
 import com.inProject.in.domain.CommonLogic.Find.Dto.request.RequestCheckIdDto;
+import com.inProject.in.domain.CommonLogic.Find.Dto.request.RequestValidCodeDto;
 import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseCheckIdDto;
 import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseCheckMailDto;
-import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseFindPwDto;
+import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseIsSuccessDto;
 import com.inProject.in.domain.CommonLogic.Find.service.FindService;
 import com.inProject.in.domain.CommonLogic.Find.Dto.request.RequestFindDto;
 import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseFindIdDto;
@@ -51,19 +51,35 @@ public class FindController {
         return ResponseEntity.status(HttpStatus.OK).body(responseFindIdDto);
     }
 
-    @PostMapping("/validMail")
-    @Operation(summary = "메일 인증 체크", description = "아이디를 통해 유저가 맞는지 확인합니다.",
+    @PostMapping("/validCodeSend")
+    @Operation(summary = "인증 코드 발송", description = "회원가입 시 등록한 메일로 인증코드를 보냅니다.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "아이디 체크 성공", content = {
+                    @ApiResponse(responseCode = "200", description = "코드 전송 성공", content = {
                             @Content(mediaType = "application/json", schema =
                             @Schema(implementation = ResponseCheckIdDto.class))
                     }),
-                    @ApiResponse(responseCode = "400", description = "아이디 체크 실패")
+                    @ApiResponse(responseCode = "400", description = "코드 전송 실패")
             })
-    public ResponseEntity<ResponseCheckMailDto> validMail(@RequestBody RequestFindDto requestFindDto){
-        ResponseCheckMailDto responseCheckMailDto = findService.validMail(requestFindDto);
+    public ResponseEntity<ResponseIsSuccessDto> validCodeSend(@RequestBody RequestFindDto requestFindDto){
+        ResponseIsSuccessDto responseCheckMailDto = findService.validCodeSend(requestFindDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseCheckMailDto);
+    }
+
+
+    @PostMapping("/validMail")
+    @Operation(summary = "입력한 인증 코드 검증", description = "발송한 인증코드를 통해 검증합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "코드 확인 성공", content = {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(implementation = ResponseCheckIdDto.class))
+                    }),
+                    @ApiResponse(responseCode = "400", description = "코드 확인 실패")
+            })
+    public ResponseEntity<ResponseIsSuccessDto> validMail(@RequestBody RequestValidCodeDto requestValidCodeDto){
+        ResponseIsSuccessDto responseIsSuccessDto = findService.validMail(requestValidCodeDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseIsSuccessDto);
     }
 
     @PostMapping("/checkId")
@@ -86,16 +102,16 @@ public class FindController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "비밀번호 찾기 성공", content = {
                             @Content(mediaType = "application/json", schema =
-                            @Schema(implementation = ResponseFindPwDto.class))
+                            @Schema(implementation = ResponseIsSuccessDto.class))
                     }),
                     @ApiResponse(responseCode = "400", description = "비밀번호 찾기실패")
             })
-    public ResponseEntity<ResponseFindPwDto> findPw(@RequestBody RequestFindDto requestFindDto){
+    public ResponseEntity<ResponseIsSuccessDto> findPw(@RequestBody RequestFindDto requestFindDto){
         log.info("SignController findPw ==> 비밀번호 찾기 시작");
         findService.findPw(requestFindDto);
         String message = "임시 비밀번호 생성 성공";
 
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseFindPwDto(message, true));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseIsSuccessDto(message, true));
     }
 
 

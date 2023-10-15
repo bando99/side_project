@@ -1,10 +1,10 @@
-package com.inProject.in.domain.CommonLogic.RefreshToken.repository;
+package com.inProject.in.domain.CommonLogic.RefreshToken.repository.Impl;
 
 import com.inProject.in.domain.CommonLogic.RefreshToken.entity.RefreshToken;
+import com.inProject.in.domain.CommonLogic.RefreshToken.repository.RefreshTokenRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
@@ -14,15 +14,16 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Repository
-public class RefreshTokenRepository1 {
+public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
     private final RedisTemplate redisTemplate;
-    private final Logger log = LoggerFactory.getLogger(RefreshTokenRepository1.class);
+    private final Logger log = LoggerFactory.getLogger(RefreshTokenRepositoryImpl.class);
 
     @Autowired
-    public RefreshTokenRepository1(RedisTemplate redisTemplate){
+    public RefreshTokenRepositoryImpl(RedisTemplate redisTemplate){
         this.redisTemplate = redisTemplate;
     }
 
+    @Override
     public void save(RefreshToken refreshToken){
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();  //opsFor은 특정 컬렉션의 작업(operation)들을 호출할 수 있는 인터페이스를 반환. 이것은 string을 위한 것.
 
@@ -35,7 +36,7 @@ public class RefreshTokenRepository1 {
     }
 
 
-
+    @Override
     public Optional<RefreshToken> findByUsername(String username){
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         String refreshToken = valueOperations.get(username);
