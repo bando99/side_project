@@ -3,11 +3,10 @@ package com.inProject.in.domain.Profile.service;
 import com.inProject.in.Global.exception.ConstantsClass;
 import com.inProject.in.Global.exception.CustomException;
 import com.inProject.in.domain.Board.repository.BoardRepository;
+import com.inProject.in.domain.MToNRelation.TagMyInfoRelation.entity.TagMyInfoRelation;
 import com.inProject.in.domain.Profile.Dto.response.*;
-import com.inProject.in.domain.Profile.entity.Certificate;
-import com.inProject.in.domain.Profile.entity.Education;
-import com.inProject.in.domain.Profile.entity.Job_ex;
-import com.inProject.in.domain.Profile.entity.Project_skill;
+import com.inProject.in.domain.Profile.entity.*;
+import com.inProject.in.domain.SkillTag.Dto.ResponseSkillTagDto;
 import com.inProject.in.domain.User.entity.User;
 import com.inProject.in.domain.User.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,20 +34,22 @@ public class ProfileService {
         User user = userRepository.getByUsername(username)
                 .orElseThrow(() -> new CustomException(ConstantsClass.ExceptionClass.PROFILE, HttpStatus.NOT_FOUND, "ProfileController getProfile에서 잘못된 username : " + username));
 
-//        if(user.getCertificateList() == null || user.getEducation() == null || user.getJobEx() == null || user.getProjectSkill() == null || user.getMyInfo() == null){
-//            throw new CustomException(ConstantsClass.ExceptionClass.PROFILE, HttpStatus.TEMPORARY_REDIRECT, username + "의 프로필작성이 완료되지 않았습니다.");         //307 코드.
-//        }
         List<ResponseCertificateDto> responseCertificateDtoList = new ArrayList<>();
         List<ResponseProject_skillDto> responseProjectSkillDtoList = new ArrayList<>();
         List<ResponseEducationDto> responseEducationDtoList = new ArrayList<>();
         List<ResponseJob_exDto> responseJobExDtoList = new ArrayList<>();
+        MyInfo myInfo = user.getMyInfo();
 
         for(Certificate certificate : user.getCertificateList()) responseCertificateDtoList.add(new ResponseCertificateDto(certificate));
         for(Project_skill project_skill : user.getProjectSkillList()) responseProjectSkillDtoList.add(new ResponseProject_skillDto(project_skill));
         for(Education education : user.getEducationList()) responseEducationDtoList.add(new ResponseEducationDto(education));
         for(Job_ex jobEx : user.getJobExList()) responseJobExDtoList.add(new ResponseJob_exDto(jobEx));
 
-        ResponseMyInfoDto responseMyInfoDto = new ResponseMyInfoDto(user.getMyInfo());
+        ResponseMyInfoDto responseMyInfoDto = new ResponseMyInfoDto(myInfo);
+
+        for(TagMyInfoRelation tagMyInfoRelation : myInfo.getTagMyInfoRelationList()){
+            responseMyInfoDto.getResponseSkillTagDtoList().add(new ResponseSkillTagDto(tagMyInfoRelation.getSkillTag()));
+        }
 
         Long clipedCount = boardRepository.CountsClipedBoards(user);
         Long projectCount = boardRepository.CountsUserBoards(user, "project");

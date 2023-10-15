@@ -30,7 +30,7 @@ public class FindRepository {
 
         String code = valueOperations.get(mail);
 
-        if(code.equals(null)){
+        if(Objects.isNull(code)){
             return Optional.empty();
         }
         else{

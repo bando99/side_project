@@ -19,6 +19,7 @@ public class ResponseProject_skillDto {
     private String github_link;
     private String skill_in_project;
     private String performance;
+    private String role;
 
     public ResponseProject_skillDto(Project_skill projectSkill){
         this.projectSkill_id = projectSkill.getId();
@@ -29,6 +30,6 @@ public class ResponseProject_skillDto {
         this.github_link = projectSkill.getGithub_link();
         this.skill_in_project = projectSkill.getSkill_in_project();
         this.performance = projectSkill.getPerformance();
-
+        this.role = projectSkill.getRole();
     }
 }
