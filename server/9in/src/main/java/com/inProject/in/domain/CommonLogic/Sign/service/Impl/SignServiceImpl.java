@@ -4,6 +4,7 @@ import com.inProject.in.Global.CommonResponse;
 import com.inProject.in.Global.exception.ConstantsClass;
 import com.inProject.in.Global.exception.CustomException;
 import com.inProject.in.config.security.JwtTokenProvider;
+import com.inProject.in.domain.CommonLogic.Find.Dto.response.ResponseIsSuccessDto;
 import com.inProject.in.domain.CommonLogic.Mail.service.MailService;
 import com.inProject.in.domain.CommonLogic.RefreshToken.entity.RefreshToken;
 import com.inProject.in.domain.CommonLogic.RefreshToken.repository.Impl.RefreshTokenRepositoryImpl;
@@ -46,6 +47,7 @@ public class SignServiceImpl implements SignService {
     private final MailService mailService;
     private RedisTemplate redisTemplate;
 
+
     @Override
     public ResponseSignUpDto signUp(RequestSignUpDto requestSignUpDto) {
         log.info("SignService signup ==> 회원가입 정보 확인");
@@ -56,9 +58,9 @@ public class SignServiceImpl implements SignService {
         String mail = requestSignUpDto.getMail();
         String role = requestSignUpDto.getRole();
 
-        if(userRepository.getByUsername(username).isPresent()){   //아이디 중복 확인
-            throw new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.CONFLICT, "아이디 중복");
-        }
+//        if(userRepository.getByUsername(username).isPresent()){   //아이디 중복 확인
+//            throw new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.CONFLICT, "아이디 중복");
+//        }
 
         if(userRepository.getByMail(mail).isPresent()){
             throw new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.CONFLICT, "메일 중복");
@@ -258,6 +260,18 @@ public class SignServiceImpl implements SignService {
 
         Long expiration = jwtTokenProvider.getExpiration(accessToken);
         redisTemplate.opsForValue().set(accessToken, "blackListed", expiration, TimeUnit.MILLISECONDS);  //블랙리스트에 access토큰등록. 토큰이 만료될때까지, redis에 등록됨.
+    }
+
+    @Override
+    public ResponseIsSuccessDto checkId(RequestCheckIdDto requestCheckIdDto) {
+        String username = requestCheckIdDto.getUsername();
+
+        if(userRepository.getByUsername(username).isPresent()){   //아이디 중복 확인
+            return new ResponseIsSuccessDto("failed", false);
+        }
+        else{
+            return new ResponseIsSuccessDto("success", true);
+        }
     }
 
     private void setSuccess(ResponseSignUpDto responseSignUpDto){

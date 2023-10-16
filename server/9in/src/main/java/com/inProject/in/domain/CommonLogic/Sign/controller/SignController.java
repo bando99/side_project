@@ -85,6 +85,22 @@ public class SignController {
 
         return ResponseEntity.status(HttpStatus.OK).body(responseIsSuccessDto);
     }
+
+    @PostMapping("/sign-up/checkId")
+    @Operation(summary = "입력한 인증 코드 검증", description = "발송한 인증코드를 통해 검증합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "코드 확인 성공", content = {
+                            @Content(mediaType = "application/json", schema =
+                            @Schema(implementation = ResponseCheckIdDto.class))
+                    }),
+                    @ApiResponse(responseCode = "400", description = "코드 확인 실패")
+            })
+    public ResponseEntity<ResponseIsSuccessDto> checkId(@RequestBody RequestCheckIdDto requestCheckIdDto){
+        ResponseIsSuccessDto responseIsSuccessDto = signService.checkId(requestCheckIdDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseIsSuccessDto);
+    }
+
     @PostMapping("/sign-up")
     @Operation(summary = "회원가입", description = "회원가입을 시도합니다.", responses = {
             @ApiResponse(responseCode = "200", description = "회원가입 성공", content = {
