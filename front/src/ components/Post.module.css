@@ -3,6 +3,17 @@
   padding: 1rem;
   margin: 1rem;
   border-radius: 3rem;
+  position: relative;
+}
+
+.clip {
+  position: absolute;
+  top: 0;
+  right: 1.5rem;
+}
+
+.clip:hover {
+  cursor: pointer;
 }
 
 .type__container {
@@ -11,7 +22,7 @@
 }
 
 .title {
-  margin: 0.3rem;
+  margin: 0.5rem;
   font-weight: 500;
 }
 
@@ -44,4 +55,27 @@
 .role__container {
   background-color: #dae9fc;
   padding: 1rem;
+}
+
+.bottom__box {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.3rem;
+  margin-bottom: 0.7rem;
+}
+
+.bottom__writer {
+  display: flex;
+}
+
+.bottom__writer p {
+  margin: 0 0.4rem;
+}
+
+.bottom__viewCnt {
+  display: flex;
+}
+
+.bottom__viewCnt p {
+  margin: 0 0.4rem;
 }

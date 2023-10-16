@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function useFetchData(path) {
+function useFetchData(path, header = {}) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,7 +11,9 @@ function useFetchData(path) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(baseURL + path);
+        const response = await axios.get(baseURL + path, {
+          'X-AUTH-TOKEN': header,
+        });
         setData(response.data);
         setLoading(false);
         console.log('Data GET 성공!', response.data);

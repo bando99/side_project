@@ -24,6 +24,11 @@ const ModalContent = styled.div`
   position: relative;
   height: 80%;
   overflow-y: auto;
+  
+  @media only screen and (min-width: 768px) and (max-width: 1325px) {
+    width: 90%;
+
+  }
 `;
 
 const CloseButton = styled.div`

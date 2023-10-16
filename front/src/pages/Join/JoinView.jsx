@@ -52,6 +52,7 @@ export default function JoinView() {
           <p className={styles.title__sub}>이메일 주소</p>
           <div className={styles.input__box}>
             <input
+              className={styles.input__content}
               type="email"
               placeholder="내용을 입력해 주세요."
               name=""
@@ -65,6 +66,7 @@ export default function JoinView() {
           <p className={styles.title__sub}>아이디 설정</p>
           <div className={styles.input__box}>
             <input
+              className={styles.input__content}
               type="text"
               name=""
               id=""
@@ -74,9 +76,10 @@ export default function JoinView() {
             <button className={styles.check__btn}>중복확인</button>
           </div>
         </div>
-        <div>
+        <div className={styles.pw__containter}>
           <p className={styles.title__sub}>비밀번호 설정</p>
           <input
+            className={styles.input__pw}
             type="password"
             name=""
             id=""
@@ -84,9 +87,10 @@ export default function JoinView() {
             onChange={handlePasswordChange}
           />
         </div>
-        <div>
+        <div className={styles.pw__containter}>
           <p className={styles.title__sub}>비밀번호 확인</p>
           <input
+            className={styles.input__pw}
             type="password"
             name=""
             id=""

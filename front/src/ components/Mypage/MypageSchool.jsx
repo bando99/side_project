@@ -142,6 +142,7 @@ const MySchool = styled.div`
       display: inline-block;
     }
 
+
     input {
       width: 180px;
       border-radius: 5px;
@@ -175,6 +176,13 @@ const MySchool = styled.div`
     box-shadow: 0px 0px 0px 0px #cbdafc;
     cursor: pointer;
     color: #1f7ceb;
+  }
+
+  @media only screen and (min-width: 768px) and (max-width: 1325px) {
+    width: 470px;
+    .section1_school {
+      padding-left: 70px;
+    }
   }
 `;
 export default MypageSchool

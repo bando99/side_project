@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MypageUser from '../../../ components/Mypage/MypageUser';
 import MypageSchool from '../../../ components/Mypage/MypageSchool';
@@ -6,29 +6,61 @@ import MypageEtc from '../../../ components/Mypage/MypageEtc';
 import MypageLicese from '../../../ components/Mypage/MypageLicese';
 import MypageJob from '../../../ components/Mypage/MypageJob';
 import MypageProject from '../../../ components/Mypage/MypageProject';
-import useAxios from '../../../ components/hooks/useAxios';
+import { getNewTokens } from '../../../api/refreshToken';
+import { createAxiosInstance } from '../../../api/instance';
 
 export default function MyPage() {
-  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY5NTcwOTc1NSwiZXhwIjoxNjk1NzEwMDU1fQ.UXnHoLfmfeAEUQT9zeXUhywIHgTD1WKnmYqDth3BfXA'
-  const refreshToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY5NTcwOTc1NSwiZXhwIjoxNjk1NzE2OTU1fQ.0B7LwJSODTldg2blPwe-uy3Co3cX8KH4Hbik7GaXfHo'
-  const user_id = 7 // user_id
-  
-  const { response, error, loading } = useAxios({
-    method: 'GET',
-    url: `/profile/${user_id}`,
-  });
+  const [token, setToken] = useState('');
+  const [refreshToken, setRefreshToken] = useState('');
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const user_id = 1234; // user_id
+
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+    setRefreshToken(localStorage.getItem("refresh_token"));
+
+  },[token, refreshToken])
+
+  const getProfile = async() => {
+    try {
+      setIsLoading(true);
+      const axiosInstance = createAxiosInstance(token);
+      const response = await axiosInstance.get(`/profile/${user_id}`);
+      setData(response.data)
+    } catch (error) {
+      console.error(error);
+      if (error.response && error.response.status === 401) {
+        const { accessToken, refreshToken } = await getNewTokens();
+
+        const axiosInstance = createAxiosInstance(refreshToken);
+        const response = await axiosInstance.get(`/profile/${user_id}`);
+        setData(response.data)
+      }
+    } finally { 
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getProfile()
+  },[])
 
   return (
     <Mypage>
       <Section1>
         <MypageUser 
           token={refreshToken}
+          myinfoData={data.myInfoDto}
         />
-        <MypageSchool 
-          token={refreshToken}
-        />
-        <MypageEtc />
+        <div className='section1_flex'>
+          <MypageSchool 
+            token={refreshToken}
+          />
+          <MypageEtc />
+        </div>
       </Section1>
+      <Section2>
         <MypageLicese 
           token={refreshToken}
         />
@@ -38,6 +70,7 @@ export default function MyPage() {
         <MypageProject 
           token={refreshToken}
         />
+      </Section2>
     </Mypage>
   );
 }
@@ -46,13 +79,13 @@ const Mypage = styled.div`
   width: 1300px;
   padding-top: 50px;
   margin: auto;
-  height: 2000px;
-`;
+`
 
 const Section1 = styled.div`
   display: flex;
   justify-content: center;
   gap: 20px;
+
   .section1_profile {
     position: relative;
     width: 660px;
@@ -64,6 +97,11 @@ const Section1 = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .section1_flex {
+    display: flex;
+    gap: 20px;
   }
 
   .section1_etc {
@@ -155,6 +193,25 @@ const Section1 = styled.div`
       }
     }
   }
+
+  @media only screen and (min-width: 768px) and (max-width: 1325px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap:30px;
+    .section1_profile {
+      width: 750px;
+    }
+  }
 `;
 
-
+const Section2 = styled.div`
+  @media only screen and (min-width: 768px) and (max-width: 1325px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`
