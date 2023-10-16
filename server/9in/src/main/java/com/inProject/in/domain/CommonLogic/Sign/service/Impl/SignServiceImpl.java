@@ -50,7 +50,7 @@ public class SignServiceImpl implements SignService {
     public ResponseSignUpDto signUp(RequestSignUpDto requestSignUpDto) {
         log.info("SignService signup ==> 회원가입 정보 확인");
         User user;
-        //String userId = requestSignUpDto.getUserId();
+
         String username = requestSignUpDto.getUsername();
         String password = requestSignUpDto.getPassword();
         String mail = requestSignUpDto.getMail();
@@ -63,6 +63,7 @@ public class SignServiceImpl implements SignService {
         if(userRepository.getByMail(mail).isPresent()){
             throw new CustomException(ConstantsClass.ExceptionClass.SIGN, HttpStatus.CONFLICT, "메일 중복");
         }
+
         if(role.equalsIgnoreCase("admin")){
             user = User.builder()
                     //.userId(userId)
