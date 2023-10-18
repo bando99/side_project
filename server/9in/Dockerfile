@@ -1,9 +1,6 @@
 #자바 17 베이스 이미지
 FROM openjdk:17
 
-#작업하고자 하는 디렉터리로 이동
-WORKDIR /app
-
 #인자를 설정한다. argument.
 ARG JAR_FILE=build/libs/*.jar
 
