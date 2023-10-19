@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  spring-build:
 
     runs-on: ubuntu-latest
 
@@ -29,12 +29,16 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-      with:
-        arguments: clean bootjar
 
+    - name: Change directory to gradlew
+      run: cd ./server/9in/
+
+    - name: Grant Execute Permission For Gradlew
+      run: chmod +x gradlew
+      
+    - name: Build with Gradle
+      run: ./gradlew build 
+    
     - name: Docker image build
       run: docker build -t ${{secrets.DOCKERHUB_ID}}/9uin-server .
 
@@ -46,3 +50,18 @@ jobs:
 
     - name: Docker Hub push
       run: docker push ${{secrets.DOCKERHUB_ID}}/9uin-server 
+
+    - name: Stop exist images & Pull Docker image 
+      run: |
+        docker stop 9uin-server
+        docker rm 9uin-server
+        sudo docker pull ${{secrets.DOCKERHUB.ID}}/9uin-server
+        docker run -d --name 9uin-server -p 8080:8080 ${{secrets.DOCKERHUB_ID}}/9uin-server
+        # docker rmi 
+   
+      
+      
+      
+      
+
+
