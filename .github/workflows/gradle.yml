@@ -33,13 +33,14 @@ jobs:
     # - name: Change directory to gradlew
     #   run: cd ./server/9in/
 
-    - name: Grant Execute Permission For Gradlew
+    - name: Grant Execute Permission For Gradlew & Build gradle
       run: |
         cd ./server/9in
         chmod +x gradlew
+        ./gradlew build 
       
-    - name: Build with Gradle
-      run: ./gradlew build 
+    # - name: Build with Gradle
+    #   run: ./gradlew build 
     
     - name: Docker image build
       run: docker build -t ${{secrets.DOCKERHUB_ID}}/9uin-server .
