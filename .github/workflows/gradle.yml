@@ -8,8 +8,8 @@
 name: Java CI with Gradle
 
 on:
-  # push:
-  #   branches: [ "main" ]
+  push:
+    branches: [ "sse_feature" ]
   pull_request:
     branches: [ "main" ]
 
@@ -30,11 +30,13 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Change directory to gradlew
-      run: cd ./server/9in/
+    # - name: Change directory to gradlew
+    #   run: cd ./server/9in/
 
     - name: Grant Execute Permission For Gradlew
-      run: chmod +x gradlew
+      run: |
+        cd ./server/9in
+        chmod +x gradlew
       
     - name: Build with Gradle
       run: ./gradlew build 
