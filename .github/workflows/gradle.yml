@@ -50,7 +50,9 @@ jobs:
         
         
     - name: Docker image build
-      run: docker build -t ${{secrets.DOCKERHUB_ID}}/9uin-server .
+      run: |
+        cd ./server/9in
+        docker build -t ${{secrets.DOCKERHUB_ID}}/9uin-server .
       
 
     - name: Docker Hub push
