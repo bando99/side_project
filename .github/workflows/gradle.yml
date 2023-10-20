@@ -44,6 +44,7 @@ jobs:
     
     - name: Docker image build
       run: docker build -t ${{secrets.DOCKERHUB_ID}}/9uin-server .
+        
 
     - name: Docker hub login
       uses: docker/login-action@v3
@@ -53,12 +54,13 @@ jobs:
 
     - name: Docker Hub push
       run: docker push ${{secrets.DOCKERHUB_ID}}/9uin-server 
+    
 
     - name: Stop exist images & Pull Docker image 
       run: |
         docker stop 9uin-server
         docker rm 9uin-server
-        sudo docker pull ${{secrets.DOCKERHUB.ID}}/9uin-server
+        sudo docker pull ${{secrets.DOCKERHUB_ID}}/9uin-server
         docker run -d --name 9uin-server -p 8080:8080 ${{secrets.DOCKERHUB_ID}}/9uin-server
         # docker rmi 
    
