@@ -2,9 +2,10 @@ version: '3'
 
 services:
   spring-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+    image: tlsdbstjd124/9uin-server
     ports:
       - "8080:8080"
     depends_on:
@@ -38,3 +39,6 @@ services:
 
 networks:
   backendNetwork:
+
+
+    #check
