@@ -72,7 +72,7 @@ jobs:
       with:
         host: ${{secrets.GCP_HOST}}
         username: ${{secrets.GCP_USERNAME}}
-        password: ${{secrets.GCP_PASSWORD}}  
+        key: ${{secrets.GCP_PRIVATEKEY}}  
         script: |
           sudo docker rm -f $(docker ps -qa)
           sudo docker rmi ${{ secrets.DOCKERHUB_ID}}/9uin-server
