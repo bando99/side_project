@@ -55,10 +55,10 @@ const MypageLicese = ({token}) => {
 
         const promises = licenseFields.map(async (field) => {
           const data = {
-            certificate_name: field.name,
-            acquisition_date: field.startDate,
-            expire: field.endDate,
-            explanation: field.description,
+            name: field.name,
+            startDate: field.startDate,
+            endDate: field.endDate,
+            description: field.description,
           };
     
           const response = await axios.post('http://1.246.104.170:8080/certificate', data, {
