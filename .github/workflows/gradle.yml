@@ -59,10 +59,12 @@ jobs:
 
     - name: Stop exist images & Pull Docker image 
       run: |
-        sudo docker rm -f $(docker ps -q)
-        sudo docker rmi ${{secrets.DOCKERHUB_ID}}/9uin-server
+        sudo docker rm -f $(docker ps -q) 2>/dev/null || true
         sudo docker pull ${{secrets.DOCKERHUB_ID}}/9uin-server
         docker-compose up -d
+        sudo docker image prune -f
+        
+        # sudo docker rmi ${{secrets.DOCKERHUB_ID}}/9uin-server
         #docker run -d --name 9uin-server -p 8080:8080 ${{secrets.DOCKERHUB_ID}}/9uin-server
         # docker rmi 
     
