@@ -8,8 +8,6 @@
 name: Java CI with Gradle
 
 on:
-  push:
-    branches: [ "sse_feature" ]
   pull_request:
     branches: [ "main" ]
 
@@ -59,27 +57,28 @@ jobs:
       run: docker push ${{secrets.DOCKERHUB_ID}}/9uin-server 
     
 
-    # - name: Stop exist images & Pull Docker image 
-    #   run: |
-    #     docker stop 9uin-server
-    #     docker rm 9uin-server
-    #     sudo docker pull ${{secrets.DOCKERHUB_ID}}/9uin-server
-    #     docker run -d --name 9uin-server -p 8080:8080 ${{secrets.DOCKERHUB_ID}}/9uin-server
-    #     # docker rmi 
+    - name: Stop exist images & Pull Docker image 
+      run: |
+        sudo docker rm -f $(docker ps -q)
+        sudo docker rmi ${{secrets.DOCKERHUB_ID}}/9uin-server
+        sudo docker pull ${{secrets.DOCKERHUB_ID}}/9uin-server
+        docker-compose up -d
+        #docker run -d --name 9uin-server -p 8080:8080 ${{secrets.DOCKERHUB_ID}}/9uin-server
+        # docker rmi 
     
-    - name: Deploy to Instance
-      uses: appleboy/ssh-action@v1.0.0     #가장 최신 버젼 appleboy 사용
-      with:
-        host: ${{secrets.GCP_HOST}}
-        username: ${{secrets.GCP_USERNAME}}
-        key: ${{secrets.GCP_PRIVATEKEY}}  
-        script: |
-          sudo docker rm -f $(docker ps -qa)
-          sudo docker rmi ${{ secrets.DOCKERHUB_ID}}/9uin-server
-          sudo docker pull ${{secrets.DOCKERHUB_ID}}/9uin-server
-          pwd
-          cd ./server/9in
-          docker-compose up -d
+    # - name: Deploy to Instance
+    #   uses: appleboy/ssh-action@v1.0.0     #가장 최신 버젼 appleboy 사용
+    #   with:
+    #     host: ${{secrets.GCP_HOST}}
+    #     username: ${{secrets.GCP_USERNAME}}
+    #     key: ${{secrets.GCP_PRIVATEKEY}}  
+    #     script: |
+    #       sudo docker rm -f $(docker ps -qa)
+    #       sudo docker rmi ${{ secrets.DOCKERHUB_ID}}/9uin-server
+    #       sudo docker pull ${{secrets.DOCKERHUB_ID}}/9uin-server
+    #       pwd
+    #       cd ./server/9in
+    #       docker-compose up -d
           
       
       
