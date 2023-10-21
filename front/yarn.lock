@@ -9372,6 +9372,7 @@ __metadata:
     react-scripts: 5.0.1
     redux: ^4.2.1
     redux-devtools-extension: ^2.13.9
+    redux-thunk: ^2.4.2
     styled-components: ^6.0.0-rc.3
     web-vitals: ^2.1.0
   languageName: unknown
@@ -11343,6 +11344,15 @@ __metadata:
   peerDependencies:
     redux: ^3.1.0 || ^4.0.0
   checksum: 603d48fd6acf3922ef373b251ab3fdbb990035e90284191047b29d25b06ea18122bc4ef01e0704ccae495acb27ab5e47b560937e98213605dd88299470025db9
+  languageName: node
+  linkType: hard
+
+"redux-thunk@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "redux-thunk@npm:2.4.2"
+  peerDependencies:
+    redux: ^4
+  checksum: c7f757f6c383b8ec26152c113e20087818d18ed3edf438aaad43539e9a6b77b427ade755c9595c4a163b6ad3063adf3497e5fe6a36c68884eb1f1cfb6f049a5c
   languageName: node
   linkType: hard
 

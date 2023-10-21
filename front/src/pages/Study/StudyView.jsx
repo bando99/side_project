@@ -5,10 +5,35 @@ import axios from 'axios';
 import Post from '../../ components/Post';
 import useFetchData from '../../ components/hooks/getPostList';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { createAxiosInstance } from '../../api/instance';
 
 export default function StudyView() {
-  const { data: studyList, Loading, error } = useFetchData('/boards');
+  const [studyList, setStudyList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [page, setPage] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const axiosInstance = createAxiosInstance(null, page);
+        const response = await axiosInstance.get('/boards');
+        setStudyList(response.data);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+    console.log(studyList.filter((study) => study.type === '스터디'));
+  }, [page]);
+
+  console.log(studyList.filter((study) => study.type === '스터디'));
 
   if (error) return <p>{error}</p>;
 
@@ -65,7 +90,7 @@ export default function StudyView() {
         </ToggleBox>
       </SortContainer>
       <ProjectGrid>
-        {Loading ? (
+        {loading ? (
           <p>Loading..,</p>
         ) : (
           studyList
@@ -88,6 +113,10 @@ export default function StudyView() {
             ))
         )}
       </ProjectGrid>
+      <ul>
+        <li onClick={() => setPage(0)}>1</li>
+        <li onClick={() => setPage(1)}>2</li>
+      </ul>
     </section>
   );
 }
@@ -250,5 +279,9 @@ const ProjectGrid = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
   }
 `;
