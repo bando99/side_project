@@ -5,10 +5,34 @@ import axios from 'axios';
 import Post from '../../ components/Post';
 import useFetchData from '../../ components/hooks/getPostList';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { createAxiosInstance } from '../../api/instance';
 
 export default function ProjectView() {
-  const { data: projectList, Loading, error } = useFetchData('/boards');
+  const [projectList, setProjectList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [page, setPage] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const axiosInstance = createAxiosInstance(null, page);
+        const response = await axiosInstance.get('/boards');
+        setProjectList(response.data);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [page]);
+
+  console.log(projectList.filter((project) => project.type === '프로젝트'));
 
   if (error) return <p>{error}</p>;
 
@@ -65,7 +89,7 @@ export default function ProjectView() {
         </ToggleBox>
       </SortContainer>
       <ProjectGrid>
-        {Loading ? (
+        {loading ? (
           <p>Loading...</p>
         ) : (
           projectList
@@ -88,6 +112,10 @@ export default function ProjectView() {
             ))
         )}
       </ProjectGrid>
+      <ul>
+        <li onClick={() => setPage(0)}>1</li>
+        <li onClick={() => setPage(1)}>2</li>
+      </ul>
     </section>
   );
 }
