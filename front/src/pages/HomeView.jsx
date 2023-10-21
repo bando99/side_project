@@ -5,10 +5,18 @@ import styles from './Home.module.css';
 import axios from 'axios';
 import useFetchData from '../ components/hooks/getPostList';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchClipList } from '../modules/user';
 
 export default function HomeView() {
   const { data: postList, Loading, error } = useFetchData('/boards');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // 로그인 후 처음 home => clipList 받아옴
+  useEffect(() => {
+    dispatch(fetchClipList());
+  }, [dispatch]);
 
   if (Loading) return <p>Loading...</p>;
 
