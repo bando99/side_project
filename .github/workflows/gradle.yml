@@ -61,6 +61,7 @@ jobs:
       run: |
         sudo docker rm -f $(docker ps -q) 2>/dev/null || true
         sudo docker pull ${{secrets.DOCKERHUB_ID}}/9uin-server
+        cd ./server/9in
         docker-compose up -d
         sudo docker image prune -f
         
