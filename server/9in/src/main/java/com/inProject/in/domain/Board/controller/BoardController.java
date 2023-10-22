@@ -61,6 +61,7 @@ public class BoardController {
         }
     }
 
+
     @GetMapping()
     @Operation(summary = "게시글 리스트 조회", description = "게시글 리스트를 페이지 단위로 가져옵니다.",
     responses = {
@@ -134,6 +135,14 @@ public class BoardController {
         }catch(CustomException e){
             throw e;
         }
+    }
+
+
+
+
+    @PostMapping("test")
+    public String dddd(@PathVariable(name = "board_id") Long board_id, HttpServletRequest request){
+        return "test";
     }
 
 
