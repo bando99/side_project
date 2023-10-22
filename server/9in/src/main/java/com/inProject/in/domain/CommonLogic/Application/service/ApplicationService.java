@@ -8,8 +8,7 @@ import org.springframework.http.ResponseEntity;
 public interface ApplicationService {
     ResponseApplicationDto createApplication(RequestApplicationDto requestApplicationDto);
     ResponseApplicationDto deleteApplication(RequestApplicationDto requestApplicationDto);
-
     ApplicantBoardRelation rejectApplication(RequestApplicationDto requestApplicationDto);
     ApplicantBoardRelation acceptApplication(RequestApplicationDto requestApplicationDto);
-
 }
+
